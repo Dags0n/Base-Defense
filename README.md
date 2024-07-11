@@ -24,3 +24,10 @@ Base video: https://www.youtube.com/watch?v=5NH7W2XgdwE
 - C++
 - SFML
 - Git/Github
+- Kanban
+- S.O.L.I.D.
+
+## Authors
+- [Rômulo](https://github.com/romuloAMR)
+- [Dagson](https://github.com/Dags0n)
+- [Erik](https://github.com/eriksmedeiros)
