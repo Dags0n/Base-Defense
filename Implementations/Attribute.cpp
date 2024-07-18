@@ -3,7 +3,7 @@
 Attribute::Attribute(int amount, int max)
 {
     this->amount = amount;
-    this->max = max;
+    this->setMax(max);
 }
 
 void Attribute::recharge(int value)
@@ -16,7 +16,17 @@ void Attribute::consume(int value)
     ((amount-value)<0)? amount = 0 : amount -= value;
 }
 
-int Attribute::getValue()
+int Attribute::Points()
 {
-    return amount;
+    return this->amount;
+}
+
+int Attribute::Max()
+{
+    return this->max;
+}
+
+void Attribute::setMax(int max)
+{
+    this->max = max;
 }

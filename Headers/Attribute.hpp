@@ -9,7 +9,9 @@ class Attribute{
         Attribute(int amount, int max);
         void recharge(int value);
         void consume(int value);
-        int getValue();
+        int Points();
+        int Max();
+        void setMax(int max);
 };
 
 #endif
