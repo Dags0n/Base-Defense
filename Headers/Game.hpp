@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
+#include "Hero.hpp"
 
 class Game {
 private:
@@ -14,10 +15,14 @@ private:
     sf::Event event;
     sf::Music* music;
 
+    //Game Objects
+    Hero* hero;
+
     //Private functions
     void initVariables();
     void initWindow();
     void initMusic();
+    void initHero();
 
 public:
 
