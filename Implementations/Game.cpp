@@ -1,4 +1,4 @@
-#include "../Headers/Game.hpp"
+#include "Game.hpp"
 
 //Private functions
 void Game::initVariables()
