@@ -4,7 +4,7 @@
 void Game::initVariables()
 {
     this->window = nullptr;
-    //this->music = new sf::Music();
+    this->music = nullptr;
 }
 
 void Game::initWindow()
