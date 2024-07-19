@@ -4,8 +4,6 @@
 void Hero::initVariables() {
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
-    this->life = nullptr;
-    this->ammunition = nullptr;
 }
 
 void Hero::initAttributes() {
@@ -13,7 +11,7 @@ void Hero::initAttributes() {
     this->ammunition = new Attribute(100, 100);
 }
 
-void Hero::initSprite(char* src) {
+void Hero::initSprite(const char* src) {
     if (!this->texture->loadFromFile(src)) {
     }
     this->sprite->setTexture(*this->texture);
@@ -21,7 +19,7 @@ void Hero::initSprite(char* src) {
 
 
 //Constructors and Destructors
-Hero::Hero(char* src) {
+Hero::Hero(const char* src) {
     this->initVariables();
     this->initAttributes();
     this->initSprite(src);
@@ -36,6 +34,6 @@ Hero::~Hero() {
 
 
 //Getters and Setters
-sf::Sprite Hero::getSprite() {
+sf::Sprite& Hero::getSprite() {
     return *this->sprite;
 }

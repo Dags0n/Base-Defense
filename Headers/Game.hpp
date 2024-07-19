@@ -20,7 +20,6 @@ private:
     Base* base;
 
     //Private functions
-    void initVariables();
     void initWindow();
     void initMusic();
     void initHero();

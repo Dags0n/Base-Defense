@@ -1,12 +1,6 @@
 #include "Game.hpp"
 
 //Private functions
-void Game::initVariables()
-{
-    this->window = nullptr;
-    this->music = nullptr;
-}
-
 void Game::initWindow()
 {
     this->videoMode.height = 480;
@@ -37,7 +31,6 @@ void Game::initBase()
 //Constructors and Destructors
 Game::Game()
 {
-    this->initVariables();
     this->initWindow();
     this->initMusic();
     this->initHero();
@@ -51,6 +44,7 @@ Game::~Game()
 {
     delete this->window;
     delete this->music;
+    delete this->hero;
 }
 
 //Accesors

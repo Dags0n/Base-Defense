@@ -17,16 +17,16 @@ private:
     //Private functions
     void initVariables();
     void initAttributes();
-    void initSprite(char* src);
+    void initSprite(const char* src);
 
 public:
 
     //Constructors and Destructors
-    Hero(char* src);
+    Hero(const char* src);
     ~Hero();
 
     //Getters and Setters
-    sf::Sprite getSprite();
+    sf::Sprite& getSprite();
     
 
 };
