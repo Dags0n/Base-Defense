@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
-#include "Hero.hpp"
+#include "Base.hpp"
 
 class Game {
 private:
@@ -17,12 +17,14 @@ private:
 
     //Game Objects
     Hero* hero;
+    Base* base;
 
     //Private functions
     void initVariables();
     void initWindow();
     void initMusic();
     void initHero();
+    void initBase();
 
 public:
 

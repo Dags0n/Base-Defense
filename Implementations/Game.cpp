@@ -29,6 +29,11 @@ void Game::initHero()
     this->hero = new Hero((char*)"Assets/Image/spaceship_dark.png");
 }
 
+void Game::initBase() 
+{
+    this->base = new Base(200, 160, 100, 1);
+}
+
 //Constructors and Destructors
 Game::Game()
 {
@@ -36,6 +41,7 @@ Game::Game()
     this->initWindow();
     this->initMusic();
     this->initHero();
+    this->initBase();
     if (this->music) {
         this->music->play();
     }
@@ -82,6 +88,8 @@ void Game::render()
     this->window->clear(sf::Color::Black);
 
     this->window->draw(this->hero->getSprite());
+
+    this->window->draw(this->base->getShape());
 
     this->window->display();
 
