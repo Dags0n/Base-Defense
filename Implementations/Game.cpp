@@ -27,7 +27,7 @@ void Game::initHero()
 
 void Game::initBase() 
 {
-    this->base = new Base(200, 160, 100, 1);
+    this->base = new Base(100, 1, this->window->getSize());
 }
 
 //Constructors and Destructors

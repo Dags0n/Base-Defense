@@ -12,11 +12,12 @@ private:
     int regenerationRate;
 
 public:
-    Base(int x, int y, int initialScore, int rate);
+    Base(int initialScore, int rate, const sf::Vector2u windowSize);
     ~Base();
 
     void takeDamage(int damage);
     void regenerate(int value);
+    void initCenterBase(const sf::Vector2u windowSize);
 
     bool isDestroyed();
 

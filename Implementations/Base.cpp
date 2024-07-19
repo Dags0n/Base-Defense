@@ -1,11 +1,14 @@
 #include "Base.hpp"
 
-Base::Base(int x, int y, int initialScore, int rate)
+Base::Base(int initialScore, int rate, const sf::Vector2u windowSize)
 { 
     this->maxScore = initialScore;
     this->score = initialScore;
+    this->regenerationRate = rate;
     this->baseShape.setSize(sf::Vector2f(250, 150));
-    this->baseShape.setPosition(x, y);
+
+    this->initCenterBase(windowSize);
+
     this->baseShape.setFillColor(sf::Color::Transparent);
     this->baseShape.setOutlineColor(sf::Color::Green);
     this->baseShape.setOutlineThickness(5.f);
@@ -35,6 +38,17 @@ void Base::regenerate(int value)
     updateAppearance();
 }
 
+void Base::initCenterBase(const sf::Vector2u windowSize)
+{
+    if(windowSize.x > 0 && windowSize.y > 0) 
+    {
+    float x = (windowSize.x - this->baseShape.getLocalBounds().width) / 2.0f;
+    float y = (windowSize.y - this->baseShape.getLocalBounds().height) / 2.0f;
+    this->baseShape.setPosition(sf::Vector2f(x, y));
+    }
+}
+
+
 bool Base::isDestroyed()
 {
     return score <= 0;
@@ -52,5 +66,5 @@ sf::RectangleShape Base::getShape()
 
 void Base::updateAppearance()
 {
-    // faltando implementar
+    // falta implementar
 }
