@@ -11,23 +11,22 @@ private:
     sf::Sprite* sprite;
     Attribute* life;
     Attribute* ammunition;
-    sf::Vector2<int> position;
     sf::Vector2<int> sightPosition;
 
-    //Private functions
+    //Init functions
     void initVariables();
     void initAttributes();
-    void initSprite(const char* src);
+    void initSprite(const char* src, sf::RenderTarget &target);
 
 public:
 
     //Constructors and Destructors
-    Hero(const char* src);
+    Hero(const char* src, sf::RenderTarget &target);
     ~Hero();
 
-    //Getters and Setters
-    sf::Sprite& getSprite();
-    
+    //Public functions
+    void update(sf::RenderTarget &target);
+    void render(sf::RenderTarget &target);
 
 };
 

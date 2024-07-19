@@ -1,6 +1,6 @@
 #include "Hero.hpp"
 
-//Private funtions
+//Init funtions
 void Hero::initVariables() {
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
@@ -11,18 +11,22 @@ void Hero::initAttributes() {
     this->ammunition = new Attribute(100, 100);
 }
 
-void Hero::initSprite(const char* src) {
+void Hero::initSprite(const char* src, sf::RenderTarget &target) {
     if (!this->texture->loadFromFile(src)) {
     }
     this->sprite->setTexture(*this->texture);
+
+    float posX = (target.getSize().x - this->sprite->getLocalBounds().height)/2.0;
+    float posY = (target.getSize().y - this->sprite->getLocalBounds().width)/2.0;
+    this->sprite->setPosition(sf::Vector2f(posX, posY));
 }
 
 
 //Constructors and Destructors
-Hero::Hero(const char* src) {
+Hero::Hero(const char* src, sf::RenderTarget &target) {
     this->initVariables();
     this->initAttributes();
-    this->initSprite(src);
+    this->initSprite(src, target);
 }
 
 Hero::~Hero() {
@@ -32,8 +36,12 @@ Hero::~Hero() {
     delete this->ammunition;
 }
 
+//Public functions
+void Hero::update(sf::RenderTarget &target)
+{
+}
 
-//Getters and Setters
-sf::Sprite& Hero::getSprite() {
-    return *this->sprite;
+void Hero::render(sf::RenderTarget &target)
+{
+    target.draw(*this->sprite);
 }
