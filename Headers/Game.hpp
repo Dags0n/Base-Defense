@@ -5,6 +5,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 #include "Base.hpp"
+#include "Hero.hpp"
 
 class Game {
 private:
