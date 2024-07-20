@@ -4,6 +4,7 @@
 void Hero::initVariables() {
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
+    speed = 2.f;
 }
 
 void Hero::initAttributes() {
@@ -11,22 +12,24 @@ void Hero::initAttributes() {
     this->ammunition = new Attribute(100, 100);
 }
 
-void Hero::initSprite(const char* src, sf::RenderTarget &target) {
+void Hero::initSprite(const char* src, sf::RenderWindow &window) {
     if (!this->texture->loadFromFile(src)) {
     }
     this->sprite->setTexture(*this->texture);
 
-    float posX = (target.getSize().x - this->sprite->getLocalBounds().height)/2.0;
-    float posY = (target.getSize().y - this->sprite->getLocalBounds().width)/2.0;
+    float posX = (window.getSize().x - this->sprite->getLocalBounds().height)/2.0;
+    float posY = (window.getSize().y - this->sprite->getLocalBounds().width)/2.0;
     this->sprite->setPosition(sf::Vector2f(posX, posY));
+    sf::FloatRect bounds = this->sprite->getLocalBounds();
+    this->sprite->setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
 
 //Constructors and Destructors
-Hero::Hero(const char* src, sf::RenderTarget &target) {
+Hero::Hero(const char* src, sf::RenderWindow &window) {
     this->initVariables();
     this->initAttributes();
-    this->initSprite(src, target);
+    this->initSprite(src, window);
 }
 
 Hero::~Hero() {
@@ -36,12 +39,37 @@ Hero::~Hero() {
     delete this->ammunition;
 }
 
-//Public functions
-void Hero::update(sf::RenderTarget &target)
+sf::Vector2f Hero::getMouseDirection(sf::RenderWindow &window)
 {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    sf::Vector2f heroPos = this->sprite->getPosition();
+    sf::Vector2f direction = sf::Vector2f(mousePos.x, mousePos.y) - heroPos;
+    return direction;
 }
 
-void Hero::render(sf::RenderTarget &target)
+// Public functions
+void Hero::updateRotation(sf::Vector2f direction)
 {
-    target.draw(*this->sprite);
+    float angleRad = atan2(direction.y, direction.x);
+    float angleDeg = (angleRad * (180.f / static_cast<float>(M_PI))) + 90.f;
+    this->sprite->setRotation(angleDeg);
+}
+
+void Hero::updatePosition(sf::Vector2f direction, float deltaTime)
+{
+    this->sprite->move(direction*this->speed*deltaTime);
+}
+
+void Hero::update(sf::RenderWindow &window, float deltaTime)
+{
+    sf::Vector2f direction = this->getMouseDirection(window);
+    this->updateRotation(direction);
+    this->updatePosition(direction, deltaTime);
+
+    //Collision
+}
+
+void Hero::render(sf::RenderWindow &window)
+{
+    window.draw(*this->sprite);
 }

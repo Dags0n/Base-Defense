@@ -76,8 +76,10 @@ void Game::pollEvents()
 
 void Game::update()
 {
+    sf::Time deltaTime = clock.restart();
+    float deltaTimeSeconds = deltaTime.asSeconds();
     this->pollEvents();
-    this->hero->update(*this->window);
+    this->hero->update(*this->window, deltaTimeSeconds);
 }
 
 void Game::render()
@@ -85,9 +87,10 @@ void Game::render()
 
     this->window->clear(sf::Color::Black);
 
-    this->hero->render(*this->window);
-
+    //Draw Objects
     this->window->draw(this->base->getShape());
+    this->hero->render(*this->window);
+    //End draw
 
     this->window->display();
 

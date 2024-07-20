@@ -15,6 +15,7 @@ private:
     sf::RenderWindow* window;
     sf::Event event;
     sf::Music* music;
+    sf::Clock clock;
 
     //Game Objects
     Hero* hero;
