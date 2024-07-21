@@ -30,6 +30,11 @@ void Game::initBase()
     this->base = new Base(100, 1, this->window->getSize());
 }
 
+void Game::initEnemies()
+{
+    this->enemies.push_back(new Enemies((char*)"Assets/Image/enemy.png", *this->window, this->hero));
+}
+
 //Constructors and Destructors
 Game::Game()
 {
@@ -37,6 +42,9 @@ Game::Game()
     this->initMusic();
     this->initHero();
     this->initBase();
+    for (int i = 0; i < 3; i++) {
+        this->initEnemies();
+    }
     if (this->music) {
         this->music->play();
     }
@@ -48,6 +56,9 @@ Game::~Game()
     delete this->music;
     delete this->hero;
     delete this->base;
+    for (auto* enemy : this->enemies) {
+        delete enemy;
+    }
 }
 
 //Accesors
@@ -80,6 +91,17 @@ void Game::update()
     float deltaTimeSeconds = deltaTime.asSeconds();
     this->pollEvents();
     this->hero->update(*this->window, deltaTimeSeconds);
+
+    // Spawn enemies
+    if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval) {
+        this->initEnemies();
+        enemySpawnClock.restart(); // Restart the clock
+    }
+
+    // Update enemies
+    for (auto* enemy : this->enemies) {
+        enemy->update(*this->window);
+    }
 }
 
 void Game::render()
@@ -90,6 +112,9 @@ void Game::render()
     //Draw Objects
     this->window->draw(this->base->getShape());
     this->hero->render(*this->window);
+    for (auto* enemy : this->enemies) {
+        enemy->render(*this->window);
+    }
     //End draw
 
     this->window->display();

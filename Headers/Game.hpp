@@ -6,6 +6,7 @@
 #include <SFML/Audio.hpp>
 #include "Base.hpp"
 #include "Hero.hpp"
+#include "Enemies.hpp"
 
 class Game {
 private:
@@ -16,16 +17,20 @@ private:
     sf::Event event;
     sf::Music* music;
     sf::Clock clock;
+    sf::Clock enemySpawnClock;
+    float enemySpawnInterval = 3.0f;
 
     //Game Objects
     Hero* hero;
     Base* base;
+    std::vector<Enemies*> enemies;
 
     //Private functions
     void initWindow();
     void initMusic();
     void initHero();
     void initBase();
+    void initEnemies();
 
 public:
 
