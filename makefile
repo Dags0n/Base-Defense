@@ -6,7 +6,7 @@ all: main
 	./main
 	rm main
 
-main: Objects/main.o Objects/Game.o Objects/Attribute.o Objects/Hero.o Objects/Base.o
+main: Objects/main.o Objects/Game.o Objects/Attribute.o Objects/Hero.o Objects/Base.o Objects/Enemies.o
 	$(CXX) $^ $(SFML_FLAGS) $(FLAGS) -o main
 
 Objects/main.o: main.cpp Headers/Game.hpp
@@ -23,6 +23,9 @@ Objects/Hero.o: Implementations/Hero.cpp Headers/Hero.hpp
 
 Objects/Base.o: Implementations/Base.cpp Headers/Base.hpp
 	$(CXX) $(SFML_FLAGS) $(FLAGS) -c Implementations/Base.cpp -o Objects/Base.o
+
+Objects/Enemies.o: Implementations/Enemies.cpp Headers/Enemies.hpp
+	$(CXX) $(SFML_FLAGS) $(FLAGS) -c Implementations/Enemies.cpp -o Objects/Enemies.o
 
 clean:
 	rm -f main Objects/*.o
