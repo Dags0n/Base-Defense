@@ -16,12 +16,11 @@ void Hero::initSprite(const char* src, sf::RenderWindow &window) {
     if (!this->texture->loadFromFile(src)) {
     }
     this->sprite->setTexture(*this->texture);
-
-    float posX = (window.getSize().x - this->sprite->getLocalBounds().height)/2.0;
-    float posY = (window.getSize().y - this->sprite->getLocalBounds().width)/2.0;
-    this->sprite->setPosition(sf::Vector2f(posX, posY));
     sf::FloatRect bounds = this->sprite->getLocalBounds();
     this->sprite->setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+    float posX = window.getSize().x/2.0;
+    float posY = window.getSize().y/2.0;
+    this->sprite->setPosition(sf::Vector2f(posX, posY));
 }
 
 
@@ -70,7 +69,7 @@ void Hero::update(sf::RenderWindow &window, float deltaTime)
 {
     sf::Vector2f direction = this->getMouseDirection(window);
     this->updateRotation(direction);
-    this->updatePosition(direction, deltaTime);
+    //this->updatePosition(direction, deltaTime);
 
     //Collision
 }
