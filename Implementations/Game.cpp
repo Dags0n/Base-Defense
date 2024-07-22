@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-//Private functions
+// Private functions
 void Game::initWindow()
 {
     this->videoMode.height = 720;
@@ -14,38 +14,40 @@ void Game::initWindow()
 void Game::initMusic()
 {
     this->music = new sf::Music();
-    if (!this->music->openFromFile("Assets/Music/background.wav")) {
+    if (!this->music->openFromFile("Assets/Music/background.wav"))
+    {
     }
     this->music->setLoop(true);
-    
 }
 
 void Game::initHero()
 {
-    this->hero = new Hero((char*)"Assets/Image/spaceship_dark.png", *this->window);
+    this->hero = new Hero((char *)"Assets/Image/spaceship_dark.png", *this->window);
 }
 
-void Game::initBase() 
+void Game::initBase()
 {
     this->base = new Base(100, 1, this->window->getSize());
 }
 
 void Game::initEnemies()
 {
-    this->enemies.push_back(new Enemies((char*)"Assets/Image/enemy.png", *this->window, this->hero));
+    this->enemies.push_back(new Enemies((char *)"Assets/Image/enemy.png", *this->window, this->hero));
 }
 
-//Constructors and Destructors
+// Constructors and Destructors
 Game::Game()
 {
     this->initWindow();
     this->initMusic();
     this->initHero();
     this->initBase();
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++)
+    {
         this->initEnemies();
     }
-    if (this->music) {
+    if (this->music)
+    {
         this->music->play();
     }
 }
@@ -56,12 +58,13 @@ Game::~Game()
     delete this->music;
     delete this->hero;
     delete this->base;
-    for (auto* enemy : this->enemies) {
+    for (auto *enemy : this->enemies)
+    {
         delete enemy;
     }
 }
 
-//Accesors
+// Accesors
 bool Game::running()
 {
     return this->window->isOpen();
@@ -70,17 +73,27 @@ bool Game::running()
 // Public function
 void Game::pollEvents()
 {
-    while(this->window->pollEvent(event)){
-        switch (event.type){
-            case sf::Event::Closed:
+    while (this->window->pollEvent(event))
+    {
+        switch (event.type)
+        {
+        case sf::Event::Closed:
+            this->window->close();
+            break;
+        case sf::Event::KeyPressed:
+            if (event.key.code == sf::Keyboard::Escape)
+            {
                 this->window->close();
-                break;
-            case sf::Event::KeyPressed:
-                if(event.key.code == sf::Keyboard::Escape){
-                    this->window->close();
-                }
-                break;
-            default: break;
+            }
+            break;
+        case sf::Event::MouseButtonPressed:
+            if (this->event.mouseButton.button == sf::Mouse::Right)
+            {
+                this->hero->setDestiny(sf::Mouse::getPosition(*this->window));
+            }
+            break;
+        default:
+            break;
         }
     }
 }
@@ -93,13 +106,15 @@ void Game::update()
     this->hero->update(*this->window, deltaTimeSeconds);
 
     // Spawn enemies
-    if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval) {
+    if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval)
+    {
         this->initEnemies();
         enemySpawnClock.restart(); // Restart the clock
     }
 
     // Update enemies
-    for (auto* enemy : this->enemies) {
+    for (auto *enemy : this->enemies)
+    {
         enemy->update(*this->window);
     }
 }
@@ -109,14 +124,14 @@ void Game::render()
 
     this->window->clear(sf::Color::Black);
 
-    //Draw Objects
+    // Draw Objects
     this->window->draw(this->base->getShape());
     this->hero->render(*this->window);
-    for (auto* enemy : this->enemies) {
+    for (auto *enemy : this->enemies)
+    {
         enemy->render(*this->window);
     }
-    //End draw
+    // End draw
 
     this->window->display();
-
 }

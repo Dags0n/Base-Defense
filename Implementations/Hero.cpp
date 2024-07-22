@@ -4,7 +4,8 @@
 void Hero::initVariables() {
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
-    speed = 2.f;
+    this->destiny = sf::Vector2i(0,0);
+    this->speed = 1.5;
 }
 
 void Hero::initAttributes() {
@@ -21,6 +22,7 @@ void Hero::initSprite(const char* src, sf::RenderWindow &window) {
     float posX = window.getSize().x/2.0;
     float posY = window.getSize().y/2.0;
     this->sprite->setPosition(sf::Vector2f(posX, posY));
+    this->destiny = sf::Vector2i(posX, posY);
 }
 
 
@@ -47,9 +49,21 @@ sf::Vector2f Hero::getMouseDirection(sf::RenderWindow &window)
     return direction;
 }
 
+sf::Vector2f Hero::getDestinyDirection()
+{
+    sf::Vector2f heroPos = this->sprite->getPosition();
+    sf::Vector2f direction = sf::Vector2f(this->destiny.x, this->destiny.y) - heroPos;
+    return direction;
+}
+
 sf::Vector2f Hero::getPosition()
 {
     return this->sprite->getPosition();
+}
+
+void Hero::setDestiny(sf::Vector2i destiny)
+{
+    this->destiny = destiny;
 }
 
 // Update
@@ -67,9 +81,10 @@ void Hero::updatePosition(sf::Vector2f direction, float deltaTime)
 
 void Hero::update(sf::RenderWindow &window, float deltaTime)
 {
-    sf::Vector2f direction = this->getMouseDirection(window);
-    this->updateRotation(direction);
-    //this->updatePosition(direction, deltaTime);
+    sf::Vector2f directionMouse = this->getMouseDirection(window);
+    sf::Vector2f directionDestiny = this->getDestinyDirection();
+    this->updateRotation(directionMouse);
+    this->updatePosition(directionDestiny, deltaTime);
 
     //Collision
 }

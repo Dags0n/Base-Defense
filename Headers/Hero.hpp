@@ -12,7 +12,7 @@ private:
     sf::Sprite* sprite;
     Attribute* life;
     Attribute* ammunition;
-    sf::Vector2<int> sightPosition;
+    sf::Vector2i destiny;
     float speed;
 
     // Init functions
@@ -28,7 +28,9 @@ public:
 
     // Getters and Setters
     sf::Vector2f getMouseDirection(sf::RenderWindow &window);
+    sf::Vector2f getDestinyDirection();
     sf::Vector2f getPosition();
+    void setDestiny(sf::Vector2i destiny);
 
     // Update
     void updateRotation(sf::Vector2f direction);
