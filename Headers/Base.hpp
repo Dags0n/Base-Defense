@@ -4,7 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <Hero.hpp>
 
-class Base {
+class Base
+{
 private:
     sf::RectangleShape baseShape;
     int score;

@@ -1,39 +1,44 @@
 #include "Hero.hpp"
 
 // Init funtions
-void Hero::initVariables() {
+void Hero::initVariables()
+{
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
-    this->destiny = sf::Vector2i(0,0);
+    this->destiny = sf::Vector2i(0, 0);
     this->speed = 1.5;
 }
 
-void Hero::initAttributes() {
+void Hero::initAttributes()
+{
     this->life = new Attribute(100, 100);
     this->ammunition = new Attribute(100, 100);
 }
 
-void Hero::initSprite(const char* src, sf::RenderWindow &window) {
-    if (!this->texture->loadFromFile(src)) {
+void Hero::initSprite(const char *src, sf::RenderWindow &window)
+{
+    if (!this->texture->loadFromFile(src))
+    {
     }
     this->sprite->setTexture(*this->texture);
     sf::FloatRect bounds = this->sprite->getLocalBounds();
     this->sprite->setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-    float posX = window.getSize().x/2.0;
-    float posY = window.getSize().y/2.0;
+    float posX = window.getSize().x / 2.0;
+    float posY = window.getSize().y / 2.0;
     this->sprite->setPosition(sf::Vector2f(posX, posY));
     this->destiny = sf::Vector2i(posX, posY);
 }
 
-
 // Constructors and Destructors
-Hero::Hero(const char* src, sf::RenderWindow &window) {
+Hero::Hero(const char *src, sf::RenderWindow &window)
+{
     this->initVariables();
     this->initAttributes();
     this->initSprite(src, window);
 }
 
-Hero::~Hero() {
+Hero::~Hero()
+{
     delete this->texture;
     delete this->sprite;
     delete this->life;
@@ -76,7 +81,7 @@ void Hero::updateRotation(sf::Vector2f direction)
 
 void Hero::updatePosition(sf::Vector2f direction, float deltaTime)
 {
-    this->sprite->move(direction*this->speed*deltaTime);
+    this->sprite->move(direction * this->speed * deltaTime);
 }
 
 void Hero::update(sf::RenderWindow &window, float deltaTime)
@@ -86,7 +91,7 @@ void Hero::update(sf::RenderWindow &window, float deltaTime)
     this->updateRotation(directionMouse);
     this->updatePosition(directionDestiny, deltaTime);
 
-    //Collision
+    // Collision
 }
 
 // Render

@@ -8,12 +8,12 @@ Attribute::Attribute(int amount, int max)
 
 void Attribute::recharge(int value)
 {
-    ((amount+value)>max)? amount = max : amount += value;
+    ((amount + value) > max) ? amount = max : amount += value;
 }
 
 void Attribute::consume(int value)
 {
-    ((amount-value)<0)? amount = 0 : amount -= value;
+    ((amount - value) < 0) ? amount = 0 : amount -= value;
 }
 
 int Attribute::Points()

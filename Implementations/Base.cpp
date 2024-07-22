@@ -1,7 +1,7 @@
 #include "Base.hpp"
 
 Base::Base(int initialScore, int rate, const sf::Vector2u windowSize)
-{ 
+{
     this->maxScore = initialScore;
     this->score = initialScore;
     this->regenerationRate = rate;
@@ -19,7 +19,7 @@ Base::~Base() {}
 void Base::takeDamage(int damage)
 {
     score -= damage;
-    if(score < 0)
+    if (score < 0)
     {
         score = 0;
     }
@@ -30,9 +30,9 @@ void Base::takeDamage(int damage)
 void Base::regenerate(int value)
 {
     this->score += value;
-    if(this->score > this->maxScore)
+    if (this->score > this->maxScore)
     {
-        this->score = this->maxScore; 
+        this->score = this->maxScore;
     }
 
     updateAppearance();
@@ -40,14 +40,13 @@ void Base::regenerate(int value)
 
 void Base::initCenterBase(const sf::Vector2u windowSize)
 {
-    if(windowSize.x > 0 && windowSize.y > 0) 
+    if (windowSize.x > 0 && windowSize.y > 0)
     {
-    float x = (windowSize.x - this->baseShape.getLocalBounds().width) / 2.0f;
-    float y = (windowSize.y - this->baseShape.getLocalBounds().height) / 2.0f;
-    this->baseShape.setPosition(sf::Vector2f(x, y));
+        float x = (windowSize.x - this->baseShape.getLocalBounds().width) / 2.0f;
+        float y = (windowSize.y - this->baseShape.getLocalBounds().height) / 2.0f;
+        this->baseShape.setPosition(sf::Vector2f(x, y));
     }
 }
-
 
 bool Base::isDestroyed()
 {

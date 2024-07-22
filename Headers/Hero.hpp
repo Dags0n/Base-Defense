@@ -5,25 +5,25 @@
 #include <SFML/Graphics.hpp>
 #include "Attribute.hpp"
 
-class Hero {
+class Hero
+{
 private:
     // Variables
-    sf::Texture* texture;
-    sf::Sprite* sprite;
-    Attribute* life;
-    Attribute* ammunition;
+    sf::Texture *texture;
+    sf::Sprite *sprite;
+    Attribute *life;
+    Attribute *ammunition;
     sf::Vector2i destiny;
     float speed;
 
     // Init functions
     void initVariables();
     void initAttributes();
-    void initSprite(const char* src, sf::RenderWindow &window);
+    void initSprite(const char *src, sf::RenderWindow &window);
 
 public:
-
     // Constructors and Destructors
-    Hero(const char* src, sf::RenderWindow &window);
+    Hero(const char *src, sf::RenderWindow &window);
     ~Hero();
 
     // Getters and Setters
@@ -39,7 +39,6 @@ public:
 
     // Render
     void render(sf::RenderWindow &window);
-
 };
 
 #endif

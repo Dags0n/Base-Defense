@@ -8,24 +8,24 @@
 #include "Hero.hpp"
 #include "Enemies.hpp"
 
-class Game {
+class Game
+{
 private:
-
-    //Variables
+    // Variables
     sf::VideoMode videoMode;
-    sf::RenderWindow* window;
+    sf::RenderWindow *window;
     sf::Event event;
-    sf::Music* music;
+    sf::Music *music;
     sf::Clock clock;
     sf::Clock enemySpawnClock;
     float enemySpawnInterval = 3.0f;
 
-    //Game Objects
-    Hero* hero;
-    Base* base;
-    std::vector<Enemies*> enemies;
+    // Game Objects
+    Hero *hero;
+    Base *base;
+    std::vector<Enemies *> enemies;
 
-    //Private functions
+    // Private functions
     void initWindow();
     void initMusic();
     void initHero();
@@ -33,15 +33,14 @@ private:
     void initEnemies();
 
 public:
-
-    //Contructors and Destructors
+    // Contructors and Destructors
     Game();
     ~Game();
 
-    //Accesors
-    bool running(); 
+    // Accesors
+    bool running();
 
-    //Public functions
+    // Public functions
     void pollEvents();
     void update();
     void render();
