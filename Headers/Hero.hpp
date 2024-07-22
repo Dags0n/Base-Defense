@@ -7,7 +7,7 @@
 
 class Hero {
 private:
-    //Variables
+    // Variables
     sf::Texture* texture;
     sf::Sprite* sprite;
     Attribute* life;
@@ -15,22 +15,27 @@ private:
     sf::Vector2<int> sightPosition;
     float speed;
 
-    //Init functions
+    // Init functions
     void initVariables();
     void initAttributes();
     void initSprite(const char* src, sf::RenderWindow &window);
 
 public:
 
-    //Constructors and Destructors
+    // Constructors and Destructors
     Hero(const char* src, sf::RenderWindow &window);
     ~Hero();
 
-    //Public functions
+    // Getters and Setters
     sf::Vector2f getMouseDirection(sf::RenderWindow &window);
+    sf::Vector2f getPosition();
+
+    // Update
     void updateRotation(sf::Vector2f direction);
     void updatePosition(sf::Vector2f direction, float deltaTime);
     void update(sf::RenderWindow &window, float deltaTime);
+
+    // Render
     void render(sf::RenderWindow &window);
 
 };

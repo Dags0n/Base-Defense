@@ -1,6 +1,6 @@
 #include "Hero.hpp"
 
-//Init funtions
+// Init funtions
 void Hero::initVariables() {
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
@@ -25,7 +25,7 @@ void Hero::initSprite(const char* src, sf::RenderWindow &window) {
 }
 
 
-//Constructors and Destructors
+// Constructors and Destructors
 Hero::Hero(const char* src, sf::RenderWindow &window) {
     this->initVariables();
     this->initAttributes();
@@ -39,6 +39,7 @@ Hero::~Hero() {
     delete this->ammunition;
 }
 
+// Getters and Setters
 sf::Vector2f Hero::getMouseDirection(sf::RenderWindow &window)
 {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -47,7 +48,12 @@ sf::Vector2f Hero::getMouseDirection(sf::RenderWindow &window)
     return direction;
 }
 
-// Public functions
+sf::Vector2f Hero::getPosition()
+{
+    return this->sprite->getPosition();
+}
+
+// Update
 void Hero::updateRotation(sf::Vector2f direction)
 {
     float angleRad = atan2(direction.y, direction.x);
@@ -69,6 +75,7 @@ void Hero::update(sf::RenderWindow &window, float deltaTime)
     //Collision
 }
 
+// Render
 void Hero::render(sf::RenderWindow &window)
 {
     window.draw(*this->sprite);
