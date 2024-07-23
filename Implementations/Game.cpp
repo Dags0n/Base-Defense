@@ -23,7 +23,7 @@ void Game::initMusic()
 void Game::initFont()
 {
     this->SpaceMono = new sf::Font();
-    if (!this->SpaceMono->loadFromFile("Fonts/PixelifySans-VariableFont_wght.ttf"))
+    if (!this->SpaceMono->loadFromFile("Fonts/PressStart2P-Regular.ttf"))
     {
     }
 }
@@ -33,8 +33,8 @@ void Game::initPauseMenssage()
     this->pauseMessage = new sf::Text();
     this->pauseMessage->setFont(*this->SpaceMono);
     this->pauseMessage->setString("PAUSE");
-    this->pauseMessage->setCharacterSize(120);
-    this->pauseMessage->setFillColor(sf::Color::White);
+    this->pauseMessage->setCharacterSize(100);
+    this->pauseMessage->setFillColor(sf::Color::Cyan);
     sf::FloatRect textRect = this->pauseMessage->getLocalBounds();
     this->pauseMessage->setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
     sf::Vector2u windowSize = this->window->getSize();
