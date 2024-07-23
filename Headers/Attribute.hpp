@@ -11,8 +11,8 @@ public:
     Attribute(int amount, int max);
     void recharge(int value);
     void consume(int value);
-    int Points();
-    int Max();
+    int points();
+    int maxPoints();
     void setMax(int max);
 };
 

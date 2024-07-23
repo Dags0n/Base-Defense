@@ -16,12 +16,12 @@ void Attribute::consume(int value)
     ((amount - value) < 0) ? amount = 0 : amount -= value;
 }
 
-int Attribute::Points()
+int Attribute::points()
 {
     return this->amount;
 }
 
-int Attribute::Max()
+int Attribute::maxPoints()
 {
     return this->max;
 }
