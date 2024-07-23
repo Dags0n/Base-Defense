@@ -16,9 +16,12 @@ private:
     sf::RenderWindow *window;
     sf::Event event;
     sf::Music *music;
+    sf::Font *SpaceMono;
+    sf::Text *pauseMessage;
     sf::Clock clock;
     sf::Clock enemySpawnClock;
     float enemySpawnInterval = 3.0f;
+    bool isPaused = false;
 
     // Game Objects
     Hero *hero;
@@ -28,6 +31,8 @@ private:
     // Private functions
     void initWindow();
     void initMusic();
+    void initFont();
+    void initPauseMenssage();
     void initHero();
     void initBase();
     void initEnemies();

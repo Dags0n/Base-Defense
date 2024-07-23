@@ -20,6 +20,27 @@ void Game::initMusic()
     this->music->setLoop(true);
 }
 
+void Game::initFont()
+{
+    this->SpaceMono = new sf::Font();
+    if (!this->SpaceMono->loadFromFile("Fonts/PixelifySans-VariableFont_wght.ttf"))
+    {
+    }
+}
+
+void Game::initPauseMenssage()
+{
+    this->pauseMessage = new sf::Text();
+    this->pauseMessage->setFont(*this->SpaceMono);
+    this->pauseMessage->setString("PAUSE");
+    this->pauseMessage->setCharacterSize(120);
+    this->pauseMessage->setFillColor(sf::Color::White);
+    sf::FloatRect textRect = this->pauseMessage->getLocalBounds();
+    this->pauseMessage->setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+    sf::Vector2u windowSize = this->window->getSize();
+    this->pauseMessage->setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
+}
+
 void Game::initHero()
 {
     this->hero = new Hero((char *)"Assets/Image/spaceship_dark.png", *this->window);
@@ -40,6 +61,8 @@ Game::Game()
 {
     this->initWindow();
     this->initMusic();
+    this->initFont();
+    this->initPauseMenssage();
     this->initHero();
     this->initBase();
     for (int i = 0; i < 3; i++)
@@ -85,6 +108,10 @@ void Game::pollEvents()
             {
                 this->window->close();
             }
+            if (event.key.code == sf::Keyboard::Space)
+            {
+                this->isPaused = !this->isPaused;
+            }
             break;
         case sf::Event::MouseButtonPressed:
             if (this->event.mouseButton.button == sf::Mouse::Right)
@@ -103,19 +130,23 @@ void Game::update()
     sf::Time deltaTime = clock.restart();
     float deltaTimeSeconds = deltaTime.asSeconds();
     this->pollEvents();
-    this->hero->update(*this->window, deltaTimeSeconds);
 
-    // Spawn enemies
-    if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval)
+    if (!isPaused)
     {
-        this->initEnemies();
-        enemySpawnClock.restart(); // Restart the clock
-    }
+        this->hero->update(*this->window, deltaTimeSeconds);
 
-    // Update enemies
-    for (auto *enemy : this->enemies)
-    {
-        enemy->update(*this->window);
+        // Spawn enemies
+        if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval)
+        {
+            this->initEnemies();
+            enemySpawnClock.restart(); // Restart the clock
+        }
+
+        // Update enemies
+        for (auto *enemy : this->enemies)
+        {
+            enemy->update(*this->window);
+        }
     }
 }
 
@@ -123,13 +154,17 @@ void Game::render()
 {
 
     this->window->clear(sf::Color::Black);
-
+    
     // Draw Objects
     this->window->draw(this->base->getShape());
     this->hero->render(*this->window);
     for (auto *enemy : this->enemies)
     {
         enemy->render(*this->window);
+    }
+    if(isPaused)
+    {
+        this->window->draw(*this->pauseMessage);
     }
     // End draw
 
