@@ -30,6 +30,10 @@ public:
     sf::Vector2f getMouseDirection(sf::RenderWindow &window);
     sf::Vector2f getDestinyDirection();
     sf::Vector2f getPosition();
+    int getLife();
+    int getMaxLife();
+    int getAmmunition();
+    int getMaxAmmunition();
     void setDestiny(sf::Vector2i destiny);
 
     // Update

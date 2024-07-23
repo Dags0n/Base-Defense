@@ -76,6 +76,26 @@ sf::Vector2f Hero::getPosition()
     return this->sprite->getPosition();
 }
 
+int Hero::getLife()
+{
+    return this->life->points();
+}
+
+int Hero::getMaxLife()
+{
+    return this->life->maxPoints();
+}
+
+int Hero::getAmmunition()
+{
+    return this->ammunition->points();
+}
+
+int Hero::getMaxAmmunition()
+{
+    return this->ammunition->maxPoints();
+}
+
 void Hero::setDestiny(sf::Vector2i destiny)
 {
     this->destiny = destiny;
