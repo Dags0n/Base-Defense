@@ -7,25 +7,27 @@
 class Base
 {
 private:
-    sf::RectangleShape baseShape;
+    sf::Texture *texture;
+    sf::Sprite *sprite;
     int score;
     int maxScore;
     int regenerationRate;
 
+    void initVariables();
+    void initSprite(const char *src, sf::RenderWindow &window);
+
 public:
-    Base(int initialScore, int rate, const sf::Vector2u windowSize);
+    Base(const char *src, int initialScore, int rate, sf::RenderWindow &window);
     ~Base();
+
+    int getScore();
 
     void takeDamage(int damage);
     void regenerate(int value);
-    void initCenterBase(const sf::Vector2u windowSize);
-
     bool isDestroyed();
-
-    int getScore();
-    sf::RectangleShape getShape();
-
     void updateAppearance();
+
+    void render(sf::RenderWindow &window);
 };
 
 #endif

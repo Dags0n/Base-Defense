@@ -48,7 +48,7 @@ void Game::initHero()
 
 void Game::initBase()
 {
-    this->base = new Base(100, 1, this->window->getSize());
+    this->base = new Base((char *)"Assets/Image/base.png", 100, 1, *this->window);
 }
 
 void Game::initEnemies()
@@ -156,7 +156,7 @@ void Game::render()
     this->window->clear(sf::Color::Black);
     
     // Draw Objects
-    this->window->draw(this->base->getShape());
+    this->base->render(*this->window);
     this->hero->render(*this->window);
     for (auto *enemy : this->enemies)
     {
