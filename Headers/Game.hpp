@@ -7,6 +7,7 @@
 #include "Base.hpp"
 #include "Hero.hpp"
 #include "Enemies.hpp"
+#include "StatusBar.hpp"
 
 class Game
 {
@@ -27,6 +28,8 @@ private:
     Hero *hero;
     Base *base;
     std::vector<Enemies *> enemies;
+    StatusBar *life;
+    StatusBar *ammunition;
 
     // Private functions
     void initWindow();
@@ -36,6 +39,7 @@ private:
     void initHero();
     void initBase();
     void initEnemies();
+    void initStatusBar();
 
 public:
     // Contructors and Destructors

@@ -56,6 +56,24 @@ void Game::initEnemies()
     this->enemies.push_back(new Enemies((char *)"Assets/Image/enemy.png", *this->window, this->hero));
 }
 
+void Game::initStatusBar()
+{
+    sf::Vector2f lifeSize = sf::Vector2f(250, 20);
+    sf::Vector2i lifePos = sf::Vector2i(10, 10);
+    int maxLife = this->hero->getMaxLife();
+    int currentLife = this->hero->getLife();
+    sf::Color color = sf::Color::Blue;
+    sf::Color background = sf::Color::White;
+    this->life = new StatusBar(lifeSize, lifePos, maxLife, currentLife, color, background);
+
+    sf::Vector2f ammunitionSize = sf::Vector2f(200, 10);
+    sf::Vector2i ammunitionPos = sf::Vector2i(10, 40);
+    int maxAmmunition = this->hero->getMaxLife();
+    int currentAmmunition = this->hero->getLife();
+    color = sf::Color::Cyan;
+    this->ammunition = new StatusBar(ammunitionSize, ammunitionPos, maxAmmunition, currentAmmunition, color, background);
+}
+
 // Constructors and Destructors
 Game::Game()
 {
@@ -73,6 +91,7 @@ Game::Game()
     {
         this->music->play();
     }
+    this->initStatusBar();
 }
 
 Game::~Game()
@@ -81,6 +100,8 @@ Game::~Game()
     delete this->music;
     delete this->hero;
     delete this->base;
+    delete this->life;
+    delete this->ammunition;
     for (auto *enemy : this->enemies)
     {
         delete enemy;
@@ -134,6 +155,8 @@ void Game::update()
     if (!isPaused)
     {
         this->hero->update(*this->window, deltaTimeSeconds);
+        this->life->update(this->hero->getLife());
+        this->ammunition->update(this->hero->getAmmunition());
 
         // Spawn enemies
         if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval)
@@ -154,15 +177,20 @@ void Game::render()
 {
 
     this->window->clear(sf::Color::Black);
-    
+
     // Draw Objects
     this->base->render(*this->window);
     this->hero->render(*this->window);
+
     for (auto *enemy : this->enemies)
     {
         enemy->render(*this->window);
     }
-    if(isPaused)
+
+    this->life->render(*this->window);
+    this->ammunition->render(*this->window);
+
+    if (isPaused)
     {
         this->window->draw(*this->pauseMessage);
     }
