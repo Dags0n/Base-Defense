@@ -1,6 +1,6 @@
 #include "StatusBar.hpp"
 
-//Inits
+// Inits
 void StatusBar::initVariables(int maxPoints, int currentPoints)
 {
     this->maxPoints = maxPoints;
@@ -18,14 +18,14 @@ void StatusBar::initBars(sf::Vector2f size, sf::Vector2i position, sf::Color col
     this->currentBar.setFillColor(color);
 }
 
-//Constructor
+// Constructor
 StatusBar::StatusBar(sf::Vector2f size, sf::Vector2i position, int maxPoints, int currentPoints, sf::Color color, sf::Color background)
 {
     this->initVariables(maxPoints, currentPoints);
     this->initBars(size, position, color, background);
 }
 
-//Update
+// Update
 void StatusBar::update(int currentPoints)
 {
     this->currentPoints = currentPoints;
@@ -34,7 +34,7 @@ void StatusBar::update(int currentPoints)
     this->currentBar.setSize(sf::Vector2f(x, y));
 }
 
-//Render
+// Render
 void StatusBar::render(sf::RenderWindow &window)
 {
     window.draw(this->maxBar);

@@ -35,7 +35,7 @@ Base::Base(const char *src, int initialScore, int rate, sf::RenderWindow &window
     this->initSprite(src, window);
 }
 
-Base::~Base() 
+Base::~Base()
 {
     delete this->texture;
     delete this->sprite;
@@ -85,4 +85,3 @@ void Base::render(sf::RenderWindow &window)
 {
     window.draw(*this->sprite);
 }
-
