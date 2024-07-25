@@ -1,0 +1,1 @@
+Folder to store the .o files from the compilation process
