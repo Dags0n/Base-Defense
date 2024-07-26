@@ -4,6 +4,7 @@
 #include <cmath>
 #include <SFML/Graphics.hpp>
 #include "Attribute.hpp"
+#include "Shot.hpp"
 
 class Hero
 {
@@ -35,6 +36,9 @@ public:
     int getAmmunition();
     int getMaxAmmunition();
     void setDestiny(sf::Vector2i destiny);
+
+    // Actions
+    Shot *shot(const std::string &src, const sf::Vector2f &destiny);
 
     // Update
     void updateRotation(sf::Vector2f direction);

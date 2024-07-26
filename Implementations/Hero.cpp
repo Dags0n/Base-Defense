@@ -12,7 +12,7 @@ void Hero::initVariables()
 void Hero::initAttributes()
 {
     this->life = new Attribute(100, 100);
-    this->ammunition = new Attribute(100, 100);
+    this->ammunition = new Attribute(40, 40);
 }
 
 void Hero::initSprite(const char *src, sf::RenderWindow &window)
@@ -99,6 +99,18 @@ int Hero::getMaxAmmunition()
 void Hero::setDestiny(sf::Vector2i destiny)
 {
     this->destiny = destiny;
+}
+
+Shot *Hero::shot(const std::string &src, const sf::Vector2f &destiny)
+{
+    if (this->getAmmunition() <= 0)
+    {
+        return nullptr;
+    }
+
+    Shot *shot = new Shot(src, this->sprite->getPosition(), destiny);
+    this->ammunition->consume(1);
+    return shot;
 }
 
 // Update

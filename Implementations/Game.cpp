@@ -68,8 +68,8 @@ void Game::initStatusBar()
 
     sf::Vector2f ammunitionSize = sf::Vector2f(200, 10);
     sf::Vector2i ammunitionPos = sf::Vector2i(10, 40);
-    int maxAmmunition = this->hero->getMaxLife();
-    int currentAmmunition = this->hero->getLife();
+    int maxAmmunition = this->hero->getMaxAmmunition();
+    int currentAmmunition = this->hero->getAmmunition();
     color = sf::Color::Cyan;
     this->ammunition = new StatusBar(ammunitionSize, ammunitionPos, maxAmmunition, currentAmmunition, color, background);
 }
@@ -106,6 +106,10 @@ Game::~Game()
     {
         delete enemy;
     }
+    for (auto *shot : this->heroShots)
+    {
+        delete shot;
+    }
 }
 
 // Accesors
@@ -132,6 +136,13 @@ void Game::pollEvents()
             if (event.key.code == sf::Keyboard::Space)
             {
                 this->isPaused = !this->isPaused;
+            }
+            if (event.key.code == sf::Keyboard::Q)
+            {
+                auto shot = this->hero->shot("Assets/Image/hero_shot.png", (sf::Vector2f)sf::Mouse::getPosition(*this->window));
+                if(shot != nullptr){
+                    this->heroShots.push_back(shot);
+                }
             }
             break;
         case sf::Event::MouseButtonPressed:
@@ -170,6 +181,11 @@ void Game::update()
         {
             enemy->update(*this->window);
         }
+
+        for (auto *shot : this->heroShots)
+        {
+            shot->update(deltaTimeSeconds);
+        }
     }
 }
 
@@ -179,14 +195,24 @@ void Game::render()
     this->window->clear(sf::Color::Black);
 
     // Draw Objects
+    
+    //Plan 0
     this->base->render(*this->window);
-    this->hero->render(*this->window);
 
+    //Plan 1
+    for (auto *shot : this->heroShots)
+    {
+        shot->render(*this->window);
+    }
+
+    //Plan 2
     for (auto *enemy : this->enemies)
     {
         enemy->render(*this->window);
     }
+    this->hero->render(*this->window);
 
+    //Plan 3
     this->life->render(*this->window);
     this->ammunition->render(*this->window);
 
@@ -194,6 +220,7 @@ void Game::render()
     {
         this->window->draw(*this->pauseMessage);
     }
+
     // End draw
 
     this->window->display();

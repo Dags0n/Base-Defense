@@ -4,10 +4,12 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
+#include <list>
 #include "Base.hpp"
 #include "Hero.hpp"
 #include "Enemies.hpp"
 #include "StatusBar.hpp"
+#include "Shot.hpp"
 
 class Game
 {
@@ -28,6 +30,7 @@ private:
     Hero *hero;
     Base *base;
     std::vector<Enemies *> enemies;
+    std::list<Shot *> heroShots;
     StatusBar *life;
     StatusBar *ammunition;
 
