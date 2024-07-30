@@ -11,6 +11,24 @@ void Game::initWindow()
     this->window->setPosition(sf::Vector2i(0, 0));
 }
 
+void Game::initBackgroundSprite()
+{
+    this->backgroundTexture = new sf::Texture();
+    if (!this->backgroundTexture->loadFromFile("Assets/Image/background1.jpeg"))
+    {
+    }
+    this->backgroundSprite = new sf::Sprite();
+    this->backgroundSprite->setTexture(*this->backgroundTexture);
+
+    sf::Vector2u windowSize = this->window->getSize();    
+    sf::Vector2u textureSize = backgroundTexture->getSize();
+    
+    float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
+    float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
+    
+    backgroundSprite->setScale(scaleX, scaleY);
+}
+
 void Game::initMusic()
 {
     this->music = new sf::Music();
@@ -28,7 +46,7 @@ void Game::initFont()
     }
 }
 
-void Game::initPauseMenssage()
+void Game::initPauseMessage()
 {
     this->pauseMessage = new sf::Text();
     this->pauseMessage->setFont(*this->SpaceMono);
@@ -78,9 +96,10 @@ void Game::initStatusBar()
 Game::Game()
 {
     this->initWindow();
+    this->initBackgroundSprite();
     this->initMusic();
     this->initFont();
-    this->initPauseMenssage();
+    this->initPauseMessage();
     this->initHero();
     this->initBase();
     for (int i = 0; i < 3; i++)
@@ -97,6 +116,8 @@ Game::Game()
 Game::~Game()
 {
     delete this->window;
+    delete this->backgroundTexture;
+    delete this->backgroundSprite;
     delete this->music;
     delete this->hero;
     delete this->base;
@@ -195,6 +216,7 @@ void Game::render()
     this->window->clear(sf::Color::Black);
 
     // Draw Objects
+    this->window->draw(*this->backgroundSprite);
     
     //Plan 0
     this->base->render(*this->window);

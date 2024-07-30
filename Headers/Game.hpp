@@ -17,6 +17,8 @@ private:
     // Variables
     sf::VideoMode videoMode;
     sf::RenderWindow *window;
+    sf::Texture *backgroundTexture;
+    sf::Sprite *backgroundSprite;
     sf::Event event;
     sf::Music *music;
     sf::Font *SpaceMono;
@@ -36,9 +38,10 @@ private:
 
     // Private functions
     void initWindow();
+    void initBackgroundSprite();
     void initMusic();
     void initFont();
-    void initPauseMenssage();
+    void initPauseMessage();
     void initHero();
     void initBase();
     void initEnemies();
