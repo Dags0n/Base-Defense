@@ -101,6 +101,12 @@ void Hero::setDestiny(sf::Vector2i destiny)
     this->destiny = destiny;
 }
 
+sf::FloatRect Hero::getArea()
+{
+    return this->sprite->getGlobalBounds();
+}
+
+// Actions
 Shot *Hero::shot(const std::string &src, const sf::Vector2f &destiny)
 {
     if (this->getAmmunition() <= 0)

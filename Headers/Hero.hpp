@@ -36,6 +36,7 @@ public:
     int getAmmunition();
     int getMaxAmmunition();
     void setDestiny(sf::Vector2i destiny);
+    sf::FloatRect getArea();
 
     // Actions
     Shot *shot(const std::string &src, const sf::Vector2f &destiny);
