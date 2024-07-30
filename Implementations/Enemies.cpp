@@ -33,6 +33,7 @@ void Enemies::initVariables()
 {
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
+    this->enemySpeed = 40.f;
 }
 
 void Enemies::initSprite(const char *src, sf::RenderTarget &target)
@@ -63,9 +64,9 @@ Enemies::~Enemies()
 }
 
 // Public functions
-void Enemies::update(sf::RenderWindow &window)
+void Enemies::update(sf::RenderWindow &window, float deltaTime)
 {
-    this->moveTowardsHero();
+    this->moveTowardsHero(deltaTime);
 }
 
 void Enemies::render(sf::RenderWindow &window)
@@ -73,7 +74,7 @@ void Enemies::render(sf::RenderWindow &window)
     window.draw(*this->sprite);
 }
 
-void Enemies::moveTowardsHero()
+void Enemies::moveTowardsHero(float deltaTime)
 {
     sf::Vector2f heroPos = this->hero->getPosition();
     sf::Vector2f enemyPos = this->sprite->getPosition();
@@ -83,7 +84,6 @@ void Enemies::moveTowardsHero()
     if (length != 0)
     {
         direction /= length;
-        float speed = .4f; // Speed of the enemy
-        this->sprite->move(direction * speed);
+        this->sprite->move(direction * this->enemySpeed * deltaTime);
     }
 }

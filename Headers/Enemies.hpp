@@ -11,6 +11,7 @@ private:
     sf::Texture *texture;
     sf::Sprite *sprite;
     Hero *hero;
+    float enemySpeed;
 
     // Init functions
     void initVariables();
@@ -22,9 +23,9 @@ public:
     ~Enemies();
 
     // Public functions
-    void update(sf::RenderWindow &window);
+    void update(sf::RenderWindow &window, float deltaTime);
     void render(sf::RenderWindow &window);
-    void moveTowardsHero();
+    void moveTowardsHero(float deltaTime);
 };
 
 #endif

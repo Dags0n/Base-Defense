@@ -200,7 +200,7 @@ void Game::update()
         // Update enemies
         for (auto *enemy : this->enemies)
         {
-            enemy->update(*this->window);
+            enemy->update(*this->window, deltaTimeSeconds);
         }
 
         for (auto *shot : this->heroShots)
