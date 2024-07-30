@@ -256,6 +256,27 @@ void Game::update()
                 it++;
             }
         }
+
+        // Collisions
+        for (auto it = this->heroShots.begin(); it != this->heroShots.end();)
+        {
+            for (auto *enemy : this->enemies)
+            {
+                if ((*it)->getArea().intersects(enemy->getArea()))
+                {
+                    delete *it;
+                    it = this->heroShots.erase(it);
+                    
+                    delete enemy;
+                    this->enemies.erase(std::remove(this->enemies.begin(), this->enemies.end(), enemy), this->enemies.end());
+                    break;
+                }
+            }
+            if (it != this->heroShots.end())
+            {
+                it++;
+            }
+        }
     }
 }
 
