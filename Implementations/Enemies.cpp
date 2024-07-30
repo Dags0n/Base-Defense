@@ -105,3 +105,8 @@ float Enemies::getShotInterval()
 {
     return this->shotInterval;
 }
+
+sf::FloatRect Enemies::getArea()
+{
+    return this->sprite->getGlobalBounds();
+}

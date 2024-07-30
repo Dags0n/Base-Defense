@@ -35,6 +35,7 @@ public:
     // Getters
     sf::Clock &getShotClock();
     float getShotInterval();
+    sf::FloatRect getArea();
 };
 
 #endif
