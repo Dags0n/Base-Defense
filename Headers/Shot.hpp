@@ -29,6 +29,9 @@ public:
 
     // Render
     void render(sf::RenderWindow &window) const;
+
+    bool isOutOfWindow(sf::RenderWindow &window) const;
+
 };
 
 #endif

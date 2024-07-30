@@ -62,3 +62,14 @@ void Shot::render(sf::RenderWindow &window) const
 {
     window.draw(*this->sprite);
 }
+
+// Delete shoot if it goes out of the window
+bool Shot::isOutOfWindow(sf::RenderWindow &window) const
+{
+    if (this->sprite->getPosition().x < 0 || this->sprite->getPosition().x > window.getSize().x ||
+        this->sprite->getPosition().y < 0 || this->sprite->getPosition().y > window.getSize().y)
+    {
+        return true;
+    }
+    return false;
+}

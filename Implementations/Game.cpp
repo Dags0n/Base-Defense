@@ -229,6 +229,33 @@ void Game::update()
         {
             shot->update(deltaTimeSeconds);
         }
+
+        // Delete shots if they go out of the window
+        for (auto it = this->heroShots.begin(); it != this->heroShots.end();)
+        {
+            if ((*it)->isOutOfWindow(*this->window))
+            {
+                delete *it;
+                it = this->heroShots.erase(it);
+            }
+            else
+            {
+                it++;
+            }
+        }
+
+        for (auto it = this->enemyShots.begin(); it != this->enemyShots.end();)
+        {
+            if ((*it)->isOutOfWindow(*this->window))
+            {
+                delete *it;
+                it = this->enemyShots.erase(it);
+            }
+            else
+            {
+                it++;
+            }
+        }
     }
 }
 
