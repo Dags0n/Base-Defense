@@ -118,6 +118,10 @@ Shot *Hero::shot(const std::string &src, const sf::Vector2f &destiny)
     this->ammunition->consume(1);
     return shot;
 }
+void Hero::damage(int points)
+{
+    this->life->consume(points);
+}
 
 // Update
 void Hero::updateRotation(sf::Vector2f direction)

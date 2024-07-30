@@ -20,12 +20,12 @@ void Game::initBackgroundSprite()
     this->backgroundSprite = new sf::Sprite();
     this->backgroundSprite->setTexture(*this->backgroundTexture);
 
-    sf::Vector2u windowSize = this->window->getSize();    
+    sf::Vector2u windowSize = this->window->getSize();
     sf::Vector2u textureSize = backgroundTexture->getSize();
-    
+
     float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
     float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
-    
+
     backgroundSprite->setScale(scaleX, scaleY);
 }
 
@@ -90,6 +90,13 @@ void Game::initStatusBar()
     int currentAmmunition = this->hero->getAmmunition();
     color = sf::Color::Cyan;
     this->ammunition = new StatusBar(ammunitionSize, ammunitionPos, maxAmmunition, currentAmmunition, color, background);
+
+    sf::Vector2f baseSize = sf::Vector2f(400, 20);
+    sf::Vector2i basePos = sf::Vector2i(this->window->getSize().x-430, this->window->getSize().y-40);
+    int maxBaseLife = this->base->getScore();
+    int currentBaseLife = this->base->getScore();
+    color = sf::Color::Green;
+    this->baseLife = new StatusBar(baseSize, basePos, maxBaseLife, currentBaseLife, color, background);
 }
 
 // Constructors and Destructors
@@ -143,7 +150,7 @@ bool Game::running()
     return this->window->isOpen();
 }
 
-// Public function
+// Update
 void Game::pollEvents()
 {
     while (this->window->pollEvent(event))
@@ -165,7 +172,8 @@ void Game::pollEvents()
             if (event.key.code == sf::Keyboard::Q)
             {
                 auto shot = this->hero->shot("Assets/Image/hero_shot.png", (sf::Vector2f)sf::Mouse::getPosition(*this->window));
-                if(shot != nullptr){
+                if (shot != nullptr)
+                {
                     this->heroShots.push_back(shot);
                 }
             }
@@ -182,6 +190,83 @@ void Game::pollEvents()
     }
 }
 
+void Game::garbageRemover()
+{
+    for (auto it = this->heroShots.begin(); it != this->heroShots.end();)
+    {
+        if ((*it)->isOutOfWindow(*this->window))
+        {
+            delete *it;
+            this->heroShots.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+
+    for (auto it = this->enemyShots.begin(); it != this->enemyShots.end();)
+    {
+        if ((*it)->isOutOfWindow(*this->window))
+        {
+            delete *it;
+            this->enemyShots.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+}
+
+void Game::updateHeroShotCollision()
+{
+    for (auto it = this->heroShots.begin(); it != this->heroShots.end();)
+    {
+        for (auto *enemy : this->enemies)
+        {
+            if ((*it)->getArea().intersects(enemy->getArea()))
+            {
+                delete *it;
+                this->heroShots.erase(it);
+
+                delete enemy;
+                this->enemies.erase(std::remove(this->enemies.begin(), this->enemies.end(), enemy), this->enemies.end());
+                break;
+            }
+        }
+        if (it != this->heroShots.end())
+        {
+            it++;
+        }
+    }
+}
+
+void Game::updateEnemyShotCollision()
+{
+    for (auto it = this->enemyShots.begin(); it != this->enemyShots.end();)
+    {
+        if ((*it)->getArea().intersects(this->hero->getArea()))
+        {
+            delete *it;
+            this->enemyShots.erase(it);
+
+            this->hero->damage(5);
+        }
+        else if((*it)->getArea().intersects(this->base->getArea()))
+        {
+            delete *it;
+            this->enemyShots.erase(it);
+
+            this->base->takeDamage(5);
+        }
+        else
+        {
+            it++;
+        }
+    }
+}
+
 void Game::update()
 {
     sf::Time deltaTime = clock.restart();
@@ -190,31 +275,12 @@ void Game::update()
 
     if (!isPaused)
     {
+        // Update stats
         this->hero->update(*this->window, deltaTimeSeconds);
         this->life->update(this->hero->getLife());
         this->ammunition->update(this->hero->getAmmunition());
+        this->baseLife->update(this->base->getScore());
 
-        // Spawn enemies
-        if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval)
-        {
-            this->initEnemies();
-            enemySpawnClock.restart(); // Restart the clock
-        }
-
-        // Enemy shots
-        for (auto *enemy : this->enemies)
-        {
-            if (enemy->getShotClock().getElapsedTime().asSeconds() >= enemy->getShotInterval())
-            {
-                auto shot = enemy->shot("Assets/Image/enemy_shot.png", this->hero->getPosition());
-                if(shot != nullptr){
-                    this->enemyShots.push_back(shot);
-                }
-                enemy->getShotClock().restart();
-            }
-        }
-
-        // Update enemies
         for (auto *enemy : this->enemies)
         {
             enemy->update(*this->window, deltaTimeSeconds);
@@ -230,56 +296,36 @@ void Game::update()
             shot->update(deltaTimeSeconds);
         }
 
-        // Delete shots if they go out of the window
-        for (auto it = this->heroShots.begin(); it != this->heroShots.end();)
+        // Spawn enemies
+        if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval)
         {
-            if ((*it)->isOutOfWindow(*this->window))
+            this->initEnemies();
+            enemySpawnClock.restart();
+        }
+
+        // Enemy shots
+        for (auto *enemy : this->enemies)
+        {
+            if (enemy->getShotClock().getElapsedTime().asSeconds() >= enemy->getShotInterval())
             {
-                delete *it;
-                it = this->heroShots.erase(it);
-            }
-            else
-            {
-                it++;
+                auto shot = enemy->shot("Assets/Image/enemy_shot.png", this->hero->getPosition());
+                if (shot != nullptr)
+                {
+                    this->enemyShots.push_back(shot);
+                }
+                enemy->getShotClock().restart();
             }
         }
 
-        for (auto it = this->enemyShots.begin(); it != this->enemyShots.end();)
-        {
-            if ((*it)->isOutOfWindow(*this->window))
-            {
-                delete *it;
-                it = this->enemyShots.erase(it);
-            }
-            else
-            {
-                it++;
-            }
-        }
+        this->garbageRemover();
 
         // Collisions
-        for (auto it = this->heroShots.begin(); it != this->heroShots.end();)
-        {
-            for (auto *enemy : this->enemies)
-            {
-                if ((*it)->getArea().intersects(enemy->getArea()))
-                {
-                    delete *it;
-                    it = this->heroShots.erase(it);
-                    
-                    delete enemy;
-                    this->enemies.erase(std::remove(this->enemies.begin(), this->enemies.end(), enemy), this->enemies.end());
-                    break;
-                }
-            }
-            if (it != this->heroShots.end())
-            {
-                it++;
-            }
-        }
+        this->updateHeroShotCollision();
+        this->updateEnemyShotCollision();
     }
 }
 
+// Render
 void Game::render()
 {
 
@@ -287,31 +333,32 @@ void Game::render()
 
     // Draw Objects
     this->window->draw(*this->backgroundSprite);
-    
-    //Plan 0
+
+    // Plan 0
     this->base->render(*this->window);
 
-    //Plan 1
+    // Plan 1
     for (auto *shot : this->heroShots)
     {
         shot->render(*this->window);
     }
-    
+
     for (auto *shot : this->enemyShots)
     {
         shot->render(*this->window);
     }
 
-    //Plan 2
+    // Plan 2
     for (auto *enemy : this->enemies)
     {
         enemy->render(*this->window);
     }
     this->hero->render(*this->window);
 
-    //Plan 3
+    // Plan 3
     this->life->render(*this->window);
     this->ammunition->render(*this->window);
+    this->baseLife->render(*this->window);
 
     if (isPaused)
     {

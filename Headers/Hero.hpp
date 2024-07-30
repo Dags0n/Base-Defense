@@ -40,6 +40,7 @@ public:
 
     // Actions
     Shot *shot(const std::string &src, const sf::Vector2f &destiny);
+    void damage(int points);
 
     // Update
     void updateRotation(sf::Vector2f direction);

@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
-#include <list>
 #include "Base.hpp"
 #include "Hero.hpp"
 #include "Enemies.hpp"
@@ -32,10 +31,11 @@ private:
     Hero *hero;
     Base *base;
     std::vector<Enemies *> enemies;
-    std::list<Shot *> heroShots;
-    std::list<Shot *> enemyShots;
+    std::vector<Shot *> heroShots;
+    std::vector<Shot *> enemyShots;
     StatusBar *life;
     StatusBar *ammunition;
+    StatusBar *baseLife;
 
     // Private functions
     void initWindow();
@@ -56,9 +56,14 @@ public:
     // Accesors
     bool running();
 
-    // Public functions
+    // Update
     void pollEvents();
+    void garbageRemover();
+    void updateHeroShotCollision();
+    void updateEnemyShotCollision();
     void update();
+
+    // Render
     void render();
 };
 
