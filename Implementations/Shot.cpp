@@ -7,15 +7,17 @@ void Shot::initVariables(const sf::Vector2f &currentPosition, const sf::Vector2f
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
 
-    //Direction
-    this->direction = destiny-currentPosition;
+    // Direction
+    this->direction = destiny - currentPosition;
     float magnitude = std::sqrt(this->direction.x * this->direction.x + this->direction.y * this->direction.y);
-    if (magnitude > 0.f) {
+    if (magnitude > 0.f)
+    {
         this->direction /= magnitude;
-    } else {
+    }
+    else
+    {
         this->direction = sf::Vector2f(0.f, 0.f);
     }
-
 }
 
 void Shot::initShot(const std::string &src, const sf::Vector2f &currentPosition)
@@ -25,7 +27,7 @@ void Shot::initShot(const std::string &src, const sf::Vector2f &currentPosition)
     }
     this->sprite->setTexture(*this->texture);
     sf::FloatRect bounds = this->sprite->getLocalBounds();
-    this->sprite->setOrigin(bounds.width / 2.f, bounds.height/2.f);
+    this->sprite->setOrigin(bounds.width / 2.f, bounds.height / 2.f);
     this->sprite->setPosition(currentPosition);
 
     float angleRad = atan2(this->direction.y, this->direction.x);
@@ -33,7 +35,7 @@ void Shot::initShot(const std::string &src, const sf::Vector2f &currentPosition)
     this->sprite->setRotation(angleDeg);
 }
 
-//Constructors and Destructors
+// Constructors and Destructors
 Shot::Shot(const std::string &src, const sf::Vector2f &currentPosition, const sf::Vector2f &destiny)
 {
     this->initVariables(currentPosition, destiny);
@@ -46,7 +48,13 @@ Shot::~Shot()
     delete this->sprite;
 }
 
-//Update
+// Getters and Setters
+sf::FloatRect Shot::getArea()
+{
+    return this->sprite->getGlobalBounds();
+}
+
+// Update
 void Shot::updatePosition(float deltaTime)
 {
     this->sprite->move(this->direction * this->speed * deltaTime);
@@ -57,7 +65,7 @@ void Shot::update(float deltaTime)
     this->updatePosition(deltaTime);
 }
 
-//Render
+// Render
 void Shot::render(sf::RenderWindow &window) const
 {
     window.draw(*this->sprite);

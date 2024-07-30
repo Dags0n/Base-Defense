@@ -23,6 +23,9 @@ public:
     Shot(const std::string &src, const sf::Vector2f &currentPosition, const sf::Vector2f &destiny);
     ~Shot();
 
+    // Getters and setters
+    sf::FloatRect getArea();
+
     // Update
     void updatePosition(float deltaTime);
     void update(float deltaTime);
@@ -31,7 +34,6 @@ public:
     void render(sf::RenderWindow &window) const;
 
     bool isOutOfWindow(sf::RenderWindow &window) const;
-
 };
 
 #endif
