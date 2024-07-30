@@ -47,6 +47,11 @@ int Base::getScore()
     return this->score;
 }
 
+sf::FloatRect Base::getArea()
+{
+    return this->sprite->getGlobalBounds();
+}
+
 // Public functions
 void Base::takeDamage(int damage)
 {

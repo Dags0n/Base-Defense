@@ -21,6 +21,7 @@ public:
     ~Base();
 
     int getScore();
+    sf::FloatRect getArea();
 
     void takeDamage(int damage);
     void regenerate(int value);
