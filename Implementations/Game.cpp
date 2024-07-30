@@ -131,6 +131,10 @@ Game::~Game()
     {
         delete shot;
     }
+    for (auto *shot : this->enemyShots)
+    {
+        delete shot;
+    }
 }
 
 // Accesors
@@ -197,6 +201,19 @@ void Game::update()
             enemySpawnClock.restart(); // Restart the clock
         }
 
+        // Enemy shots
+        for (auto *enemy : this->enemies)
+        {
+            if (enemy->getShotClock().getElapsedTime().asSeconds() >= enemy->getShotInterval())
+            {
+                auto shot = enemy->shot("Assets/Image/enemy_shot.png", this->hero->getPosition());
+                if(shot != nullptr){
+                    this->enemyShots.push_back(shot);
+                }
+                enemy->getShotClock().restart();
+            }
+        }
+
         // Update enemies
         for (auto *enemy : this->enemies)
         {
@@ -204,6 +221,11 @@ void Game::update()
         }
 
         for (auto *shot : this->heroShots)
+        {
+            shot->update(deltaTimeSeconds);
+        }
+
+        for (auto *shot : this->enemyShots)
         {
             shot->update(deltaTimeSeconds);
         }
@@ -223,6 +245,11 @@ void Game::render()
 
     //Plan 1
     for (auto *shot : this->heroShots)
+    {
+        shot->render(*this->window);
+    }
+    
+    for (auto *shot : this->enemyShots)
     {
         shot->render(*this->window);
     }

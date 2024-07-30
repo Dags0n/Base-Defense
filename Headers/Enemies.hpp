@@ -2,7 +2,8 @@
 #define ENEMIES_HPP
 
 #include <SFML/Graphics.hpp>
-#include <Hero.hpp>
+#include "Hero.hpp"
+#include "Shot.hpp"
 
 class Enemies
 {
@@ -10,8 +11,10 @@ private:
     // Variables
     sf::Texture *texture;
     sf::Sprite *sprite;
-    Hero *hero;
+    sf::Clock shotClock;
+    float shotInterval;
     float enemySpeed;
+    Hero *hero;
 
     // Init functions
     void initVariables();
@@ -26,6 +29,12 @@ public:
     void update(sf::RenderWindow &window, float deltaTime);
     void render(sf::RenderWindow &window);
     void moveTowardsHero(float deltaTime);
+
+    Shot *shot(const std::string &src, const sf::Vector2f &destiny);
+
+    // Getters
+    sf::Clock &getShotClock();
+    float getShotInterval();
 };
 
 #endif

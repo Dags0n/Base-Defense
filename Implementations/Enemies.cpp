@@ -34,6 +34,7 @@ void Enemies::initVariables()
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
     this->enemySpeed = 40.f;
+    this->shotInterval = 5.0f;
 }
 
 void Enemies::initSprite(const char *src, sf::RenderTarget &target)
@@ -55,6 +56,7 @@ Enemies::Enemies(const char *src, sf::RenderWindow &window, Hero *hero)
     this->initVariables();
     this->initSprite(src, window);
     this->hero = hero;
+    this->shotClock.restart();
 }
 
 Enemies::~Enemies()
@@ -86,4 +88,20 @@ void Enemies::moveTowardsHero(float deltaTime)
         direction /= length;
         this->sprite->move(direction * this->enemySpeed * deltaTime);
     }
+}
+
+Shot *Enemies::shot(const std::string &src, const sf::Vector2f &destiny)
+{
+    return new Shot(src, this->sprite->getPosition(), destiny);
+}
+
+// Getters
+sf::Clock &Enemies::getShotClock()
+{
+    return this->shotClock;
+}
+
+float Enemies::getShotInterval()
+{
+    return this->shotInterval;
 }

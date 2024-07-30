@@ -33,6 +33,7 @@ private:
     Base *base;
     std::vector<Enemies *> enemies;
     std::list<Shot *> heroShots;
+    std::list<Shot *> enemyShots;
     StatusBar *life;
     StatusBar *ammunition;
 
