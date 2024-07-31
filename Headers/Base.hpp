@@ -9,23 +9,29 @@ class Base
 private:
     sf::Texture *texture;
     sf::Sprite *sprite;
-    int score;
-    int maxScore;
-    int regenerationRate;
+    Attribute *life;
+    Attribute *regenRate;
 
+    sf::Clock regenClock;
+    
+    // int regenerationRate;
+    void initAttributes();
     void initVariables();
     void initSprite(const char *src, sf::RenderWindow &window);
 
 public:
-    Base(const char *src, int initialScore, int rate, sf::RenderWindow &window);
+    Base(const char *src, sf::RenderWindow &window);
     ~Base();
 
-    int getScore();
+    int getLife();
+    int getMaxLife();
+    int getRate();
     sf::FloatRect getArea();
 
-    void takeDamage(int damage);
-    void regenerate(int value);
-    bool isDestroyed();
+    void damage(int value);
+
+    void regenerate();
+    void update();
     void updateAppearance();
 
     void render(sf::RenderWindow &window);
