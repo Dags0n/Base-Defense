@@ -40,8 +40,8 @@ void Game::initMusic()
 
 void Game::initFont()
 {
-    this->SpaceMono = new sf::Font();
-    if (!this->SpaceMono->loadFromFile("Fonts/PressStart2P-Regular.ttf"))
+    this->font = new sf::Font();
+    if (!this->font->loadFromFile("Fonts/PressStart2P-Regular.ttf"))
     {
     }
 }
@@ -49,7 +49,7 @@ void Game::initFont()
 void Game::initPauseMessage()
 {
     this->pauseMessage = new sf::Text();
-    this->pauseMessage->setFont(*this->SpaceMono);
+    this->pauseMessage->setFont(*this->font);
     this->pauseMessage->setString("PAUSE");
     this->pauseMessage->setCharacterSize(100);
     this->pauseMessage->setFillColor(sf::Color::Cyan);
@@ -99,6 +99,17 @@ void Game::initStatusBar()
     this->baseLife = new StatusBar(baseSize, basePos, maxBaseLife, currentBaseLife, color, background);
 }
 
+void Game::initKillScore()
+{
+    this->killScore = new sf::Text();
+    this->killScore->setFont(*this->font);
+    this->killScore->setString("Kills: "+std::to_string(kills));
+    this->killScore->setCharacterSize(10);
+    this->killScore->setFillColor(sf::Color::White);
+    sf::Vector2u windowSize = this->window->getSize();
+    this->killScore->setPosition(windowSize.x - 120, 10);
+}
+
 // Constructors and Destructors
 Game::Game()
 {
@@ -118,6 +129,7 @@ Game::Game()
         this->music->play();
     }
     this->initStatusBar();
+    this->initKillScore();
 }
 
 Game::~Game()
@@ -130,7 +142,7 @@ Game::~Game()
     delete this->base;
     delete this->life;
     delete this->ammunition;
-    delete this->SpaceMono;
+    delete this->font;
     delete this->pauseMessage;
     delete this->baseLife;
     for (auto *enemy : this->enemies)
@@ -149,6 +161,7 @@ Game::~Game()
     {
         delete ammoDrop;
     }
+    delete this->killScore;
 }
 
 // Accesors
@@ -234,6 +247,7 @@ void Game::updateHeroShotCollision()
         {
             if ((*it)->getArea().intersects(enemy->getArea()))
             {
+                this->kills++;
                 delete *it;
                 this->heroShots.erase(it);
 
@@ -321,6 +335,7 @@ void Game::update()
         this->life->update(this->hero->getLife());
         this->ammunition->update(this->hero->getAmmunition());
         this->baseLife->update(this->base->getScore());
+        this->killScore->setString("Kills: "+std::to_string(kills));
 
         for (auto *enemy : this->enemies)
         {
@@ -419,7 +434,8 @@ void Game::render()
     // Plan 4
     this->life->render(*this->window);
     this->ammunition->render(*this->window);
-    this->baseLife->render(*this->window);    
+    this->baseLife->render(*this->window); 
+    this->window->draw(*this->killScore);   
 
     if (isPaused)
     {

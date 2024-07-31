@@ -21,12 +21,13 @@ private:
     sf::Sprite *backgroundSprite;
     sf::Event event;
     sf::Music *music;
-    sf::Font *SpaceMono;
+    sf::Font *font;
     sf::Text *pauseMessage;
     sf::Clock clock;
     sf::Clock enemySpawnClock;
     float enemySpawnInterval = 3.0f;
     bool isPaused = false;
+    int kills = 0;
 
     // Game Objects
     Hero *hero;
@@ -34,10 +35,12 @@ private:
     std::vector<Enemies *> enemies;
     std::vector<Shot *> heroShots;
     std::vector<Shot *> enemyShots;
+    std::vector<AmmoDrop *> ammoDrops;
+    
     StatusBar *life;
     StatusBar *ammunition;
     StatusBar *baseLife;
-    std::vector<AmmoDrop *> ammoDrops;
+    sf::Text *killScore;
 
     // Private functions
     void initWindow();
@@ -49,6 +52,7 @@ private:
     void initBase();
     void initEnemies();
     void initStatusBar();
+    void initKillScore();
 
 public:
     // Contructors and Destructors
