@@ -108,5 +108,15 @@ float Enemies::getShotInterval()
 
 sf::FloatRect Enemies::getArea()
 {
-    return this->sprite->getGlobalBounds();
+    float reductionFactor = 0.6f;
+
+    sf::FloatRect originalBounds = this->sprite->getGlobalBounds();
+    sf::FloatRect reducedBounds = originalBounds;
+    reducedBounds.width *= reductionFactor;
+    reducedBounds.height *= reductionFactor;
+
+    reducedBounds.left += (originalBounds.width - reducedBounds.width) / 2.0f;
+    reducedBounds.top += (originalBounds.height - reducedBounds.height) / 2.0f;
+
+    return reducedBounds;
 }
