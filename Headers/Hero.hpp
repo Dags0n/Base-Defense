@@ -34,6 +34,7 @@ public:
     int getLife();
     int getMaxLife();
     int getAmmunition();
+    Attribute *getAmmunitionAttribute();
     int getMaxAmmunition();
     void setDestiny(sf::Vector2i destiny);
     sf::FloatRect getArea();

@@ -91,6 +91,11 @@ int Hero::getAmmunition()
     return this->ammunition->points();
 }
 
+Attribute *Hero::getAmmunitionAttribute()
+{
+    return this->ammunition;
+}
+
 int Hero::getMaxAmmunition()
 {
     return this->ammunition->maxPoints();
