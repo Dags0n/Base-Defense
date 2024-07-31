@@ -91,11 +91,6 @@ int Hero::getAmmunition()
     return this->ammunition->points();
 }
 
-Attribute *Hero::getAmmunitionAttribute()
-{
-    return this->ammunition;
-}
-
 int Hero::getMaxAmmunition()
 {
     return this->ammunition->maxPoints();
@@ -109,6 +104,11 @@ void Hero::setDestiny(sf::Vector2i destiny)
 sf::FloatRect Hero::getArea()
 {
     return this->sprite->getGlobalBounds();
+}
+
+void Hero::rechargeAmmunition(int value)
+{
+    this->ammunition->recharge(value);
 }
 
 // Actions

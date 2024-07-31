@@ -34,10 +34,10 @@ public:
     int getLife();
     int getMaxLife();
     int getAmmunition();
-    Attribute *getAmmunitionAttribute();
     int getMaxAmmunition();
     void setDestiny(sf::Vector2i destiny);
     sf::FloatRect getArea();
+    void rechargeAmmunition(int value);
 
     // Actions
     Shot *shot(const std::string &src, const sf::Vector2f &destiny);

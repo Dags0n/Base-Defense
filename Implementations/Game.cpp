@@ -291,7 +291,7 @@ void Game::updateHeroCollectsDrop()
             delete *it;
             this->ammoDrops.erase(it);
 
-            this->hero->getAmmunitionAttribute()->recharge(10);
+            this->hero->rechargeAmmunition(10);
         }
         else
         {
