@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include "Attribute.hpp"
 #include "Shot.hpp"
 
@@ -36,7 +37,7 @@ public:
     int getAmmunition();
     int getMaxAmmunition();
     void setDestiny(sf::Vector2i destiny);
-    sf::FloatRect getArea();
+    std::vector<sf::FloatRect> getArea();
     void rechargeAmmunition(int value);
 
     // Actions

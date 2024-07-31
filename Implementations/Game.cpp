@@ -92,7 +92,7 @@ void Game::initStatusBar()
     this->ammunition = new StatusBar(ammunitionSize, ammunitionPos, maxAmmunition, currentAmmunition, color, background);
 
     sf::Vector2f baseSize = sf::Vector2f(400, 20);
-    sf::Vector2i basePos = sf::Vector2i(this->window->getSize().x-430, this->window->getSize().y-40);
+    sf::Vector2i basePos = sf::Vector2i(this->window->getSize().x - 430, this->window->getSize().y - 40);
     int maxBaseLife = this->base->getScore();
     int currentBaseLife = this->base->getScore();
     color = sf::Color::Green;
@@ -103,7 +103,7 @@ void Game::initKillScore()
 {
     this->killScore = new sf::Text();
     this->killScore->setFont(*this->font);
-    this->killScore->setString("Kills: "+std::to_string(kills));
+    this->killScore->setString("Kills: " + std::to_string(kills));
     this->killScore->setCharacterSize(10);
     this->killScore->setFillColor(sf::Color::White);
     sf::Vector2u windowSize = this->window->getSize();
@@ -259,7 +259,7 @@ void Game::updateHeroShotCollision()
                     sf::FloatRect bounds = enemy->getArea();
                     float dropX = bounds.left + bounds.width / 2;
                     float dropY = bounds.top + bounds.height / 2;
-                    this->ammoDrops.push_back(new AmmoDrop(sf::Vector2f(dropX-25, dropY-25)));
+                    this->ammoDrops.push_back(new AmmoDrop(sf::Vector2f(dropX - 25, dropY - 25)));
                 }
                 break;
             }
@@ -275,23 +275,33 @@ void Game::updateEnemyShotCollision()
 {
     for (auto it = this->enemyShots.begin(); it != this->enemyShots.end();)
     {
-        if ((*it)->getArea().intersects(this->hero->getArea()))
+        bool removed = false;
+
+        if ((*it)->getArea().intersects(this->base->getArea()))
         {
             delete *it;
             this->enemyShots.erase(it);
-
-            this->hero->damage(5);
-        }
-        else if((*it)->getArea().intersects(this->base->getArea()))
-        {
-            delete *it;
-            this->enemyShots.erase(it);
-
             this->base->takeDamage(5);
+            removed = true;
         }
         else
         {
-            it++;
+            for (const auto &area : this->hero->getArea())
+            {
+                if ((*it)->getArea().intersects(area))
+                {
+                    delete *it;
+                    this->enemyShots.erase(it);
+                    this->hero->damage(5);
+                    removed = true;
+                    break;
+                }
+            }
+        }
+
+        if (!removed)
+        {
+            ++it;
         }
     }
 }
@@ -300,16 +310,24 @@ void Game::updateHeroCollectsDrop()
 {
     for (auto it = this->ammoDrops.begin(); it != this->ammoDrops.end();)
     {
-        if ((*it)->getArea().intersects(this->hero->getArea()))
-        {
-            delete *it;
-            this->ammoDrops.erase(it);
+        bool removed = false;
 
-            this->hero->rechargeAmmunition(10);
-        }
-        else
+        for (const auto &area : this->hero->getArea())
         {
-            it++;
+            if ((*it)->getArea().intersects(area))
+            {
+                delete *it;
+                it = this->ammoDrops.erase(it);
+
+                this->hero->rechargeAmmunition(10);
+                removed = true;
+                break;
+            }
+        }
+
+        if (!removed)
+        {
+            ++it;
         }
     }
 }
@@ -335,7 +353,7 @@ void Game::update()
         this->life->update(this->hero->getLife());
         this->ammunition->update(this->hero->getAmmunition());
         this->baseLife->update(this->base->getScore());
-        this->killScore->setString("Kills: "+std::to_string(kills));
+        this->killScore->setString("Kills: " + std::to_string(kills));
 
         for (auto *enemy : this->enemies)
         {
@@ -434,8 +452,8 @@ void Game::render()
     // Plan 4
     this->life->render(*this->window);
     this->ammunition->render(*this->window);
-    this->baseLife->render(*this->window); 
-    this->window->draw(*this->killScore);   
+    this->baseLife->render(*this->window);
+    this->window->draw(*this->killScore);
 
     if (isPaused)
     {
