@@ -9,6 +9,7 @@
 #include "Enemies.hpp"
 #include "StatusBar.hpp"
 #include "Shot.hpp"
+#include "AmmoDrop.hpp"
 
 class Game
 {
@@ -36,6 +37,7 @@ private:
     StatusBar *life;
     StatusBar *ammunition;
     StatusBar *baseLife;
+    std::vector<AmmoDrop *> ammoDrops;
 
     // Private functions
     void initWindow();
@@ -61,6 +63,7 @@ public:
     void garbageRemover();
     void updateHeroShotCollision();
     void updateEnemyShotCollision();
+    void updateHeroCollectsDrop();
     void update();
 
     // Render

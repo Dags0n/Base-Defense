@@ -6,7 +6,7 @@ all: main
 	./main
 	rm main
 
-main: Objects/main.o Objects/Game.o Objects/Attribute.o Objects/Hero.o Objects/Base.o Objects/Enemies.o Objects/StatusBar.o Objects/Shot.o
+main: Objects/main.o Objects/Game.o Objects/Attribute.o Objects/Hero.o Objects/Base.o Objects/Enemies.o Objects/StatusBar.o Objects/Shot.o Objects/AmmoDrop.o
 	$(CXX) $^ $(SFML_FLAGS) $(FLAGS) -o main
 
 Objects/main.o: main.cpp Headers/Game.hpp
@@ -32,6 +32,9 @@ Objects/StatusBar.o: Implementations/StatusBar.cpp Headers/StatusBar.hpp
 
 Objects/Shot.o: Implementations/Shot.cpp Headers/Shot.hpp
 	$(CXX) $(SFML_FLAGS) $(FLAGS) -c Implementations/Shot.cpp -o Objects/Shot.o
+
+Objects/AmmoDrop.o: Implementations/AmmoDrop.cpp Headers/AmmoDrop.hpp
+	$(CXX) $(SFML_FLAGS) $(FLAGS) -c Implementations/AmmoDrop.cpp -o Objects/AmmoDrop.o
 
 clean:
 	rm -f main Objects/*.o

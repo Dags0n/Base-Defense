@@ -130,6 +130,9 @@ Game::~Game()
     delete this->base;
     delete this->life;
     delete this->ammunition;
+    delete this->SpaceMono;
+    delete this->pauseMessage;
+    delete this->baseLife;
     for (auto *enemy : this->enemies)
     {
         delete enemy;
@@ -141,6 +144,10 @@ Game::~Game()
     for (auto *shot : this->enemyShots)
     {
         delete shot;
+    }
+    for (auto *ammoDrop : this->ammoDrops)
+    {
+        delete ammoDrop;
     }
 }
 
@@ -232,6 +239,14 @@ void Game::updateHeroShotCollision()
 
                 delete enemy;
                 this->enemies.erase(std::remove(this->enemies.begin(), this->enemies.end(), enemy), this->enemies.end());
+
+                if (rand() % 100 < 50)
+                {
+                    sf::FloatRect bounds = enemy->getArea();
+                    float dropX = bounds.left + bounds.width / 2;
+                    float dropY = bounds.top + bounds.height / 2;
+                    this->ammoDrops.push_back(new AmmoDrop(sf::Vector2f(dropX-25, dropY-25)));
+                }
                 break;
             }
         }
@@ -259,6 +274,24 @@ void Game::updateEnemyShotCollision()
             this->enemyShots.erase(it);
 
             this->base->takeDamage(5);
+        }
+        else
+        {
+            it++;
+        }
+    }
+}
+
+void Game::updateHeroCollectsDrop()
+{
+    for (auto it = this->ammoDrops.begin(); it != this->ammoDrops.end();)
+    {
+        if ((*it)->getArea().intersects(this->hero->getArea()))
+        {
+            delete *it;
+            this->ammoDrops.erase(it);
+
+            this->hero->getAmmunitionAttribute()->recharge(10);
         }
         else
         {
@@ -317,11 +350,22 @@ void Game::update()
             }
         }
 
+        // Expire drops
+        for (auto *ammoDrop : this->ammoDrops)
+        {
+            if ((ammoDrop)->getClock().getElapsedTime().asSeconds() >= (ammoDrop)->getLifeTime())
+            {
+                delete ammoDrop;
+                this->ammoDrops.erase(std::remove(this->ammoDrops.begin(), this->ammoDrops.end(), ammoDrop), this->ammoDrops.end());
+            }
+        }
+
         this->garbageRemover();
 
         // Collisions
         this->updateHeroShotCollision();
         this->updateEnemyShotCollision();
+        this->updateHeroCollectsDrop();
     }
 }
 
@@ -356,9 +400,15 @@ void Game::render()
     this->hero->render(*this->window);
 
     // Plan 3
+    for (auto *ammoDrop : this->ammoDrops)
+    {
+        ammoDrop->render(*this->window);
+    }
+
+    // Plan 4
     this->life->render(*this->window);
     this->ammunition->render(*this->window);
-    this->baseLife->render(*this->window);
+    this->baseLife->render(*this->window);    
 
     if (isPaused)
     {
