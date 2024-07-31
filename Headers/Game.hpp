@@ -64,6 +64,7 @@ public:
     void updateHeroShotCollision();
     void updateEnemyShotCollision();
     void updateHeroCollectsDrop();
+    void gameOver();
     void update();
 
     // Render

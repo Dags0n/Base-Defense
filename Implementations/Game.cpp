@@ -300,6 +300,14 @@ void Game::updateHeroCollectsDrop()
     }
 }
 
+void Game::gameOver()
+{
+    if (this->hero->getLife() <= 0 || this->base->getScore() <= 0)
+    {
+        this->window->close();
+    }
+}
+
 void Game::update()
 {
     sf::Time deltaTime = clock.restart();
@@ -366,6 +374,9 @@ void Game::update()
         this->updateHeroShotCollision();
         this->updateEnemyShotCollision();
         this->updateHeroCollectsDrop();
+
+        // Game Over
+        this->gameOver();
     }
 }
 
