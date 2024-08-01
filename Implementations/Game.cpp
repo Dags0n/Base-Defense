@@ -361,6 +361,7 @@ void Game::update()
         this->hero->update(*this->window, deltaTimeSeconds);
         this->life->update(this->hero->getLife());
         this->ammunition->update(this->hero->getAmmunition());
+        this->base->update();
         this->baseLife->update(this->base->getLife());
         this->killScore->setString("Kills: " + std::to_string(kills));
 
