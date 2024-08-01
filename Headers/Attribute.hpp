@@ -10,6 +10,7 @@ private:
 public:
     Attribute(int amount, int max);
     void recharge(int value);
+    void recharge(float value);
     void consume(int value);
     int points();
     int maxPoints();

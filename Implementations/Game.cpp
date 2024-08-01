@@ -66,7 +66,16 @@ void Game::initHero()
 
 void Game::initBase()
 {
-    this->base = new Base((char *)"Assets/Image/base.png", 100, 1, *this->window);
+    std::vector<const char*> textures = 
+    {
+        "Assets/Image/base.png",
+        "Assets/Image/base_status1.png",
+        "Assets/Image/base_status2.png",
+        "Assets/Image/base_status3.png",
+        "Assets/Image/base_status4.png"
+    };
+
+    this->base = new Base(textures, *this->window);
 }
 
 void Game::initEnemies()
@@ -93,8 +102,8 @@ void Game::initStatusBar()
 
     sf::Vector2f baseSize = sf::Vector2f(400, 20);
     sf::Vector2i basePos = sf::Vector2i(this->window->getSize().x - 430, this->window->getSize().y - 40);
-    int maxBaseLife = this->base->getScore();
-    int currentBaseLife = this->base->getScore();
+    int maxBaseLife = this->base->getMaxLife();
+    int currentBaseLife = this->base->getLife();
     color = sf::Color::Green;
     this->baseLife = new StatusBar(baseSize, basePos, maxBaseLife, currentBaseLife, color, background);
 }
@@ -281,7 +290,7 @@ void Game::updateEnemyShotCollision()
         {
             delete *it;
             this->enemyShots.erase(it);
-            this->base->takeDamage(5);
+            this->base->damage(5);
             removed = true;
         }
         else
@@ -334,7 +343,7 @@ void Game::updateHeroCollectsDrop()
 
 void Game::gameOver()
 {
-    if (this->hero->getLife() <= 0 || this->base->getScore() <= 0)
+    if (this->hero->getLife() <= 0 || this->base->getLife() <= 0)
     {
         this->window->close();
     }
@@ -352,7 +361,8 @@ void Game::update()
         this->hero->update(*this->window, deltaTimeSeconds);
         this->life->update(this->hero->getLife());
         this->ammunition->update(this->hero->getAmmunition());
-        this->baseLife->update(this->base->getScore());
+        this->base->update();
+        this->baseLife->update(this->base->getLife());
         this->killScore->setString("Kills: " + std::to_string(kills));
 
         for (auto *enemy : this->enemies)

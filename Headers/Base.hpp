@@ -7,26 +7,32 @@
 class Base
 {
 private:
-    sf::Texture *texture;
+    std::vector<sf::Texture*> textures;
     sf::Sprite *sprite;
-    int score;
-    int maxScore;
-    int regenerationRate;
+    Attribute *life;
+    Attribute *regenRate;
 
+    sf::Clock regenClock;
+    
+    // int regenerationRate;
+    void initAttributes();
     void initVariables();
-    void initSprite(const char *src, sf::RenderWindow &window);
+    void initSprite(const std::vector<const char*>& srcs, sf::RenderWindow &window);
 
 public:
-    Base(const char *src, int initialScore, int rate, sf::RenderWindow &window);
+    Base(const std::vector<const char*>& srcs, sf::RenderWindow &window);
     ~Base();
 
-    int getScore();
+    int getLife();
+    int getMaxLife();
+    int getRate();
     sf::FloatRect getArea();
 
-    void takeDamage(int damage);
-    void regenerate(int value);
-    bool isDestroyed();
-    void updateAppearance();
+    void damage(int value);
+
+    void regenerate();
+    void update();
+    void updateSprite();
 
     void render(sf::RenderWindow &window);
 };

@@ -1,18 +1,29 @@
 #include "Base.hpp"
 
 // Init funtions
+void Base::initAttributes(){
+    this->life = new Attribute(100, 100);
+    this->regenRate = new Attribute(1, 1);
+}
+
 void Base::initVariables()
 {
-    this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
 }
 
-void Base::initSprite(const char *src, sf::RenderWindow &window)
+void Base::initSprite(const std::vector<const char*>& srcs, sf::RenderWindow &window)
 {
-    if (!this->texture->loadFromFile(src))
-    {
+    for(const auto& src : srcs){
+        sf::Texture* texture = new sf::Texture();
+
+        if(!texture->loadFromFile(src))
+        {
+        }
+
+        this->textures.push_back(texture);
     }
-    this->sprite->setTexture(*this->texture);
+
+    this->sprite->setTexture(*this->textures[0]);
 
     float desiredWidth = 400.0f;
     float desiredHeight = 400.0f;
@@ -26,25 +37,36 @@ void Base::initSprite(const char *src, sf::RenderWindow &window)
 }
 
 // Constructors and Destructors
-Base::Base(const char *src, int initialScore, int rate, sf::RenderWindow &window)
+Base::Base(const std::vector<const char*>& srcs, sf::RenderWindow &window)
 {
-    this->maxScore = initialScore;
-    this->score = initialScore;
-    this->regenerationRate = rate;
+    this->initAttributes();
     this->initVariables();
-    this->initSprite(src, window);
+    this->initSprite(srcs, window);
 }
 
 Base::~Base()
 {
-    delete this->texture;
+    for (auto& texture : this->textures){
+        delete texture;
+    }
+
     delete this->sprite;
+    delete this->life;
+    delete this->regenRate;
 }
 
 // Getters and Setters
-int Base::getScore()
+int Base::getLife()
 {
-    return this->score;
+    return this->life->points();
+}
+
+int Base::getMaxLife(){
+    return this->life->maxPoints();
+}
+
+int Base::getRate(){
+    return this->regenRate->points();
 }
 
 sf::FloatRect Base::getArea()
@@ -53,36 +75,35 @@ sf::FloatRect Base::getArea()
 }
 
 // Public functions
-void Base::takeDamage(int damage)
+void Base::damage(int value)
 {
-    score -= damage;
-    if (score < 0)
+    this->life->consume(value);
+    this->updateSprite();
+}
+
+
+// update functions
+void Base::regenerate(){
+    this->life->recharge(regenRate->points());
+}
+
+void Base::update()
+{
+    if(this->regenClock.getElapsedTime().asSeconds() >= 1.0f)
     {
-        score = 0;
+        this->regenerate();
+        this->regenClock.restart();
     }
+}                               
 
-    updateAppearance();
-}
-
-void Base::regenerate(int value)
+void Base::updateSprite()
 {
-    this->score += value;
-    if (this->score > this->maxScore)
-    {
-        this->score = this->maxScore;
-    }
+    int max = this->getMaxLife();
+    int current = this->getLife();
+    int sizeTex = this->textures.size();
 
-    updateAppearance();
-}
-
-bool Base::isDestroyed()
-{
-    return score <= 0;
-}
-
-void Base::updateAppearance()
-{
-    // falta implementar
+    int texIndex = (max - current) * (sizeTex - 1) / max;
+    this->sprite->setTexture(*this->textures[texIndex]);
 }
 
 // render
