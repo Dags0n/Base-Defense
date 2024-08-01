@@ -7,7 +7,7 @@
 class Base
 {
 private:
-    sf::Texture *texture;
+    std::vector<sf::Texture*> textures;
     sf::Sprite *sprite;
     Attribute *life;
     Attribute *regenRate;
@@ -17,10 +17,10 @@ private:
     // int regenerationRate;
     void initAttributes();
     void initVariables();
-    void initSprite(const char *src, sf::RenderWindow &window);
+    void initSprite(const std::vector<const char*>& srcs, sf::RenderWindow &window);
 
 public:
-    Base(const char *src, sf::RenderWindow &window);
+    Base(const std::vector<const char*>& srcs, sf::RenderWindow &window);
     ~Base();
 
     int getLife();
@@ -32,7 +32,7 @@ public:
 
     void regenerate();
     void update();
-    void updateAppearance();
+    void updateSprite();
 
     void render(sf::RenderWindow &window);
 };

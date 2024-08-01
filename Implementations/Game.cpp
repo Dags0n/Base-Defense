@@ -66,7 +66,16 @@ void Game::initHero()
 
 void Game::initBase()
 {
-    this->base = new Base((char *)"Assets/Image/base.png", *this->window);
+    std::vector<const char*> textures = 
+    {
+        "Assets/Image/base.png",
+        "Assets/Image/base_status1.png",
+        "Assets/Image/base_status2.png",
+        "Assets/Image/base_status3.png",
+        "Assets/Image/base_status4.png"
+    };
+
+    this->base = new Base(textures, *this->window);
 }
 
 void Game::initEnemies()

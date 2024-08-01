@@ -8,16 +8,22 @@ void Base::initAttributes(){
 
 void Base::initVariables()
 {
-    this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
 }
 
-void Base::initSprite(const char *src, sf::RenderWindow &window)
+void Base::initSprite(const std::vector<const char*>& srcs, sf::RenderWindow &window)
 {
-    if (!this->texture->loadFromFile(src))
-    {
+    for(const auto& src : srcs){
+        sf::Texture* texture = new sf::Texture();
+
+        if(!texture->loadFromFile(src))
+        {
+        }
+
+        this->textures.push_back(texture);
     }
-    this->sprite->setTexture(*this->texture);
+
+    this->sprite->setTexture(*this->textures[0]);
 
     float desiredWidth = 400.0f;
     float desiredHeight = 400.0f;
@@ -31,16 +37,19 @@ void Base::initSprite(const char *src, sf::RenderWindow &window)
 }
 
 // Constructors and Destructors
-Base::Base(const char *src, sf::RenderWindow &window)
+Base::Base(const std::vector<const char*>& srcs, sf::RenderWindow &window)
 {
     this->initAttributes();
     this->initVariables();
-    this->initSprite(src, window);
+    this->initSprite(srcs, window);
 }
 
 Base::~Base()
 {
-    delete this->texture;
+    for (auto& texture : this->textures){
+        delete texture;
+    }
+
     delete this->sprite;
     delete this->life;
     delete this->regenRate;
@@ -69,6 +78,7 @@ sf::FloatRect Base::getArea()
 void Base::damage(int value)
 {
     this->life->consume(value);
+    this->updateSprite();
 }
 
 
@@ -86,9 +96,14 @@ void Base::update()
     }
 }                               
 
-void Base::updateAppearance()
+void Base::updateSprite()
 {
-    // falta implementar
+    int max = this->getMaxLife();
+    int current = this->getLife();
+    int sizeTex = this->textures.size();
+
+    int texIndex = (max - current) * (sizeTex - 1) / max;
+    this->sprite->setTexture(*this->textures[texIndex]);
 }
 
 // render
