@@ -25,7 +25,17 @@ Base video: https://www.youtube.com/watch?v=5NH7W2XgdwE
 - SFML
 - Git/Github
 - Kanban
-- S.O.L.I.D.
+
+## How to compile the program
+### Dependencies
+- g++
+- Make
+- SFML
+### Run
+Simply run the following command in the terminal:
+```bash
+  make
+```
 
 ## Authors
 - [Rômulo](https://github.com/romuloAMR)
