@@ -67,6 +67,7 @@ public:
     void garbageRemover();
     void updateHeroShotCollision();
     void updateEnemyShotCollision();
+    void updateBaseEnemyCollision();
     void updateHeroCollectsDrop();
     void gameOver();
     void update();

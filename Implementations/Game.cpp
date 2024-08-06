@@ -315,6 +315,19 @@ void Game::updateEnemyShotCollision()
     }
 }
 
+void Game::updateBaseEnemyCollision()
+{
+    for (auto *enemy : this->enemies)
+    {
+        if (enemy->getArea().intersects(this->base->getArea()))
+        {
+            delete enemy;
+            this->enemies.erase(std::remove(this->enemies.begin(), this->enemies.end(), enemy), this->enemies.end());
+            this->base->damage(10);
+        }
+    }
+}
+
 void Game::updateHeroCollectsDrop()
 {
     for (auto it = this->ammoDrops.begin(); it != this->ammoDrops.end();)
@@ -417,6 +430,7 @@ void Game::update()
         this->updateHeroShotCollision();
         this->updateEnemyShotCollision();
         this->updateHeroCollectsDrop();
+        this->updateBaseEnemyCollision();
 
         // Game Over
         this->gameOver();
