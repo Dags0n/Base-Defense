@@ -78,7 +78,6 @@ sf::FloatRect Base::getArea()
 void Base::damage(int value)
 {
     this->life->consume(value);
-    this->updateSprite();
 }
 
 
@@ -94,6 +93,7 @@ void Base::update()
         this->regenerate();
         this->regenClock.restart();
     }
+    this->updateSprite();
 }                               
 
 void Base::updateSprite()
