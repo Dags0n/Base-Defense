@@ -34,7 +34,7 @@ void Enemies::initVariables()
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
     this->enemySpeed = 40.f;
-    this->shotInterval = 5.0f;
+    this->shotInterval = 4.0f;
 }
 
 void Enemies::initSprite(const char *src, sf::RenderTarget &target)
