@@ -102,7 +102,11 @@ void Base::updateSprite()
     int current = this->getLife();
     int sizeTex = this->textures.size();
 
-    int texIndex = (max - current) * (sizeTex - 1) / max;
+    int interval = max / sizeTex;
+    int texIndex = (max - current) / interval;
+    if (texIndex >= sizeTex) {
+        texIndex = sizeTex - 1;
+    }
     this->sprite->setTexture(*this->textures[texIndex]);
 }
 
