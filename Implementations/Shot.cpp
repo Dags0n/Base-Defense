@@ -36,10 +36,11 @@ void Shot::initShot(const std::string &src, const sf::Vector2f &currentPosition)
 }
 
 // Constructors and Destructors
-Shot::Shot(const std::string &src, const sf::Vector2f &currentPosition, const sf::Vector2f &destiny)
+Shot::Shot(const std::string &src, const sf::Vector2f &currentPosition, const sf::Vector2f &destiny, Enemies *owner)
 {
     this->initVariables(currentPosition, destiny);
     this->initShot(src, currentPosition);
+    this->owner = owner;
 }
 
 Shot::~Shot()
@@ -52,6 +53,11 @@ Shot::~Shot()
 sf::FloatRect Shot::getArea()
 {
     return this->sprite->getGlobalBounds();
+}
+
+Enemies *Shot::getOwner()
+{
+    return this->owner;
 }
 
 // Update
