@@ -317,13 +317,17 @@ void Game::updateEnemyShotCollision()
 
 void Game::updateBaseEnemyCollision()
 {
-    for (auto *enemy : this->enemies)
+    for (auto it = this->enemies.begin(); it != this->enemies.end();)
     {
-        if (enemy->getArea().intersects(this->base->getArea()))
+        if ((*it)->getArea().intersects(this->base->getArea()))
         {
-            delete enemy;
-            this->enemies.erase(std::remove(this->enemies.begin(), this->enemies.end(), enemy), this->enemies.end());
+            delete *it;
+            it = this->enemies.erase(it);
             this->base->damage(10);
+        }
+        else
+        {
+            ++it;
         }
     }
 }
