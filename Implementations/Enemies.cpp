@@ -90,9 +90,9 @@ void Enemies::moveTowardsHero(float deltaTime)
     }
 }
 
-Shot *Enemies::shot(const std::string &src, const sf::Vector2f &destiny)
+Shot *Enemies::shot(const std::string &src, const sf::Vector2f &destiny, Enemies *owner)
 {
-    return new Shot(src, this->sprite->getPosition(), destiny);
+    return new Shot(src, this->sprite->getPosition(), destiny, owner);
 }
 
 // Getters

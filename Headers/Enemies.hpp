@@ -30,7 +30,7 @@ public:
     void render(sf::RenderWindow &window);
     void moveTowardsHero(float deltaTime);
 
-    Shot *shot(const std::string &src, const sf::Vector2f &destiny);
+    Shot *shot(const std::string &src, const sf::Vector2f &destiny, Enemies *owner);
 
     // Getters
     sf::Clock &getShotClock();

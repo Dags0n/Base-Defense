@@ -358,6 +358,38 @@ void Game::updateHeroCollectsDrop()
     }
 }
 
+void Game::updateEnemyFriendlyFire()
+{
+    for (auto it = this->enemyShots.begin(); it != this->enemyShots.end();)
+    {
+        bool removed
+         = false;
+        for (auto enemyIt = this->enemies.begin(); enemyIt != this->enemies.end();)
+        {
+            if ((*it)->getArea().intersects((*enemyIt)->getArea()) && *enemyIt != (*it)->getOwner())
+            {
+                delete *it;
+                it = this->enemyShots.erase(it);
+                removed
+                 = true;
+
+                delete *enemyIt;
+                enemyIt = this->enemies.erase(enemyIt);
+                break;
+            }
+            else
+            {
+                ++enemyIt;
+            }
+        }
+        if (!removed
+        )
+        {
+            ++it;
+        }
+    }
+}
+
 void Game::gameOver()
 {
     if (this->hero->getLife() <= 0 || this->base->getLife() <= 0)
@@ -409,7 +441,7 @@ void Game::update()
         {
             if (enemy->getShotClock().getElapsedTime().asSeconds() >= enemy->getShotInterval())
             {
-                auto shot = enemy->shot("Assets/Image/enemy_shot.png", this->hero->getPosition());
+                auto shot = enemy->shot("Assets/Image/enemy_shot.png", this->hero->getPosition(), enemy);
                 if (shot != nullptr)
                 {
                     this->enemyShots.push_back(shot);
@@ -435,6 +467,7 @@ void Game::update()
         this->updateEnemyShotCollision();
         this->updateHeroCollectsDrop();
         this->updateBaseEnemyCollision();
+        this->updateEnemyFriendlyFire();
 
         // Game Over
         this->gameOver();

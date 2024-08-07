@@ -69,6 +69,7 @@ public:
     void updateEnemyShotCollision();
     void updateBaseEnemyCollision();
     void updateHeroCollectsDrop();
+    void updateEnemyFriendlyFire();
     void gameOver();
     void update();
 
