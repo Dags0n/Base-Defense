@@ -80,6 +80,28 @@ void Base::damage(int value)
     this->life->consume(value);
 }
 
+bool Base::collision(sf::FloatRect rect)
+{
+    // Obtém os limites do sprite
+    sf::FloatRect spriteBound = this->sprite->getGlobalBounds();
+    
+    // Calcula o centro e o raio
+    float originX = spriteBound.left + spriteBound.width / 2.f;
+    float originY = spriteBound.top + spriteBound.height / 2.f;
+    float radius = spriteBound.width * 0.946f / 2.f; // Use metade da largura para o raio
+    
+    // Calcula a posição mais próxima do retângulo ao círculo
+    float nearestX = std::max(rect.left, std::min(originX, rect.left + rect.width));
+    float nearestY = std::max(rect.top, std::min(originY, rect.top + rect.height));
+    
+    // Calcula a distância quadrada entre o centro do círculo e o ponto mais próximo
+    float deltaX = originX - nearestX;
+    float deltaY = originY - nearestY;
+    float distanceSquared = deltaX * deltaX + deltaY * deltaY;
+
+    // Verifica se a distância é menor ou igual ao raio
+    return distanceSquared <= radius * radius;
+}
 
 // update functions
 void Base::regenerate(){

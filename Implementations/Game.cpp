@@ -286,7 +286,7 @@ void Game::updateEnemyShotCollision()
     {
         bool removed = false;
 
-        if ((*it)->getArea().intersects(this->base->getArea()))
+        if (this->base->collision((*it)->getArea()))
         {
             delete *it;
             this->enemyShots.erase(it);
@@ -319,7 +319,7 @@ void Game::updateBaseEnemyCollision()
 {
     for (auto it = this->enemies.begin(); it != this->enemies.end();)
     {
-        if ((*it)->getArea().intersects(this->base->getArea()))
+        if (this->base->collision((*it)->getArea()))
         {
             delete *it;
             it = this->enemies.erase(it);

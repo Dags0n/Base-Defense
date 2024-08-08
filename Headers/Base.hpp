@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <Hero.hpp>
+#include <cmath>
+#include <algorithm>
 
 class Base
 {
@@ -29,6 +31,7 @@ public:
     sf::FloatRect getArea();
 
     void damage(int value);
+    bool collision(sf::FloatRect rect);
 
     void regenerate();
     void update();
