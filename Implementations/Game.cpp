@@ -256,13 +256,6 @@ void Game::updateHeroShotCollision()
         {
             if ((*it)->getArea().intersects(enemy->getArea()))
             {
-                this->kills++;
-                delete *it;
-                this->heroShots.erase(it);
-
-                delete enemy;
-                this->enemies.erase(std::remove(this->enemies.begin(), this->enemies.end(), enemy), this->enemies.end());
-
                 if (rand() % 100 < 50)
                 {
                     sf::FloatRect bounds = enemy->getArea();
@@ -270,6 +263,13 @@ void Game::updateHeroShotCollision()
                     float dropY = bounds.top + bounds.height / 2;
                     this->ammoDrops.push_back(new AmmoDrop(sf::Vector2f(dropX - 25, dropY - 25)));
                 }
+
+                this->kills++;
+                delete *it;
+                this->heroShots.erase(it);
+
+                delete enemy;
+                this->enemies.erase(std::remove(this->enemies.begin(), this->enemies.end(), enemy), this->enemies.end());
                 break;
             }
         }
@@ -370,8 +370,7 @@ void Game::updateEnemyFriendlyFire()
             {
                 delete *it;
                 it = this->enemyShots.erase(it);
-                removed
-                 = true;
+                removed = true;
 
                 delete *enemyIt;
                 enemyIt = this->enemies.erase(enemyIt);
