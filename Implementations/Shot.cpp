@@ -3,7 +3,6 @@
 // Init
 void Shot::initVariables(const sf::Vector2f &currentPosition, const sf::Vector2f &destiny)
 {
-    this->speed = 250.f;
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
 
@@ -36,10 +35,11 @@ void Shot::initShot(const std::string &src, const sf::Vector2f &currentPosition)
 }
 
 // Constructors and Destructors
-Shot::Shot(const std::string &src, const sf::Vector2f &currentPosition, const sf::Vector2f &destiny, Enemies *owner)
+Shot::Shot(const std::string &src, const sf::Vector2f &currentPosition, const sf::Vector2f &destiny, Enemies *owner, float speed)
 {
     this->initVariables(currentPosition, destiny);
     this->initShot(src, currentPosition);
+    this->speed = speed;
     this->owner = owner;
 }
 

@@ -440,7 +440,7 @@ void Game::update()
         {
             if (enemy->getShotClock().getElapsedTime().asSeconds() >= enemy->getShotInterval())
             {
-                auto shot = enemy->shot("Assets/Image/enemy_shot.png", this->hero->getPosition(), enemy);
+                auto shot = enemy->shot("Assets/Image/enemy_shot.png", this->hero->getPosition(), enemy, 300.f);
                 if (shot != nullptr)
                 {
                     this->enemyShots.push_back(shot);

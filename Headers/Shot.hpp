@@ -23,7 +23,7 @@ private:
 
 public:
     // Constructors and Destructors
-    Shot(const std::string &src, const sf::Vector2f &currentPosition, const sf::Vector2f &destiny, Enemies *owner = nullptr);
+    Shot(const std::string &src, const sf::Vector2f &currentPosition, const sf::Vector2f &destiny, Enemies *owner = nullptr, float speed = 600.f);
     ~Shot();
 
     // Getters and setters

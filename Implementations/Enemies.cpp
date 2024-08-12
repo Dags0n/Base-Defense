@@ -33,8 +33,8 @@ void Enemies::initVariables()
 {
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
-    this->enemySpeed = 40.f;
-    this->shotInterval = 4.0f;
+    this->enemySpeed = 80.f;
+    this->shotInterval = 3.0f;
 }
 
 void Enemies::initSprite(const char *src, sf::RenderTarget &target)
@@ -90,9 +90,9 @@ void Enemies::moveTowardsHero(float deltaTime)
     }
 }
 
-Shot *Enemies::shot(const std::string &src, const sf::Vector2f &destiny, Enemies *owner)
+Shot *Enemies::shot(const std::string &src, const sf::Vector2f &destiny, Enemies *owner, float speed)
 {
-    return new Shot(src, this->sprite->getPosition(), destiny, owner);
+    return new Shot(src, this->sprite->getPosition(), destiny, owner, speed);
 }
 
 // Getters
@@ -106,8 +106,12 @@ float Enemies::getShotInterval()
     return this->shotInterval;
 }
 
-sf::FloatRect Enemies::getArea()
+sf::FloatRect Enemies::getArea() 
 {
+    if (!this->sprite) {
+        return sf::FloatRect();
+    }
+    
     float reductionFactor = 0.6f;
 
     sf::FloatRect originalBounds = this->sprite->getGlobalBounds();
