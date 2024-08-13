@@ -257,7 +257,6 @@ void Game::updateDifficulty()
         {
             enemySpawnInterval = .5f;
         }
-        std::cout << "Difficulty increased: " << enemySpawnInterval << std::endl;
     }
 }
 
