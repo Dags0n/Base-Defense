@@ -9,7 +9,7 @@
 #include "Enemies.hpp"
 #include "StatusBar.hpp"
 #include "Shot.hpp"
-#include "AmmoDrop.hpp"
+#include "Drop.hpp"
 
 class Game
 {
@@ -35,7 +35,7 @@ private:
     std::vector<Enemies *> enemies;
     std::vector<Shot *> heroShots;
     std::vector<Shot *> enemyShots;
-    std::vector<AmmoDrop *> ammoDrops;
+    std::vector<Drop *> ammoDrops;
     
     StatusBar *life;
     StatusBar *ammunition;

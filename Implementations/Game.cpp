@@ -35,6 +35,7 @@ void Game::initMusic()
     if (!this->music->openFromFile("Assets/Music/background.wav"))
     {
     }
+    this->music->setVolume(10);
     this->music->setLoop(true);
 }
 
@@ -273,7 +274,7 @@ void Game::updateHeroShotCollision()
                     sf::FloatRect bounds = enemy->getArea();
                     float dropX = bounds.left + bounds.width / 2;
                     float dropY = bounds.top + bounds.height / 2;
-                    this->ammoDrops.push_back(new AmmoDrop(sf::Vector2f(dropX - 25, dropY - 25)));
+                    this->ammoDrops.push_back(new Drop("Assets/Image/ammo.png", sf::Vector2f(dropX - 25, dropY - 25)));
                 }
 
                 this->kills++;

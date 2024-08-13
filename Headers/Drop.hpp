@@ -1,9 +1,9 @@
-#ifndef AMMODROP_HPP
-#define AMMODROP_HPP
+#ifndef DROP_HPP
+#define DROP_HPP
 
 #include <SFML/Graphics.hpp>
 
-class AmmoDrop
+class Drop
 {
 private:
   sf::Texture *texture;
@@ -17,8 +17,8 @@ public:
   void initSprite(const char *src, sf::Vector2f position);
 
   // Constructors and Destructors
-  AmmoDrop(sf::Vector2f position);
-  ~AmmoDrop();
+  Drop(const char *src, sf::Vector2f position);
+  ~Drop();
 
   // Public functions
   void render(sf::RenderWindow &window);
