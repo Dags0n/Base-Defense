@@ -1,6 +1,7 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
@@ -65,6 +66,7 @@ public:
     // Update
     void pollEvents();
     void garbageRemover();
+    void updateDifficulty();
     void updateHeroShotCollision();
     void updateEnemyShotCollision();
     void updateBaseEnemyCollision();

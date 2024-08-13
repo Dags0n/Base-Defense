@@ -146,7 +146,7 @@ Game::~Game()
     delete this->window;
     delete this->backgroundTexture;
     delete this->backgroundSprite;
-    delete this->music;
+    // delete this->music;
     delete this->hero;
     delete this->base;
     delete this->life;
@@ -248,6 +248,19 @@ void Game::garbageRemover()
     }
 }
 
+void Game::updateDifficulty()
+{
+    if (kills % 3 == 0 && kills != 0)
+    {
+        enemySpawnInterval -= 0.1f;
+        if (enemySpawnInterval < .5f)
+        {
+            enemySpawnInterval = .5f;
+        }
+        std::cout << "Difficulty increased: " << enemySpawnInterval << std::endl;
+    }
+}
+
 void Game::updateHeroShotCollision()
 {
     for (auto it = this->heroShots.begin(); it != this->heroShots.end();)
@@ -270,6 +283,8 @@ void Game::updateHeroShotCollision()
 
                 delete enemy;
                 this->enemies.erase(std::remove(this->enemies.begin(), this->enemies.end(), enemy), this->enemies.end());
+
+                this->updateDifficulty();
                 break;
             }
         }
