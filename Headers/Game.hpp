@@ -36,6 +36,7 @@ private:
     std::vector<Shot *> heroShots;
     std::vector<Shot *> enemyShots;
     std::vector<Drop *> ammoDrops;
+    std::vector<Drop *> lifeDrops;
     
     StatusBar *life;
     StatusBar *ammunition;
@@ -69,8 +70,10 @@ public:
     void updateHeroShotCollision();
     void updateEnemyShotCollision();
     void updateBaseEnemyCollision();
-    void updateHeroCollectsDrop();
+    void updateHeroCollectsAmmo();
+    void updateHeroCollectsLife();
     void updateEnemyFriendlyFire();
+    void expiresDrops(std::vector<Drop *> &drops);
     void gameOver();
     void update();
 

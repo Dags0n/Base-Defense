@@ -171,6 +171,10 @@ Game::~Game()
     {
         delete ammoDrop;
     }
+    for (auto *lifeDrop : this->lifeDrops)
+    {
+        delete lifeDrop;
+    }
     delete this->killScore;
 }
 
@@ -269,13 +273,20 @@ void Game::updateHeroShotCollision()
         {
             if ((*it)->getArea().intersects(enemy->getArea()))
             {
-                if (rand() % 100 < 50)
+                if (rand() % 100 < 40)
                 {
                     sf::FloatRect bounds = enemy->getArea();
                     float dropX = bounds.left + bounds.width / 2;
                     float dropY = bounds.top + bounds.height / 2;
-                    this->ammoDrops.push_back(new Drop("Assets/Image/ammo.png", sf::Vector2f(dropX - 25, dropY - 25)));
-                }
+
+                    if (rand() % 100 < 70)
+                    {
+                        this->ammoDrops.push_back(new Drop("Assets/Image/ammo.png", sf::Vector2f(dropX - 25, dropY - 25)));
+                    } else {
+                        this->lifeDrops.push_back(new Drop("Assets/Image/life.png", sf::Vector2f(dropX - 25, dropY - 25)));
+                    }
+                    
+                } 
 
                 this->kills++;
                 delete *it;
@@ -347,7 +358,7 @@ void Game::updateBaseEnemyCollision()
     }
 }
 
-void Game::updateHeroCollectsDrop()
+void Game::updateHeroCollectsAmmo()
 {
     for (auto it = this->ammoDrops.begin(); it != this->ammoDrops.end();)
     {
@@ -361,6 +372,32 @@ void Game::updateHeroCollectsDrop()
                 it = this->ammoDrops.erase(it);
 
                 this->hero->rechargeAmmunition(10);
+                removed = true;
+                break;
+            }
+        }
+
+        if (!removed)
+        {
+            ++it;
+        }
+    }
+}
+
+void Game::updateHeroCollectsLife()
+{
+    for (auto it = this->lifeDrops.begin(); it != this->lifeDrops.end();)
+    {
+        bool removed = false;
+
+        for (const auto &area : this->hero->getArea())
+        {
+            if ((*it)->getArea().intersects(area))
+            {
+                delete *it;
+                it = this->lifeDrops.erase(it);
+
+                this->hero->rechargeLife(10);
                 removed = true;
                 break;
             }
@@ -400,6 +437,18 @@ void Game::updateEnemyFriendlyFire()
         )
         {
             ++it;
+        }
+    }
+}
+
+void Game::expiresDrops(std::vector<Drop *> &drops)
+{
+    for (auto *drop : drops)
+    {
+        if (drop->getClock().getElapsedTime().asSeconds() >= drop->getLifeTime())
+        {
+            delete drop;
+            drops.erase(std::remove(drops.begin(), drops.end(), drop), drops.end());
         }
     }
 }
@@ -465,21 +514,16 @@ void Game::update()
         }
 
         // Expire drops
-        for (auto *ammoDrop : this->ammoDrops)
-        {
-            if ((ammoDrop)->getClock().getElapsedTime().asSeconds() >= (ammoDrop)->getLifeTime())
-            {
-                delete ammoDrop;
-                this->ammoDrops.erase(std::remove(this->ammoDrops.begin(), this->ammoDrops.end(), ammoDrop), this->ammoDrops.end());
-            }
-        }
+        this->expiresDrops(this->ammoDrops);
+        this->expiresDrops(this->lifeDrops);
 
         this->garbageRemover();
 
         // Collisions
         this->updateHeroShotCollision();
         this->updateEnemyShotCollision();
-        this->updateHeroCollectsDrop();
+        this->updateHeroCollectsAmmo();
+        this->updateHeroCollectsLife();
         this->updateBaseEnemyCollision();
         this->updateEnemyFriendlyFire();
 
@@ -522,6 +566,11 @@ void Game::render()
     for (auto *ammoDrop : this->ammoDrops)
     {
         ammoDrop->render(*this->window);
+    }
+
+    for (auto *lifeDrop : this->lifeDrops)
+    {
+        lifeDrop->render(*this->window);
     }
 
     // Plan 4
