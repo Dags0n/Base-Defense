@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include "Attribute.hpp"
 #include "Shot.hpp"
@@ -13,6 +14,8 @@ private:
     // Variables
     sf::Texture *texture;
     sf::Sprite *sprite;
+    sf::SoundBuffer shotBuffer;
+    sf::Sound shotSound;
     Attribute *life;
     Attribute *ammunition;
     sf::Vector2i destiny;
@@ -20,6 +23,7 @@ private:
 
     // Init functions
     void initVariables();
+    void initShotSound();
     void initAttributes();
     void initSprite(const char *src, sf::RenderWindow &window);
 

@@ -9,6 +9,15 @@ void Hero::initVariables()
     this->speed = 200.f;
 }
 
+void Hero::initShotSound()
+{
+    if (!shotBuffer.loadFromFile("Assets/Sounds/heroShot.ogg"))
+    {
+    }
+    this->shotSound.setBuffer(shotBuffer);
+    this->shotSound.setVolume(50);
+}
+
 void Hero::initAttributes()
 {
     this->life = new Attribute(100, 100);
@@ -33,6 +42,7 @@ void Hero::initSprite(const char *src, sf::RenderWindow &window)
 Hero::Hero(const char *src, sf::RenderWindow &window)
 {
     this->initVariables();
+    this->initShotSound();
     this->initAttributes();
     this->initSprite(src, window);
 }
@@ -138,6 +148,7 @@ Shot *Hero::shot(const std::string &src, const sf::Vector2f &destiny)
     }
 
     Shot *shot = new Shot(src, this->sprite->getPosition(), destiny);
+    this->shotSound.play();
     this->ammunition->consume(1);
     return shot;
 }
