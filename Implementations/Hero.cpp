@@ -139,6 +139,11 @@ void Hero::rechargeAmmunition(int value)
     this->ammunition->recharge(value);
 }
 
+void Hero::rechargeLife(int value)
+{
+    this->life->recharge(value);
+}
+
 // Actions
 Shot *Hero::shot(const std::string &src, const sf::Vector2f &destiny)
 {

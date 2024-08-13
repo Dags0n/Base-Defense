@@ -43,6 +43,7 @@ public:
     void setDestiny(sf::Vector2i destiny);
     std::vector<sf::FloatRect> getArea();
     void rechargeAmmunition(int value);
+    void rechargeLife(int value);
 
     // Actions
     Shot *shot(const std::string &src, const sf::Vector2f &destiny);
