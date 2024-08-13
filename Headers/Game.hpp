@@ -11,6 +11,8 @@
 #include "Shot.hpp"
 #include "Drop.hpp"
 
+enum class GameState { Menu, Playing, HeroSelection, DificultySelection, Paused, GameOver };
+
 class Game
 {
 private:
@@ -26,8 +28,9 @@ private:
     sf::Clock clock;
     sf::Clock enemySpawnClock;
     float enemySpawnInterval = 3.0f;
-    bool isPaused = false;
     int kills = 0;
+
+    GameState state;
 
     // Game Objects
     Hero *hero;

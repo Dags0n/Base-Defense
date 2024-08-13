@@ -147,7 +147,7 @@ Game::~Game()
     delete this->window;
     delete this->backgroundTexture;
     delete this->backgroundSprite;
-    // delete this->music;
+    delete this->music;
     delete this->hero;
     delete this->base;
     delete this->life;
@@ -201,7 +201,7 @@ void Game::pollEvents()
             }
             if (event.key.code == sf::Keyboard::Space)
             {
-                this->isPaused = !this->isPaused;
+                state = state == GameState::Playing ? GameState::Paused : GameState::Playing;
             }
             if (event.key.code == sf::Keyboard::Q)
             {
@@ -467,7 +467,7 @@ void Game::update()
     float deltaTimeSeconds = deltaTime.asSeconds();
     this->pollEvents();
 
-    if (!isPaused)
+    if (state == GameState::Playing)
     {
         // Update stats
         this->hero->update(*this->window, deltaTimeSeconds);
@@ -579,7 +579,7 @@ void Game::render()
     this->baseLife->render(*this->window);
     this->window->draw(*this->killScore);
 
-    if (isPaused)
+    if (state == GameState::Paused)
     {
         this->window->draw(*this->pauseMessage);
     }
