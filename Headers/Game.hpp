@@ -33,7 +33,7 @@ private:
     GameState state;
     HeroType heroType;
     Difficulty difficulty;
-    Menu menu;
+    Menu *menu;
 
     // Game Objects
     Hero *hero;
@@ -52,6 +52,7 @@ private:
     // Private functions
     void initWindow();
     void initBackgroundSprite();
+    void initMenu();
     void initMusic();
     void initFont();
     void initPauseMessage();

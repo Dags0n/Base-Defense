@@ -1,8 +1,20 @@
 #include "Menu.hpp"
 
-Menu::Menu() {
+Menu::Menu(sf::RenderWindow& window) : window(window) {
     if (!font.loadFromFile("Fonts/PressStart2P-Regular.ttf")) {
     }
+
+    if (!backgroundTexture.loadFromFile("Assets/Image/backgroundMenu1.jpg"))
+    {
+    }
+    backgroundSprite.setTexture(this->backgroundTexture);
+
+    sf::Vector2u windowSize = window.getSize();
+    backgroundSprite.setScale(
+        static_cast<float>(windowSize.x) / backgroundTexture.getSize().x,
+        static_cast<float>(windowSize.y) / backgroundTexture.getSize().y
+    );
+
     setupMainMenu();
 }
 
@@ -137,6 +149,9 @@ void Menu::handleDifficultySelectionInput(sf::Event event, GameState& state, sf:
 }
 
 void Menu::draw(sf::RenderWindow& window, GameState state) {
+    window.clear();
+    window.draw(backgroundSprite);
+
     if (state == GameState::Menu) {
         for (const auto& text : menuTexts) {
             window.draw(text);

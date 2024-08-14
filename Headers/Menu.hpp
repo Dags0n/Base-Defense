@@ -8,7 +8,7 @@
 
 class Menu {
 public:
-    Menu();
+    Menu(sf::RenderWindow& window);
     void handleInput(sf::Event event, GameState& state, HeroType& heroType, Difficulty& difficulty, sf::RenderWindow& window);
     void draw(sf::RenderWindow& window, GameState state);
 
@@ -20,6 +20,10 @@ private:
     void handleDifficultySelectionInput(sf::Event event, GameState& state, sf::RenderWindow& window, Difficulty& difficulty);
 
     sf::Font font;
+    sf::Texture backgroundTexture;
+    sf::Sprite backgroundSprite;
+    sf::RenderWindow& window;
+
     std::vector<std::string> menuItems;
     std::vector<sf::Text> menuTexts;
 

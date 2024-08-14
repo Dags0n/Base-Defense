@@ -6,9 +6,6 @@ void Game::initWindow()
     this->videoMode.height = 720;
     this->videoMode.width = 1280;
 
-    this->state = GameState::Menu;
-    this->heroType = HeroType::Sonda;
-    this->difficulty = Difficulty::Normal;
     this->window = new sf::RenderWindow(this->videoMode, "Base Defense", sf::Style::Default);
     this->window->setFramerateLimit(144);
     this->window->setPosition(sf::Vector2i(0, 0));
@@ -30,6 +27,14 @@ void Game::initBackgroundSprite()
     float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
 
     backgroundSprite->setScale(scaleX, scaleY);
+}
+
+void Game::initMenu()
+{
+    this->state = GameState::Menu;
+    this->heroType = HeroType::Sonda;
+    this->difficulty = Difficulty::Normal;
+    this->menu = new Menu(*this->window);
 }
 
 void Game::initMusic()
@@ -128,6 +133,7 @@ Game::Game()
 {
     this->initWindow();
     this->initBackgroundSprite();
+    this->initMenu();
     this->initMusic();
     this->initFont();
     this->initPauseMessage();
@@ -150,6 +156,7 @@ Game::~Game()
     delete this->window;
     delete this->backgroundTexture;
     delete this->backgroundSprite;
+    delete this->menu;
     delete this->music;
     delete this->hero;
     delete this->base;
@@ -227,7 +234,7 @@ void Game::pollEvents()
         default:
             break;
         }
-        menu.handleInput(event, state, heroType, difficulty, *this->window);
+        menu->handleInput(event, state, heroType, difficulty, *this->window);
     }
 }
 
@@ -545,7 +552,7 @@ void Game::render()
 
     this->window->clear(sf::Color::Black);
 
-    menu.draw(*this->window, state);
+    menu->draw(*this->window, state);
         
     if (state == GameState::Playing || state == GameState::Paused) {
         // Draw Objects
