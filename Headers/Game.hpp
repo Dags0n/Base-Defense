@@ -10,8 +10,8 @@
 #include "StatusBar.hpp"
 #include "Shot.hpp"
 #include "Drop.hpp"
-
-enum class GameState { Menu, Playing, HeroSelection, DificultySelection, Paused, GameOver };
+#include "Menu.hpp"
+#include "State.hpp"
 
 class Game
 {
@@ -31,6 +31,9 @@ private:
     int kills = 0;
 
     GameState state;
+    HeroType heroType;
+    Difficulty difficulty;
+    Menu menu;
 
     // Game Objects
     Hero *hero;

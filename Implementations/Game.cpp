@@ -6,7 +6,9 @@ void Game::initWindow()
     this->videoMode.height = 720;
     this->videoMode.width = 1280;
 
-    this->state = GameState::Playing;
+    this->state = GameState::Menu;
+    this->heroType = HeroType::Sonda;
+    this->difficulty = Difficulty::Normal;
     this->window = new sf::RenderWindow(this->videoMode, "Base Defense", sf::Style::Default);
     this->window->setFramerateLimit(144);
     this->window->setPosition(sf::Vector2i(0, 0));
@@ -225,6 +227,7 @@ void Game::pollEvents()
         default:
             break;
         }
+        menu.handleInput(event, state, heroType, difficulty, *this->window);
     }
 }
 
@@ -461,7 +464,7 @@ void Game::gameOver()
 {
     if (this->hero->getLife() <= 0 || this->base->getLife() <= 0)
     {
-        this->window->close();
+        state = GameState::Menu; // TODO: Change to GameOver when implemented
     }
 }
 
@@ -542,52 +545,55 @@ void Game::render()
 
     this->window->clear(sf::Color::Black);
 
-    // Draw Objects
-    this->window->draw(*this->backgroundSprite);
+    menu.draw(*this->window, state);
+        
+    if (state == GameState::Playing || state == GameState::Paused) {
+        // Draw Objects
+        this->window->draw(*this->backgroundSprite);
 
-    // Plan 0
-    this->base->render(*this->window);
+        // Plan 0
+        this->base->render(*this->window);
 
-    // Plan 1
-    for (auto *shot : this->heroShots)
-    {
-        shot->render(*this->window);
+        // Plan 1
+        for (auto *shot : this->heroShots)
+        {
+            shot->render(*this->window);
+        }
+
+        for (auto *shot : this->enemyShots)
+        {
+            shot->render(*this->window);
+        }
+
+        // Plan 2
+        for (auto *enemy : this->enemies)
+        {
+            enemy->render(*this->window);
+        }
+        this->hero->render(*this->window);
+
+        // Plan 3
+        for (auto *ammoDrop : this->ammoDrops)
+        {
+            ammoDrop->render(*this->window);
+        }
+
+        for (auto *lifeDrop : this->lifeDrops)
+        {
+            lifeDrop->render(*this->window);
+        }
+
+        // Plan 4
+        this->life->render(*this->window);
+        this->ammunition->render(*this->window);
+        this->baseLife->render(*this->window);
+        this->window->draw(*this->killScore);
+
+        if (state == GameState::Paused)
+        {
+            this->window->draw(*this->pauseMessage);
+        }
     }
-
-    for (auto *shot : this->enemyShots)
-    {
-        shot->render(*this->window);
-    }
-
-    // Plan 2
-    for (auto *enemy : this->enemies)
-    {
-        enemy->render(*this->window);
-    }
-    this->hero->render(*this->window);
-
-    // Plan 3
-    for (auto *ammoDrop : this->ammoDrops)
-    {
-        ammoDrop->render(*this->window);
-    }
-
-    for (auto *lifeDrop : this->lifeDrops)
-    {
-        lifeDrop->render(*this->window);
-    }
-
-    // Plan 4
-    this->life->render(*this->window);
-    this->ammunition->render(*this->window);
-    this->baseLife->render(*this->window);
-    this->window->draw(*this->killScore);
-
-    if (state == GameState::Paused)
-    {
-        this->window->draw(*this->pauseMessage);
-    }
-
     // End draw
 
     this->window->display();
