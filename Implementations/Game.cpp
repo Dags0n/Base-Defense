@@ -6,6 +6,7 @@ void Game::initWindow()
     this->videoMode.height = 720;
     this->videoMode.width = 1280;
 
+    this->state = GameState::Playing;
     this->window = new sf::RenderWindow(this->videoMode, "Base Defense", sf::Style::Default);
     this->window->setFramerateLimit(144);
     this->window->setPosition(sf::Vector2i(0, 0));
@@ -205,10 +206,13 @@ void Game::pollEvents()
             }
             if (event.key.code == sf::Keyboard::Q)
             {
-                auto shot = this->hero->shot("Assets/Image/hero_shot.png", (sf::Vector2f)sf::Mouse::getPosition(*this->window));
-                if (shot != nullptr)
+                if (state == GameState::Playing)
                 {
-                    this->heroShots.push_back(shot);
+                    auto shot = this->hero->shot("Assets/Image/hero_shot.png", (sf::Vector2f)sf::Mouse::getPosition(*this->window));
+                    if (shot != nullptr)
+                    {
+                        this->heroShots.push_back(shot);
+                    }
                 }
             }
             break;
