@@ -89,7 +89,7 @@ void Game::initBase()
 
 void Game::initEnemies()
 {
-    this->enemies.push_back(new Enemies((char *)"Assets/Image/enemy.png", *this->window, this->hero));
+    this->enemies.push_back(new Enemies((char *)"Assets/Image/enemy.png", *this->window, this->hero, enemySpeed));
 }
 
 void Game::initStatusBar()
@@ -139,10 +139,6 @@ Game::Game()
     this->initPauseMessage();
     this->initHero();
     this->initBase();
-    for (int i = 0; i < 3; i++)
-    {
-        this->initEnemies();
-    }
     if (this->music)
     {
         this->music->play();
@@ -272,9 +268,9 @@ void Game::updateDifficulty()
     if (kills % 3 == 0 && kills != 0)
     {
         enemySpawnInterval -= 0.1f;
-        if (enemySpawnInterval < .5f)
+        if (enemySpawnInterval < .4f)
         {
-            enemySpawnInterval = .5f;
+            enemySpawnInterval = .4f;
         }
     }
 }
@@ -543,6 +539,26 @@ void Game::update()
 
         // Game Over
         this->gameOver();
+    } else {
+        switch (difficulty)
+        {
+        case Difficulty::Normal:
+            enemySpeed = 80.f;
+            enemySpawnInterval = 2.5f;
+            break;
+        case Difficulty::Hard:
+            enemySpeed = 100.f;
+            enemySpawnInterval = 2.0f;
+            break;
+        case Difficulty::Impossible:
+            enemySpeed = 120.f;
+            enemySpawnInterval = 1.0f;
+            break;
+        default:
+            enemySpeed = 80.f;
+            enemySpawnInterval = 2.5f;
+            break;
+        }
     }
 }
 

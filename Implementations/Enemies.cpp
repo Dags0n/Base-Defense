@@ -29,11 +29,11 @@ sf::Vector2f generateRandomPosition(sf::RenderTarget &target, float margin = 0.f
 }
 
 // Init functions
-void Enemies::initVariables()
+void Enemies::initVariables(float enemySpeed)
 {
     this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
-    this->enemySpeed = 80.f;
+    this->enemySpeed = enemySpeed;
     this->shotInterval = 3.0f;
 }
 
@@ -51,9 +51,9 @@ void Enemies::initSprite(const char *src, sf::RenderTarget &target)
 }
 
 // Constructors and Destructors
-Enemies::Enemies(const char *src, sf::RenderWindow &window, Hero *hero)
+Enemies::Enemies(const char *src, sf::RenderWindow &window, Hero *hero, float enemySpeed)
 {
-    this->initVariables();
+    this->initVariables(enemySpeed);
     this->initSprite(src, window);
     this->hero = hero;
     this->shotClock.restart();

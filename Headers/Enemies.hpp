@@ -17,12 +17,12 @@ private:
     Hero *hero;
 
     // Init functions
-    void initVariables();
+    void initVariables(float enemySpeed);
     void initSprite(const char *src, sf::RenderTarget &target);
 
 public:
     // Constructors and Destructors
-    Enemies(const char *src, sf::RenderWindow &window, Hero *hero);
+    Enemies(const char *src, sf::RenderWindow &window, Hero *hero, float enemySpeed);
     ~Enemies();
 
     // Public functions
