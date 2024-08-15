@@ -95,26 +95,26 @@ void Game::initEnemies()
 void Game::initStatusBar()
 {
     sf::Vector2f lifeSize = sf::Vector2f(250, 20);
-    sf::Vector2i lifePos = sf::Vector2i(10, 10);
+    sf::Vector2i lifePos = sf::Vector2i(10, 20);
     int maxLife = this->hero->getMaxLife();
     int currentLife = this->hero->getLife();
     sf::Color color = sf::Color::Blue;
     sf::Color background = sf::Color::White;
-    this->life = new StatusBar(lifeSize, lifePos, maxLife, currentLife, color, background);
+    this->life = new StatusBar(lifeSize, lifePos, maxLife, currentLife, color, background, "Life: ");
 
     sf::Vector2f ammunitionSize = sf::Vector2f(200, 10);
-    sf::Vector2i ammunitionPos = sf::Vector2i(10, 40);
+    sf::Vector2i ammunitionPos = sf::Vector2i(10, 60);
     int maxAmmunition = this->hero->getMaxAmmunition();
     int currentAmmunition = this->hero->getAmmunition();
     color = sf::Color::Cyan;
-    this->ammunition = new StatusBar(ammunitionSize, ammunitionPos, maxAmmunition, currentAmmunition, color, background);
+    this->ammunition = new StatusBar(ammunitionSize, ammunitionPos, maxAmmunition, currentAmmunition, color, background, "Ammunition: ");
 
     sf::Vector2f baseSize = sf::Vector2f(400, 20);
     sf::Vector2i basePos = sf::Vector2i(this->window->getSize().x - 430, this->window->getSize().y - 40);
     int maxBaseLife = this->base->getMaxLife();
     int currentBaseLife = this->base->getLife();
     color = sf::Color::Green;
-    this->baseLife = new StatusBar(baseSize, basePos, maxBaseLife, currentBaseLife, color, background);
+    this->baseLife = new StatusBar(baseSize, basePos, maxBaseLife, currentBaseLife, color, background, "Base: ");
 }
 
 void Game::initKillScore()
