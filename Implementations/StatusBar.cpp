@@ -18,11 +18,25 @@ void StatusBar::initBars(sf::Vector2f size, sf::Vector2i position, sf::Color col
     this->currentBar.setFillColor(color);
 }
 
+void StatusBar::initText(const std::string& label, sf::Vector2i position)
+{
+    if (!this->font.loadFromFile("Fonts/PressStart2P-Regular.ttf")) 
+    {
+    }
+
+    this->labelText.setFont(this->font);
+    this->labelText.setString(label);
+    this->labelText.setCharacterSize(10); 
+    this->labelText.setFillColor(sf::Color::White);
+    this->labelText.setPosition(position.x, position.y - 15);
+}
+
 // Constructor
-StatusBar::StatusBar(sf::Vector2f size, sf::Vector2i position, int maxPoints, int currentPoints, sf::Color color, sf::Color background)
+StatusBar::StatusBar(sf::Vector2f size, sf::Vector2i position, int maxPoints, int currentPoints, sf::Color color, sf::Color background, const std::string& label)
 {
     this->initVariables(maxPoints, currentPoints);
     this->initBars(size, position, color, background);
+    this->initText(label, position);
 }
 
 // Update
@@ -39,4 +53,5 @@ void StatusBar::render(sf::RenderWindow &window)
 {
     window.draw(this->maxBar);
     window.draw(this->currentBar);
+    window.draw(this->labelText);
 }
