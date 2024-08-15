@@ -27,7 +27,8 @@ private:
     sf::Text *pauseMessage;
     sf::Clock clock;
     sf::Clock enemySpawnClock;
-    float enemySpawnInterval = 3.0f;
+    float enemySpawnInterval;
+    float enemySpeed;
     int kills = 0;
 
     GameState state;
