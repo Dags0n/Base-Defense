@@ -40,7 +40,22 @@ void Drop::render(sf::RenderWindow &window)
 // Getters
 sf::FloatRect Drop::getArea()
 {
-  return this->sprite->getGlobalBounds();
+  if (!this->sprite) {
+        return sf::FloatRect();
+    }
+    
+    float reductionFactorHeight = 0.6f;
+    float reductionFactorWidth = 0.715f;
+
+    sf::FloatRect originalBounds = this->sprite->getGlobalBounds();
+    sf::FloatRect reducedBounds = originalBounds;
+    reducedBounds.width *= reductionFactorWidth;
+    reducedBounds.height *= reductionFactorHeight;
+
+    reducedBounds.left += (originalBounds.width - reducedBounds.width) / 2.0f;
+    reducedBounds.top += (originalBounds.height - reducedBounds.height) / 2.0f;
+
+    return reducedBounds;
 }
 
 sf::Clock &Drop::getClock()
