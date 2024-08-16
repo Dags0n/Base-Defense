@@ -88,7 +88,14 @@ void Game::initBase()
 
 void Game::initEnemies()
 {
-    this->enemies.push_back(new Enemies((char *)"Assets/Image/enemy.png", *this->window, this->hero, enemySpeed));
+    std::vector<const char*> textures = 
+    {
+        "Assets/Image/enemy.png",
+        "Assets/Image/enemy1.png",
+        "Assets/Image/enemy2.png"
+    };
+
+    this->enemies.push_back(new Enemies(textures, *this->window, this->hero, enemySpeed));
 }
 
 void Game::initStatusBar()
