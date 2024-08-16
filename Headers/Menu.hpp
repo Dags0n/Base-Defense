@@ -16,12 +16,15 @@ private:
     void setupMainMenu();
     void setupHeroSelectionMenu();
     void setupDifficultySelectionMenu();
+    void setupTitle();
     void handleHeroSelectionInput(sf::Event event, GameState& state, sf::RenderWindow& window, HeroType& heroType);
     void handleDifficultySelectionInput(sf::Event event, GameState& state, sf::RenderWindow& window, Difficulty& difficulty);
 
     sf::Font font;
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
+    sf::Text title;
+    sf::Text subtitle;
     sf::RenderWindow& window;
 
     std::vector<std::string> menuItems;

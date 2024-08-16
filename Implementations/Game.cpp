@@ -14,7 +14,7 @@ void Game::initWindow()
 void Game::initBackgroundSprite()
 {
     this->backgroundTexture = new sf::Texture();
-    if (!this->backgroundTexture->loadFromFile("Assets/Image/background1.jpeg"))
+    if (!this->backgroundTexture->loadFromFile("Assets/Image/background.jpeg"))
     {
     }
     this->backgroundSprite = new sf::Sprite();

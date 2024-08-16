@@ -4,8 +4,7 @@ Menu::Menu(sf::RenderWindow& window) : window(window) {
     if (!font.loadFromFile("Fonts/PressStart2P-Regular.ttf")) {
     }
 
-    if (!backgroundTexture.loadFromFile("Assets/Image/backgroundMenu1.jpg"))
-    {
+    if (!backgroundTexture.loadFromFile("Assets/Image/backgroundMenu.png")) {
     }
     backgroundSprite.setTexture(this->backgroundTexture);
 
@@ -15,6 +14,7 @@ Menu::Menu(sf::RenderWindow& window) : window(window) {
         static_cast<float>(windowSize.y) / backgroundTexture.getSize().y
     );
 
+    setupTitle();
     setupMainMenu();
 }
 
@@ -28,7 +28,7 @@ void Menu::setupMainMenu() {
         text.setString(menuItems[i]);
         text.setCharacterSize(24);
         text.setFillColor(sf::Color::White);
-        text.setPosition(100.f, 100.f + i * 40.f);
+        text.setPosition(100.f, 450.f + i * 40.f);
         menuTexts.push_back(text);
     }
 }
@@ -43,7 +43,7 @@ void Menu::setupHeroSelectionMenu() {
         text.setString(heroOptions[i]);
         text.setCharacterSize(24);
         text.setFillColor(sf::Color::White);
-        text.setPosition(100.f, 100.f + i * 40.f);
+        text.setPosition(100.f, 450.f + i * 40.f);
         heroTexts.push_back(text);
     }
 }
@@ -58,9 +58,23 @@ void Menu::setupDifficultySelectionMenu() {
         text.setString(difficultyOptions[i]);
         text.setCharacterSize(24);
         text.setFillColor(sf::Color::White);
-        text.setPosition(100.f, 100.f + i * 40.f);
+        text.setPosition(100.f, 450.f + i * 40.f);
         difficultyTexts.push_back(text);
     }
+}
+
+void Menu::setupTitle() {
+    title.setFont(font);
+    title.setString("EARTH DEFENDERS");
+    title.setCharacterSize(48);
+    title.setFillColor(sf::Color::White);
+    title.setPosition(70.f, 70.f);
+
+    subtitle.setFont(font);
+    subtitle.setString("VOID ASSAULT");
+    subtitle.setCharacterSize(28);
+    subtitle.setFillColor(sf::Color::White);
+    subtitle.setPosition(70.f, 140.f);
 }
 
 void Menu::handleInput(sf::Event event, GameState& state, HeroType& heroType, Difficulty& difficulty, sf::RenderWindow& window) {
@@ -151,6 +165,8 @@ void Menu::handleDifficultySelectionInput(sf::Event event, GameState& state, sf:
 void Menu::draw(sf::RenderWindow& window, GameState state) {
     window.clear();
     window.draw(backgroundSprite);
+    window.draw(title);
+    window.draw(subtitle);
 
     if (state == GameState::Menu) {
         for (const auto& text : menuTexts) {
