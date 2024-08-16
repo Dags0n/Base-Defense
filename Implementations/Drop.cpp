@@ -18,11 +18,17 @@ void Drop::initSprite(const char *src, sf::Vector2f position)
   this->sprite->setPosition(position);
 }
 
+void Drop::initArea()
+{
+  area = this->sprite->getGlobalBounds();
+}
+
 // Constructors and Destructors
 Drop::Drop(const char *src, sf::Vector2f position)
 {
   this->initVariables();
   this->initSprite(src, position);
+  this->initArea();
 }
 
 Drop::~Drop()
@@ -40,22 +46,21 @@ void Drop::render(sf::RenderWindow &window)
 // Getters
 sf::FloatRect Drop::getArea()
 {
-  if (!this->sprite) {
+    if (!this->sprite)
+    {
         return sf::FloatRect();
     }
+
+    sf::FloatRect spriteBounds = this->sprite->getGlobalBounds();
+
+    sf::FloatRect currentArea;
+    currentArea.width = area.width;
+    currentArea.height = area.height;
     
-    float reductionFactorHeight = 0.6f;
-    float reductionFactorWidth = 0.715f;
+    currentArea.left = spriteBounds.left + (spriteBounds.width - currentArea.width) / 2.0f;
+    currentArea.top = spriteBounds.top + (spriteBounds.height - currentArea.height) / 2.0f;
 
-    sf::FloatRect originalBounds = this->sprite->getGlobalBounds();
-    sf::FloatRect reducedBounds = originalBounds;
-    reducedBounds.width *= reductionFactorWidth;
-    reducedBounds.height *= reductionFactorHeight;
-
-    reducedBounds.left += (originalBounds.width - reducedBounds.width) / 2.0f;
-    reducedBounds.top += (originalBounds.height - reducedBounds.height) / 2.0f;
-
-    return reducedBounds;
+    return currentArea;
 }
 
 sf::Clock &Drop::getClock()
@@ -66,4 +71,10 @@ sf::Clock &Drop::getClock()
 float Drop::getLifeTime()
 {
   return this->lifeTime;
+}
+
+// Setters
+void Drop::setArea(sf::FloatRect newArea)
+{
+  this->area = newArea;
 }

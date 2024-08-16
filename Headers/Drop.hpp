@@ -10,11 +10,13 @@ private:
   sf::Sprite *sprite;
   sf::Clock clock;
   float lifeTime;
+  sf::FloatRect area;
 
 public:
   // Init functions
   void initVariables();
   void initSprite(const char *src, sf::Vector2f position);
+  void initArea();
 
   // Constructors and Destructors
   Drop(const char *src, sf::Vector2f position);
@@ -27,6 +29,9 @@ public:
   sf::FloatRect getArea();
   sf::Clock &getClock();
   float getLifeTime();
+
+  // Setters
+  void setArea(sf::FloatRect newArea);
 };
 
 #endif

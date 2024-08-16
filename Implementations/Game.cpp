@@ -128,6 +128,32 @@ void Game::initKillScore()
     this->killScore->setPosition(windowSize.x - 120, 10);
 }
 
+Drop *Game::makeAmmuDrop(sf::Vector2f position)
+{
+    Drop* ammu = new Drop("Assets/Image/ammo.png", position);
+    
+    sf::FloatRect originalBounds = ammu->getArea();
+    sf::FloatRect reducedBounds = originalBounds;
+    reducedBounds.width *= 0.715f;
+    reducedBounds.height *= 0.8f;
+
+    ammu->setArea(reducedBounds);
+    return ammu;
+}
+
+Drop *Game::makeLifeDrop(sf::Vector2f position)
+{
+    Drop* life = new Drop("Assets/Image/life.png", position);
+    
+    sf::FloatRect originalBounds = life->getArea();
+    sf::FloatRect reducedBounds = originalBounds;
+    reducedBounds.width *= 0.43f;
+    reducedBounds.height *= 0.715f;
+
+    life->setArea(reducedBounds);
+    return life;
+}
+
 // Constructors and Destructors
 Game::Game()
 {
@@ -288,12 +314,14 @@ void Game::updateHeroShotCollision()
                     sf::FloatRect bounds = enemy->getArea();
                     float dropX = bounds.left + bounds.width / 2;
                     float dropY = bounds.top + bounds.height / 2;
+                    sf::Vector2f drop = sf::Vector2f(dropX - 25, dropY - 25);
+
 
                     if (rand() % 100 < 70)
                     {
-                        this->ammoDrops.push_back(new Drop("Assets/Image/ammo.png", sf::Vector2f(dropX - 25, dropY - 25)));
+                        this->ammoDrops.push_back(makeAmmuDrop(drop));
                     } else {
-                        this->lifeDrops.push_back(new Drop("Assets/Image/life.png", sf::Vector2f(dropX - 25, dropY - 25)));
+                        this->lifeDrops.push_back(makeLifeDrop(drop));
                     }
                     
                 } 
