@@ -6,7 +6,7 @@ all: main
 	./main
 	rm main
 
-main: Objects/main.o Objects/Game.o Objects/Attribute.o Objects/Hero.o Objects/Base.o Objects/Enemies.o Objects/StatusBar.o Objects/Shot.o Objects/Drop.o Objects/Menu.o
+main: Objects/main.o Objects/Game.o Objects/Attribute.o Objects/Hero.o Objects/Base.o Objects/Enemies.o Objects/StatusBar.o Objects/Shot.o Objects/Drop.o Objects/Menu.o Objects/Kamikaze.o
 	$(CXX) $^ $(SFML_FLAGS) $(FLAGS) -o main
 
 Objects/main.o: main.cpp Headers/Game.hpp
@@ -38,6 +38,9 @@ Objects/Drop.o: Implementations/Drop.cpp Headers/Drop.hpp
 
 Objects/Menu.o: Implementations/Menu.cpp Headers/Menu.hpp
 	$(CXX) $(SFML_FLAGS) $(FLAGS) -c Implementations/Menu.cpp -o Objects/Menu.o
+
+Objects/Kamikaze.o: Implementations/Kamikaze.cpp Headers/Kamikaze.hpp
+	$(CXX) $(SFML_FLAGS) $(FLAGS) -c Implementations/Kamikaze.cpp -o Objects/Kamikaze.o
 
 clean:
 	rm -f main Objects/*.o
