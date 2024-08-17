@@ -48,6 +48,19 @@ void Kamikaze::initSprite(const char *src, sf::RenderTarget &target)
     this->sprite->setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
+void Kamikaze::showCollisionBox(sf::RenderWindow &window)
+{
+    sf::FloatRect shape = getArea();
+    sf::RectangleShape hitbox(sf::Vector2f(shape.width, shape.height));
+
+    hitbox.setFillColor(sf::Color::Transparent);
+    hitbox.setOutlineColor(sf::Color::Red);
+    hitbox.setOutlineThickness(2);
+    hitbox.setPosition(shape.left, shape.top);
+
+    window.draw(hitbox);
+}
+
 // Constructors and Destructors
 Kamikaze::Kamikaze(const char *src, sf::RenderWindow &window, sf::FloatRect baseArea)
 {
@@ -75,6 +88,7 @@ void Kamikaze::render(sf::RenderWindow &window)
         return;
     }
     window.draw(*this->sprite);
+    //showCollisionBox(window);
 }
 
 void Kamikaze::moveTowardsBase(float deltaTime)

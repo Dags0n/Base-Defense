@@ -12,6 +12,7 @@
 #include "Drop.hpp"
 #include "Menu.hpp"
 #include "State.hpp"
+#include "Kamikaze.hpp"
 
 class Game
 {
@@ -27,6 +28,7 @@ private:
     sf::Text *pauseMessage;
     sf::Clock clock;
     sf::Clock enemySpawnClock;
+    sf::Clock kamikazeSpawnClock;
     float enemySpawnInterval;
     float enemySpeed;
     int kills = 0;
@@ -40,6 +42,7 @@ private:
     Hero *hero;
     Base *base;
     std::vector<Enemies *> enemies;
+    std::vector<Kamikaze *> kamikazes;
     std::vector<Shot *> heroShots;
     std::vector<Shot *> enemyShots;
     std::vector<Drop *> ammoDrops;
@@ -60,6 +63,7 @@ private:
     void initHero();
     void initBase();
     void initEnemies();
+    void initKamikazes();
     void initStatusBar();
     void initKillScore();
 
@@ -80,7 +84,10 @@ public:
     void updateDifficulty();
     void updateHeroShotCollision();
     void updateEnemyShotCollision();
+    void updateKamikazeShotCollision();
     void updateBaseEnemyCollision();
+    void updateBaseKamikazeCollision();
+    void updateHeroKamikazeCollision();
     void updateHeroCollectsAmmo();
     void updateHeroCollectsLife();
     void updateEnemyFriendlyFire();

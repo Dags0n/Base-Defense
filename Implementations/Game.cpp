@@ -98,6 +98,12 @@ void Game::initEnemies()
     this->enemies.push_back(new Enemies(textures, *this->window, this->hero, enemySpeed));
 }
 
+void Game::initKamikazes()
+{
+    // Temporary Image for tests
+    this->kamikazes.push_back(new Kamikaze((char *)"Assets/Image/enemy.png", *this->window, this->base->getArea()));
+}
+
 void Game::initStatusBar()
 {
     sf::Vector2f lifeSize = sf::Vector2f(250, 20);
@@ -212,6 +218,10 @@ Game::~Game()
     for (auto *lifeDrop : this->lifeDrops)
     {
         delete lifeDrop;
+    }
+    for (auto *kamikaze : this->kamikazes)
+    {
+        delete kamikaze;
     }
     delete this->killScore;
 }
@@ -382,6 +392,29 @@ void Game::updateEnemyShotCollision()
     }
 }
 
+void Game::updateKamikazeShotCollision()
+{
+    for (auto it = this->kamikazes.begin(); it != this->kamikazes.end();)
+    {
+        for (auto *shot : this->heroShots)
+        {
+            if ((*it)->getArea().intersects(shot->getArea()))
+            {
+                delete *it;
+                it = this->kamikazes.erase(it);
+
+                delete shot;
+                this->heroShots.erase(std::remove(this->heroShots.begin(), this->heroShots.end(), shot), this->heroShots.end());
+                break;
+            }
+        }
+        if (it != this->kamikazes.end())
+        {
+            it++;
+        }
+    }
+}
+
 void Game::updateBaseEnemyCollision()
 {
     for (auto it = this->enemies.begin(); it != this->enemies.end();)
@@ -391,6 +424,40 @@ void Game::updateBaseEnemyCollision()
             delete *it;
             it = this->enemies.erase(it);
             this->base->damage(10);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
+void Game::updateBaseKamikazeCollision()
+{
+    for (auto it = this->kamikazes.begin(); it != this->kamikazes.end();)
+    {
+        if (this->base->collision((*it)->getArea()))
+        {
+            delete *it;
+            it = this->kamikazes.erase(it);
+            this->base->damage(10);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
+void Game::updateHeroKamikazeCollision()
+{
+    for (auto it = this->kamikazes.begin(); it != this->kamikazes.end();)
+    {
+        if ((*it)->getArea().intersects(this->hero->getArea()))
+        {
+            delete *it;
+            it = this->kamikazes.erase(it);
+            this->hero->damage(20);
         }
         else
         {
@@ -515,6 +582,11 @@ void Game::update()
             enemy->update(*this->window, deltaTimeSeconds);
         }
 
+        for (auto *kamikaze : this->kamikazes)
+        {
+            kamikaze->update(*this->window, deltaTimeSeconds);
+        }
+
         for (auto *shot : this->heroShots)
         {
             shot->update(deltaTimeSeconds);
@@ -530,6 +602,13 @@ void Game::update()
         {
             this->initEnemies();
             enemySpawnClock.restart();
+        }
+
+        // Spawn kamikazes
+        if (kamikazeSpawnClock.getElapsedTime().asSeconds() >= 5.0f)
+        {
+            this->initKamikazes();
+            kamikazeSpawnClock.restart();
         }
 
         // Enemy shots
@@ -555,9 +634,12 @@ void Game::update()
         // Collisions
         this->updateHeroShotCollision();
         this->updateEnemyShotCollision();
+        this->updateKamikazeShotCollision();
+        this->updateHeroKamikazeCollision();
         this->updateHeroCollectsAmmo();
         this->updateHeroCollectsLife();
         this->updateBaseEnemyCollision();
+        this->updateBaseKamikazeCollision();
         this->updateEnemyFriendlyFire();
 
         // Game Over
@@ -618,6 +700,10 @@ void Game::render()
         for (auto *enemy : this->enemies)
         {
             enemy->render(*this->window);
+        }
+        for (auto *kamikaze : this->kamikazes)
+        {
+            kamikaze->render(*this->window);
         }
         this->hero->render(*this->window);
 
