@@ -6,26 +6,27 @@
 #include <string>
 #include "State.hpp"
 
-class Menu {
+class Menu
+{
 public:
-    Menu(sf::RenderWindow& window);
-    void handleInput(sf::Event event, GameState& state, HeroType& heroType, Difficulty& difficulty, sf::RenderWindow& window);
-    void draw(sf::RenderWindow& window, GameState state);
+    Menu(sf::RenderWindow &window);
+    void handleInput(sf::Event event, GameState &state, HeroType &heroType, Difficulty &difficulty, sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window, GameState state);
 
 private:
     void setupMainMenu();
     void setupHeroSelectionMenu();
     void setupDifficultySelectionMenu();
     void setupTitle();
-    void handleHeroSelectionInput(sf::Event event, GameState& state, sf::RenderWindow& window, HeroType& heroType);
-    void handleDifficultySelectionInput(sf::Event event, GameState& state, sf::RenderWindow& window, Difficulty& difficulty);
+    void handleHeroSelectionInput(sf::Event event, GameState &state, sf::RenderWindow &window, HeroType &heroType);
+    void handleDifficultySelectionInput(sf::Event event, GameState &state, sf::RenderWindow &window, Difficulty &difficulty);
 
     sf::Font font;
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
     sf::Text title;
     sf::Text subtitle;
-    sf::RenderWindow& window;
+    sf::RenderWindow &window;
 
     std::vector<std::string> menuItems;
     std::vector<sf::Text> menuTexts;

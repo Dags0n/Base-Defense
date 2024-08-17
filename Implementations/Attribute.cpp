@@ -14,7 +14,7 @@ void Attribute::recharge(int value)
 void Attribute::recharge(float value)
 {
     ((amount + value) > max) ? amount = max : amount += value;
-} 
+}
 
 void Attribute::consume(int value)
 {

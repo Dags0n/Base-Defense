@@ -126,7 +126,7 @@ std::vector<sf::FloatRect> Hero::getArea()
     second.height *= 0.875f;
     second.top += original.height / 8.0f;
     second.left += (original.width - second.width) / 2.0f;
-    
+
     std::vector<sf::FloatRect> areas;
     areas.push_back(first);
     areas.push_back(second);

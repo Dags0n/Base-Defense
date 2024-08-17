@@ -44,7 +44,7 @@ private:
     std::vector<Shot *> enemyShots;
     std::vector<Drop *> ammoDrops;
     std::vector<Drop *> lifeDrops;
-    
+
     StatusBar *life;
     StatusBar *ammunition;
     StatusBar *baseLife;
@@ -62,7 +62,7 @@ private:
     void initEnemies();
     void initStatusBar();
     void initKillScore();
-    
+
     Drop *makeAmmuDrop(sf::Vector2f position);
     Drop *makeLifeDrop(sf::Vector2f position);
 

@@ -75,14 +75,13 @@ void Game::initHero()
 
 void Game::initBase()
 {
-    std::vector<const char*> textures = 
-    {
-        "Assets/Image/base.png",
-        "Assets/Image/base_status1.png",
-        "Assets/Image/base_status2.png",
-        "Assets/Image/base_status3.png",
-        "Assets/Image/base_status4.png"
-    };
+    std::vector<const char *> textures =
+        {
+            "Assets/Image/base.png",
+            "Assets/Image/base_status1.png",
+            "Assets/Image/base_status2.png",
+            "Assets/Image/base_status3.png",
+            "Assets/Image/base_status4.png"};
 
     this->base = new Base(textures, *this->window);
 }
@@ -130,8 +129,8 @@ void Game::initKillScore()
 
 Drop *Game::makeAmmuDrop(sf::Vector2f position)
 {
-    Drop* ammu = new Drop("Assets/Image/ammo.png", position);
-    
+    Drop *ammu = new Drop("Assets/Image/ammo.png", position);
+
     sf::FloatRect originalBounds = ammu->getArea();
     sf::FloatRect reducedBounds = originalBounds;
     reducedBounds.width *= 0.715f;
@@ -143,8 +142,8 @@ Drop *Game::makeAmmuDrop(sf::Vector2f position)
 
 Drop *Game::makeLifeDrop(sf::Vector2f position)
 {
-    Drop* life = new Drop("Assets/Image/life.png", position);
-    
+    Drop *life = new Drop("Assets/Image/life.png", position);
+
     sf::FloatRect originalBounds = life->getArea();
     sf::FloatRect reducedBounds = originalBounds;
     reducedBounds.width *= 0.43f;
@@ -316,15 +315,15 @@ void Game::updateHeroShotCollision()
                     float dropY = bounds.top + bounds.height / 2;
                     sf::Vector2f drop = sf::Vector2f(dropX - 25, dropY - 25);
 
-
                     if (rand() % 100 < 70)
                     {
                         this->ammoDrops.push_back(makeAmmuDrop(drop));
-                    } else {
+                    }
+                    else
+                    {
                         this->lifeDrops.push_back(makeLifeDrop(drop));
                     }
-                    
-                } 
+                }
 
                 this->kills++;
                 delete *it;
@@ -452,8 +451,7 @@ void Game::updateEnemyFriendlyFire()
 {
     for (auto it = this->enemyShots.begin(); it != this->enemyShots.end();)
     {
-        bool removed
-         = false;
+        bool removed = false;
         for (auto enemyIt = this->enemies.begin(); enemyIt != this->enemies.end();)
         {
             if ((*it)->getArea().intersects((*enemyIt)->getArea()) && *enemyIt != (*it)->getOwner())
@@ -471,8 +469,7 @@ void Game::updateEnemyFriendlyFire()
                 ++enemyIt;
             }
         }
-        if (!removed
-        )
+        if (!removed)
         {
             ++it;
         }
@@ -567,7 +564,9 @@ void Game::update()
 
         // Game Over
         this->gameOver();
-    } else {
+    }
+    else
+    {
         switch (difficulty)
         {
         case Difficulty::Normal:
@@ -597,8 +596,9 @@ void Game::render()
     this->window->clear(sf::Color::Black);
 
     menu->draw(*this->window, state);
-        
-    if (state == GameState::Playing || state == GameState::Paused) {
+
+    if (state == GameState::Playing || state == GameState::Paused)
+    {
         // Draw Objects
         this->window->draw(*this->backgroundSprite);
 

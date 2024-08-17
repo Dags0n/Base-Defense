@@ -9,20 +9,20 @@
 class Base
 {
 private:
-    std::vector<sf::Texture*> textures;
+    std::vector<sf::Texture *> textures;
     sf::Sprite *sprite;
     Attribute *life;
     Attribute *regenRate;
 
     sf::Clock regenClock;
-    
+
     // int regenerationRate;
     void initAttributes();
     void initVariables();
-    void initSprite(const std::vector<const char*>& srcs, sf::RenderWindow &window);
+    void initSprite(const std::vector<const char *> &srcs, sf::RenderWindow &window);
 
 public:
-    Base(const std::vector<const char*>& srcs, sf::RenderWindow &window);
+    Base(const std::vector<const char *> &srcs, sf::RenderWindow &window);
     ~Base();
 
     int getLife();

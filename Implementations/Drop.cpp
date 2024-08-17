@@ -46,21 +46,21 @@ void Drop::render(sf::RenderWindow &window)
 // Getters
 sf::FloatRect Drop::getArea()
 {
-    if (!this->sprite)
-    {
-        return sf::FloatRect();
-    }
+  if (!this->sprite)
+  {
+    return sf::FloatRect();
+  }
 
-    sf::FloatRect spriteBounds = this->sprite->getGlobalBounds();
+  sf::FloatRect spriteBounds = this->sprite->getGlobalBounds();
 
-    sf::FloatRect currentArea;
-    currentArea.width = area.width;
-    currentArea.height = area.height;
-    
-    currentArea.left = spriteBounds.left + (spriteBounds.width - currentArea.width) / 2.0f;
-    currentArea.top = spriteBounds.top + (spriteBounds.height - currentArea.height) / 2.0f;
+  sf::FloatRect currentArea;
+  currentArea.width = area.width;
+  currentArea.height = area.height;
 
-    return currentArea;
+  currentArea.left = spriteBounds.left + (spriteBounds.width - currentArea.width) / 2.0f;
+  currentArea.top = spriteBounds.top + (spriteBounds.height - currentArea.height) / 2.0f;
+
+  return currentArea;
 }
 
 sf::Clock &Drop::getClock()
