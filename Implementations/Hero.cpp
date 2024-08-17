@@ -114,18 +114,18 @@ void Hero::setDestiny(sf::Vector2i destiny)
 std::vector<sf::FloatRect> Hero::getArea()
 {
     sf::FloatRect original = this->sprite->getGlobalBounds();
-    
+
     sf::FloatRect first = original;
     first.width *= 0.75f;
     first.height *= 0.75f;
-    first.top += first.height*2.5f;
-    first.left += (original.width-first.width)/2.0f;
+    first.top += first.height * 2.5f;
+    first.left += (original.width - first.width) / 2.0f;
 
     sf::FloatRect second = original;
     second.width *= 0.25f;
     second.height *= 0.875f;
-    second.top += original.height/8.0f;
-    second.left += (original.width-second.width)/2.0f;
+    second.top += original.height / 8.0f;
+    second.left += (original.width - second.width) / 2.0f;
     
     std::vector<sf::FloatRect> areas;
     areas.push_back(first);
