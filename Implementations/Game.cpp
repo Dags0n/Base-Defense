@@ -358,16 +358,13 @@ void Game::updateEnemyShotCollision()
         }
         else
         {
-            for (const auto &area : this->hero->getArea())
+            if ((*it)->getArea().intersects(this->hero->getArea()))
             {
-                if ((*it)->getArea().intersects(area))
-                {
-                    delete *it;
-                    this->enemyShots.erase(it);
-                    this->hero->damage(5);
-                    removed = true;
-                    break;
-                }
+                delete *it;
+                this->enemyShots.erase(it);
+                this->hero->damage(5);
+                removed = true;
+                break;
             }
         }
 
@@ -401,17 +398,14 @@ void Game::updateHeroCollectsAmmo()
     {
         bool removed = false;
 
-        for (const auto &area : this->hero->getArea())
+        if ((*it)->getArea().intersects(this->hero->getArea()))
         {
-            if ((*it)->getArea().intersects(area))
-            {
-                delete *it;
-                it = this->ammoDrops.erase(it);
+            delete *it;
+            it = this->ammoDrops.erase(it);
 
-                this->hero->rechargeAmmunition(10);
-                removed = true;
-                break;
-            }
+            this->hero->rechargeAmmunition(10);
+            removed = true;
+            break;
         }
 
         if (!removed)
@@ -427,17 +421,14 @@ void Game::updateHeroCollectsLife()
     {
         bool removed = false;
 
-        for (const auto &area : this->hero->getArea())
+        if ((*it)->getArea().intersects(this->hero->getArea()))
         {
-            if ((*it)->getArea().intersects(area))
-            {
-                delete *it;
-                it = this->lifeDrops.erase(it);
+            delete *it;
+            it = this->lifeDrops.erase(it);
 
-                this->hero->rechargeLife(10);
-                removed = true;
-                break;
-            }
+            this->hero->rechargeLife(10);
+            removed = true;
+            break;
         }
 
         if (!removed)

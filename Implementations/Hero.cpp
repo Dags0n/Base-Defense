@@ -38,6 +38,19 @@ void Hero::initSprite(const char *src, sf::RenderWindow &window)
     this->destiny = sf::Vector2i(posX, posY);
 }
 
+void Hero::showCollisionBox(sf::RenderWindow &window)
+{
+    sf::FloatRect shape = getArea();
+    sf::RectangleShape hitbox(sf::Vector2f(shape.width, shape.height));
+
+    hitbox.setFillColor(sf::Color::Transparent);
+    hitbox.setOutlineColor(sf::Color::Red);
+    hitbox.setOutlineThickness(2);
+    hitbox.setPosition(shape.left, shape.top);
+
+    window.draw(hitbox);
+}
+
 // Constructors and Destructors
 Hero::Hero(const char *src, sf::RenderWindow &window)
 {
@@ -111,31 +124,24 @@ void Hero::setDestiny(sf::Vector2i destiny)
     this->destiny = destiny;
 }
 
-std::vector<sf::FloatRect> Hero::getArea()
+sf::FloatRect Hero::getArea()
 {
     sf::FloatRect original = this->sprite->getGlobalBounds();
 
-    sf::FloatRect first = original;
-    first.width *= 0.75f;
-    first.height *= 0.75f;
-    first.top += first.height * 2.5f;
-    first.left += (original.width - first.width) / 2.0f;
+    float scale = 0.4f;
+    float newWidth = original.width * scale;
+    float newHeight = original.height * scale;
 
-    sf::FloatRect second = original;
-    second.width *= 0.25f;
-    second.height *= 0.875f;
-    second.top += original.height / 8.0f;
-    second.left += (original.width - second.width) / 2.0f;
+    float newLeft = original.left + (original.width - newWidth) / 2;
+    float newTop = original.top + (original.height - newHeight) / 2;
 
-    std::vector<sf::FloatRect> areas;
-    areas.push_back(first);
-    areas.push_back(second);
+    sf::FloatRect area(newLeft, newTop, newWidth, newHeight);
 
-    return areas;
+    return area;
 }
 
 void Hero::rechargeAmmunition(int value)
-{
+{   
     this->ammunition->recharge(value);
 }
 
@@ -189,4 +195,5 @@ void Hero::update(sf::RenderWindow &window, float deltaTime)
 void Hero::render(sf::RenderWindow &window)
 {
     window.draw(*this->sprite);
+    //showCollisionBox(window);
 }

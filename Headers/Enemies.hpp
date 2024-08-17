@@ -19,6 +19,7 @@ private:
     // Init functions
     void initVariables(float enemySpeed);
     void initSprite(const char *src, sf::RenderTarget &target);
+    void showCollisionBox(sf::RenderWindow &window);
 
 public:
     // Constructors and Destructors

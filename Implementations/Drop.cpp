@@ -23,6 +23,19 @@ void Drop::initArea()
   area = this->sprite->getGlobalBounds();
 }
 
+void Drop::showCollisionBox(sf::RenderWindow &window)
+{
+  sf::FloatRect shape = getArea();
+  sf::RectangleShape hitbox(sf::Vector2f(shape.width, shape.height));
+
+  hitbox.setFillColor(sf::Color::Transparent);
+  hitbox.setOutlineColor(sf::Color::Red);
+  hitbox.setOutlineThickness(2);
+  hitbox.setPosition(shape.left, shape.top);
+
+  window.draw(hitbox);
+}
+
 // Constructors and Destructors
 Drop::Drop(const char *src, sf::Vector2f position)
 {
@@ -41,6 +54,7 @@ Drop::~Drop()
 void Drop::render(sf::RenderWindow &window)
 {
   window.draw(*this->sprite);
+  //showCollisionBox(window);
 }
 
 // Getters

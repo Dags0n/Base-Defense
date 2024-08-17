@@ -1,7 +1,8 @@
 #include "Base.hpp"
 
 // Init funtions
-void Base::initAttributes(){
+void Base::initAttributes()
+{
     this->life = new Attribute(100, 100);
     this->regenRate = new Attribute(1, 1);
 }
@@ -11,12 +12,13 @@ void Base::initVariables()
     this->sprite = new sf::Sprite();
 }
 
-void Base::initSprite(const std::vector<const char*>& srcs, sf::RenderWindow &window)
+void Base::initSprite(const std::vector<const char *> &srcs, sf::RenderWindow &window)
 {
-    for(const auto& src : srcs){
-        sf::Texture* texture = new sf::Texture();
+    for (const auto &src : srcs)
+    {
+        sf::Texture *texture = new sf::Texture();
 
-        if(!texture->loadFromFile(src))
+        if (!texture->loadFromFile(src))
         {
         }
 
@@ -36,8 +38,28 @@ void Base::initSprite(const std::vector<const char*>& srcs, sf::RenderWindow &wi
     this->sprite->setPosition(sf::Vector2f(posX, posY));
 }
 
+void Base::showCollisionBox(sf::RenderWindow &window)
+{
+    sf::FloatRect spriteBound = sprite->getGlobalBounds();
+    float radius = spriteBound.width * 0.946f / 2.f;
+
+    sf::CircleShape hitbox(radius);
+    sf::Vector2u windowSize = window.getSize();
+
+    float centerX = windowSize.x / 2.f;
+    float centerY = windowSize.y / 2.f;
+
+    hitbox.setPosition(centerX - radius, centerY - radius);
+
+    hitbox.setOutlineColor(sf::Color::Red);
+    hitbox.setOutlineThickness(2);
+    hitbox.setFillColor(sf::Color::Transparent);
+
+    window.draw(hitbox);
+}
+
 // Constructors and Destructors
-Base::Base(const std::vector<const char*>& srcs, sf::RenderWindow &window)
+Base::Base(const std::vector<const char *> &srcs, sf::RenderWindow &window)
 {
     this->initAttributes();
     this->initVariables();
@@ -46,7 +68,8 @@ Base::Base(const std::vector<const char*>& srcs, sf::RenderWindow &window)
 
 Base::~Base()
 {
-    for (auto& texture : this->textures){
+    for (auto &texture : this->textures)
+    {
         delete texture;
     }
 
@@ -61,11 +84,13 @@ int Base::getLife()
     return this->life->points();
 }
 
-int Base::getMaxLife(){
+int Base::getMaxLife()
+{
     return this->life->maxPoints();
 }
 
-int Base::getRate(){
+int Base::getRate()
+{
     return this->regenRate->points();
 }
 
@@ -82,41 +107,37 @@ void Base::damage(int value)
 
 bool Base::collision(sf::FloatRect rect)
 {
-    // Obtém os limites do sprite
     sf::FloatRect spriteBound = this->sprite->getGlobalBounds();
-    
-    // Calcula o centro e o raio
+
     float originX = spriteBound.left + spriteBound.width / 2.f;
     float originY = spriteBound.top + spriteBound.height / 2.f;
-    float radius = spriteBound.width * 0.946f / 2.f; // Use metade da largura para o raio
-    
-    // Calcula a posição mais próxima do retângulo ao círculo
+    float radius = spriteBound.width * 0.946f / 2.f;
+
     float nearestX = std::max(rect.left, std::min(originX, rect.left + rect.width));
     float nearestY = std::max(rect.top, std::min(originY, rect.top + rect.height));
-    
-    // Calcula a distância quadrada entre o centro do círculo e o ponto mais próximo
+
     float deltaX = originX - nearestX;
     float deltaY = originY - nearestY;
     float distanceSquared = deltaX * deltaX + deltaY * deltaY;
 
-    // Verifica se a distância é menor ou igual ao raio
     return distanceSquared <= radius * radius;
 }
 
 // update functions
-void Base::regenerate(){
+void Base::regenerate()
+{
     this->life->recharge(regenRate->points());
 }
 
 void Base::update()
 {
-    if(this->regenClock.getElapsedTime().asSeconds() >= 1.0f)
+    if (this->regenClock.getElapsedTime().asSeconds() >= 1.0f)
     {
         this->regenerate();
         this->regenClock.restart();
     }
     this->updateSprite();
-}                               
+}
 
 void Base::updateSprite()
 {
@@ -126,7 +147,8 @@ void Base::updateSprite()
 
     int interval = max / sizeTex;
     int texIndex = (max - current) / interval;
-    if (texIndex >= sizeTex) {
+    if (texIndex >= sizeTex)
+    {
         texIndex = sizeTex - 1;
     }
     this->sprite->setTexture(*this->textures[texIndex]);
@@ -136,4 +158,5 @@ void Base::updateSprite()
 void Base::render(sf::RenderWindow &window)
 {
     window.draw(*this->sprite);
+    //showCollisionBox(window);
 }

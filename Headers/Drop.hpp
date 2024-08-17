@@ -12,12 +12,13 @@ private:
   float lifeTime;
   sf::FloatRect area;
 
-public:
   // Init functions
   void initVariables();
   void initSprite(const char *src, sf::Vector2f position);
   void initArea();
+  void showCollisionBox(sf::RenderWindow &window);
 
+public:
   // Constructors and Destructors
   Drop(const char *src, sf::Vector2f position);
   ~Drop();

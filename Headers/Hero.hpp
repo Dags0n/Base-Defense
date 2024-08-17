@@ -26,6 +26,7 @@ private:
     void initShotSound();
     void initAttributes();
     void initSprite(const char *src, sf::RenderWindow &window);
+    void showCollisionBox(sf::RenderWindow &window);
 
 public:
     // Constructors and Destructors
@@ -41,7 +42,7 @@ public:
     int getAmmunition();
     int getMaxAmmunition();
     void setDestiny(sf::Vector2i destiny);
-    std::vector<sf::FloatRect> getArea();
+    sf::FloatRect getArea();
     void rechargeAmmunition(int value);
     void rechargeLife(int value);
 

@@ -20,6 +20,7 @@ private:
     void initAttributes();
     void initVariables();
     void initSprite(const std::vector<const char *> &srcs, sf::RenderWindow &window);
+    void showCollisionBox(sf::RenderWindow &window);
 
 public:
     Base(const std::vector<const char *> &srcs, sf::RenderWindow &window);

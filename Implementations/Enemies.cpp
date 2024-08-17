@@ -50,6 +50,19 @@ void Enemies::initSprite(const char *src, sf::RenderTarget &target)
     this->sprite->setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
+void Enemies::showCollisionBox(sf::RenderWindow &window)
+{
+    sf::FloatRect shape = getArea();
+    sf::RectangleShape hitbox(sf::Vector2f(shape.width, shape.height));
+
+    hitbox.setFillColor(sf::Color::Transparent);
+    hitbox.setOutlineColor(sf::Color::Red);
+    hitbox.setOutlineThickness(2);
+    hitbox.setPosition(shape.left, shape.top);
+
+    window.draw(hitbox);
+}
+
 // Constructors and Destructors
 Enemies::Enemies(const char *src, sf::RenderWindow &window, Hero *hero, float enemySpeed)
 {
@@ -74,6 +87,7 @@ void Enemies::update(sf::RenderWindow &window, float deltaTime)
 void Enemies::render(sf::RenderWindow &window)
 {
     window.draw(*this->sprite);
+    //showCollisionBox(window);
 }
 
 void Enemies::moveTowardsHero(float deltaTime)
@@ -106,12 +120,13 @@ float Enemies::getShotInterval()
     return this->shotInterval;
 }
 
-sf::FloatRect Enemies::getArea() 
+sf::FloatRect Enemies::getArea()
 {
-    if (!this->sprite) {
+    if (!this->sprite)
+    {
         return sf::FloatRect();
     }
-    
+
     float reductionFactor = 0.6f;
 
     sf::FloatRect originalBounds = this->sprite->getGlobalBounds();
