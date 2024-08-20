@@ -842,6 +842,12 @@ void Game::update()
                 delete kamikaze;
             }
             this->kamikazes.clear();
+
+            for (auto *shot : this->enemyShots)
+            {
+                delete shot;
+            }
+            this->enemyShots.clear();
         }
 
         // Update Boss
