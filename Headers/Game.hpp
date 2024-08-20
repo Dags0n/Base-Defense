@@ -13,6 +13,7 @@
 #include "Menu.hpp"
 #include "State.hpp"
 #include "Kamikaze.hpp"
+#include "Boss.hpp"
 
 class Game
 {
@@ -31,6 +32,8 @@ private:
     sf::Clock kamikazeSpawnClock;
     float enemySpawnInterval;
     float enemySpeed;
+    float bossDamageCooldown = 1.0f;
+    float lastBossCollision = 0.f;
     int kills = 0;
 
     GameState state;
@@ -41,10 +44,13 @@ private:
     // Game Objects
     Hero *hero;
     Base *base;
+    Boss *boss;
+    bool bossSpawned = false;
     std::vector<Enemies *> enemies;
     std::vector<Kamikaze *> kamikazes;
     std::vector<Shot *> heroShots;
     std::vector<Shot *> enemyShots;
+    std::vector<Shot *> bossShots;
     std::vector<Drop *> ammoDrops;
     std::vector<Drop *> lifeDrops;
 
@@ -62,6 +68,7 @@ private:
     void initPauseMessage();
     void initHero();
     void initBase();
+    void initBoss();
     void initEnemies();
     void initKamikazes();
     void initStatusBar();
@@ -91,6 +98,11 @@ public:
     void updateHeroCollectsAmmo();
     void updateHeroCollectsLife();
     void updateEnemyFriendlyFire();
+    void updateBossShotCollision();
+    void updateBossHeroCollision(float deltaTime);
+    void updateBossBaseCollision(float deltaTime);
+    void updateBossShotHeroCollision();
+    void updateBossShotBaseCollision();
     void expiresDrops(std::vector<Drop *> &drops);
     void gameOver();
     void update();

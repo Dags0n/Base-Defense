@@ -86,6 +86,20 @@ void Game::initBase()
     this->base = new Base(textures, *this->window);
 }
 
+void Game::initBoss()
+{
+    std::vector<const char *> textures =
+        {
+            "Assets/Image/boss3.png",
+            "Assets/Image/boss2.png",
+            "Assets/Image/boss1.png",
+            "Assets/Image/boss5.png",
+            "Assets/Image/boss4.png",
+        };
+
+    this->boss = new Boss(textures, *this->window, this->hero, 30.f);
+}
+
 void Game::initEnemies()
 {
     std::vector<const char*> textures = 
@@ -211,6 +225,10 @@ Game::~Game()
     {
         delete shot;
     }
+    for (auto *shot : this->bossShots)
+    {
+        delete shot;
+    }
     for (auto *ammoDrop : this->ammoDrops)
     {
         delete ammoDrop;
@@ -224,6 +242,10 @@ Game::~Game()
         delete kamikaze;
     }
     delete this->killScore;
+    if (bossSpawned)
+    {
+        delete this->boss;
+    }
 }
 
 // Accesors
@@ -297,6 +319,19 @@ void Game::garbageRemover()
         {
             delete *it;
             this->enemyShots.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+
+    for (auto it = this->bossShots.begin(); it != this->bossShots.end();)
+    {
+        if ((*it)->isOutOfWindow(*this->window))
+        {
+            delete *it;
+            this->bossShots.erase(it);
         }
         else
         {
@@ -541,6 +576,83 @@ void Game::updateEnemyFriendlyFire()
     }
 }
 
+void Game::updateBossShotCollision()
+{
+    for (auto it = this->heroShots.begin(); it != this->heroShots.end();)
+    {
+        if ((*it)->getArea().intersects(this->boss->getArea()))
+        {
+            delete *it;
+            it = this->heroShots.erase(it);
+            this->boss->damage(5);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
+void Game::updateBossHeroCollision(float deltaTime)
+{
+    if (lastBossCollision < bossDamageCooldown) {
+        lastBossCollision += deltaTime;
+    }
+
+    if (this->boss->getArea().intersects(this->hero->getArea()) && lastBossCollision >= bossDamageCooldown)
+    {
+        this->hero->damage(20);
+        lastBossCollision = 0;
+    }
+}
+
+void Game::updateBossBaseCollision(float deltaTime)
+{
+    if (lastBossCollision < bossDamageCooldown) {
+        lastBossCollision += deltaTime;
+    }
+
+    if (this->base->collision(this->boss->getArea()) && lastBossCollision >= bossDamageCooldown)
+    {
+        this->base->damage(10);
+        lastBossCollision = 0;
+    }
+}
+
+void Game::updateBossShotHeroCollision()
+{
+    for (auto it = this->bossShots.begin(); it != this->bossShots.end();)
+    {
+        if ((*it)->getArea().intersects(this->hero->getArea()))
+        {
+            delete *it;
+            it = this->bossShots.erase(it);
+            this->hero->damage(10);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
+void Game::updateBossShotBaseCollision()
+{
+    for (auto it = this->bossShots.begin(); it != this->bossShots.end();)
+    {
+        if (this->base->collision((*it)->getArea()))
+        {
+            delete *it;
+            it = this->bossShots.erase(it);
+            this->base->damage(10);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
 void Game::expiresDrops(std::vector<Drop *> &drops)
 {
     for (auto *drop : drops)
@@ -558,6 +670,13 @@ void Game::gameOver()
     if (this->hero->getLife() <= 0 || this->base->getLife() <= 0)
     {
         state = GameState::Menu; // TODO: Change to GameOver when implemented
+    }
+
+    if (bossSpawned) {
+        if (this->boss->getLife() <= 0)
+        {
+            state = GameState::Menu; // TODO: Change to Win when implemented
+        }
     }
 }
 
@@ -577,52 +696,97 @@ void Game::update()
         this->baseLife->update(this->base->getLife());
         this->killScore->setString("Kills: " + std::to_string(kills));
 
-        for (auto *enemy : this->enemies)
-        {
-            enemy->update(*this->window, deltaTimeSeconds);
-        }
-
-        for (auto *kamikaze : this->kamikazes)
-        {
-            kamikaze->update(*this->window, deltaTimeSeconds);
-        }
-
         for (auto *shot : this->heroShots)
         {
             shot->update(deltaTimeSeconds);
         }
 
-        for (auto *shot : this->enemyShots)
-        {
-            shot->update(deltaTimeSeconds);
-        }
-
-        // Spawn enemies
-        if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval)
-        {
-            this->initEnemies();
-            enemySpawnClock.restart();
-        }
-
-        // Spawn kamikazes
-        if (kamikazeSpawnClock.getElapsedTime().asSeconds() >= 5.0f)
-        {
-            this->initKamikazes();
-            kamikazeSpawnClock.restart();
-        }
-
-        // Enemy shots
-        for (auto *enemy : this->enemies)
-        {
-            if (enemy->getShotClock().getElapsedTime().asSeconds() >= enemy->getShotInterval())
+        if (kills < 50) { 
+            for (auto *enemy : this->enemies)
             {
-                auto shot = enemy->shot("Assets/Image/enemy_shot.png", this->hero->getPosition(), enemy, 300.f);
+                enemy->update(*this->window, deltaTimeSeconds);
+            }
+
+            for (auto *kamikaze : this->kamikazes)
+            {
+                kamikaze->update(*this->window, deltaTimeSeconds);
+            }
+
+            for (auto *shot : this->enemyShots)
+            {
+                shot->update(deltaTimeSeconds);
+            }
+
+            // Spawn enemies
+            if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval)
+            {
+                this->initEnemies();
+                enemySpawnClock.restart();
+            }
+
+            // Spawn kamikazes
+            if (kamikazeSpawnClock.getElapsedTime().asSeconds() >= 5.0f)
+            {
+                this->initKamikazes();
+                kamikazeSpawnClock.restart();
+            }
+
+            // Enemy shots
+            for (auto *enemy : this->enemies)
+            {
+                if (enemy->getShotClock().getElapsedTime().asSeconds() >= enemy->getShotInterval())
+                {
+                    auto shot = enemy->shot("Assets/Image/enemy_shot.png", this->hero->getPosition(), enemy, 300.f);
+                    if (shot != nullptr)
+                    {
+                        this->enemyShots.push_back(shot);
+                    }
+                    enemy->getShotClock().restart();
+                }
+            }
+        } else if (kills == 50 && !bossSpawned) {
+            this->initBoss();
+            bossSpawned = true;
+
+            for (auto *enemy : this->enemies)
+            {
+                delete enemy;
+            }
+            this->enemies.clear();
+
+            for (auto *kamikaze : this->kamikazes)
+            {
+                delete kamikaze;
+            }
+            this->kamikazes.clear();
+        }
+
+        // Update Boss
+        if (bossSpawned)
+        {
+            this->boss->update(*this->window, deltaTimeSeconds);
+            this->updateBossShotCollision();
+            this->updateBossHeroCollision(deltaTimeSeconds);
+            this->updateBossBaseCollision(deltaTimeSeconds);
+
+            // Boss shots
+            if (this->boss->getShotClock().getElapsedTime().asSeconds() >= this->boss->getShotInterval())
+            {
+                auto shot = this->boss->shot("Assets/Image/enemy_shot.png", this->hero->getPosition());
                 if (shot != nullptr)
                 {
-                    this->enemyShots.push_back(shot);
+                    this->bossShots.push_back(shot);
                 }
-                enemy->getShotClock().restart();
+                this->boss->getShotClock().restart();
             }
+
+            for (auto *shot : this->bossShots)
+            {
+                shot->update(deltaTimeSeconds);
+            }
+
+            this->updateBossShotHeroCollision();
+            this->updateBossShotBaseCollision();
         }
 
         // Expire drops
@@ -696,6 +860,11 @@ void Game::render()
             shot->render(*this->window);
         }
 
+        for (auto *shot : this->bossShots)
+        {
+            shot->render(*this->window);
+        }
+
         // Plan 2
         for (auto *enemy : this->enemies)
         {
@@ -705,6 +874,12 @@ void Game::render()
         {
             kamikaze->render(*this->window);
         }
+
+        if (bossSpawned)
+        {
+            this->boss->render(*this->window);
+        }
+
         this->hero->render(*this->window);
 
         // Plan 3
