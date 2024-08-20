@@ -40,7 +40,6 @@ private:
     bool qKeyPressed = false;
 
     GameState state;
-    HeroType heroType;
     Difficulty difficulty;
     Menu *menu;
 

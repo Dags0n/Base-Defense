@@ -32,7 +32,6 @@ void Game::initBackgroundSprite()
 void Game::initMenu()
 {
     this->state = GameState::Menu;
-    this->heroType = HeroType::Sonda;
     this->difficulty = Difficulty::Normal;
     this->menu = new Menu(*this->window);
 }
@@ -290,7 +289,7 @@ void Game::pollEvents()
         default:
             break;
         }
-        menu->handleInput(event, state, heroType, difficulty, *this->window);
+        menu->handleInput(event, state, difficulty, *this->window);
     }
 }
 

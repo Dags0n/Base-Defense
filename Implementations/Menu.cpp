@@ -22,7 +22,7 @@ Menu::Menu(sf::RenderWindow &window) : window(window)
 
 void Menu::setupMainMenu()
 {
-    menuItems = {"Start Game", "Select Hero", "Difficulty", "Exit"};
+    menuItems = {"Start Game", "How to Play", "Difficulty", "Exit"};
     menuTexts.clear();
 
     for (size_t i = 0; i < menuItems.size(); ++i)
@@ -37,21 +37,39 @@ void Menu::setupMainMenu()
     }
 }
 
-void Menu::setupHeroSelectionMenu()
+void Menu::setupHowToPlayMenu()
 {
-    heroOptions = {"Sonda III", "Falcon 9", "Starship", "Back"};
-    heroTexts.clear();
+    htpOptions = {"How to Play:", "Press the right mouse button to move;", "Press the Q key to shoot;", "You need to defend your base at any cost;", "Kill all the enemies to win;", "You will need to eliminate 51 of them;", "The Snipers and the Kamikazes will atack you;", "Your last challenge will be to kill their Boss.", "Good luck, you'll need it", "Back"};
+    htpTexts.clear();
 
-    for (size_t i = 0; i < heroOptions.size(); ++i)
+    for (size_t i = 0; i < htpOptions.size() - 1; ++i)
     {
         sf::Text text;
         text.setFont(font);
-        text.setString(heroOptions[i]);
-        text.setCharacterSize(24);
+        text.setString(htpOptions[i]);
+
+        if (i == 0)
+        {
+            text.setCharacterSize(36);
+            text.setPosition(80.f, 80.f);
+        }
+        else
+        {
+            text.setCharacterSize(24);
+            text.setPosition(100.f, 100.f + i * 50.f);
+        }
+
         text.setFillColor(sf::Color::White);
-        text.setPosition(100.f, 450.f + i * 40.f);
-        heroTexts.push_back(text);
+        htpTexts.push_back(text);
     }
+
+    sf::Text text;
+    text.setFont(font);
+    text.setString(htpOptions[htpOptions.size() - 1]);
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(100.f, 570.f);
+    htpTexts.push_back(text);
 }
 
 void Menu::setupDifficultySelectionMenu()
@@ -126,7 +144,7 @@ void Menu::setupTitle()
     subtitle.setPosition(70.f, 140.f);
 }
 
-void Menu::handleInput(sf::Event event, GameState &state, HeroType &heroType, Difficulty &difficulty, sf::RenderWindow &window)
+void Menu::handleInput(sf::Event event, GameState &state, Difficulty &difficulty, sf::RenderWindow &window)
 {
     if (state == GameState::Menu)
     {
@@ -146,8 +164,8 @@ void Menu::handleInput(sf::Event event, GameState &state, HeroType &heroType, Di
                             state = GameState::Playing;
                             break;
                         case 1:
-                            state = GameState::HeroSelection;
-                            setupHeroSelectionMenu();
+                            state = GameState::HowToPlay;
+                            setupHowToPlayMenu();
                             break;
                         case 2:
                             state = GameState::DifficultySelection;
@@ -162,9 +180,9 @@ void Menu::handleInput(sf::Event event, GameState &state, HeroType &heroType, Di
             }
         }
     }
-    else if (state == GameState::HeroSelection)
+    else if (state == GameState::HowToPlay)
     {
-        handleHeroSelectionInput(event, state, window, heroType);
+        handleHowToPlayInput(event, state, window);
     }
     else if (state == GameState::DifficultySelection)
     {
@@ -176,7 +194,7 @@ void Menu::handleInput(sf::Event event, GameState &state, HeroType &heroType, Di
     }
 }
 
-void Menu::handleHeroSelectionInput(sf::Event event, GameState &state, sf::RenderWindow &window, HeroType &heroType)
+void Menu::handleHowToPlayInput(sf::Event event, GameState &state, sf::RenderWindow &window)
 {
     if (event.type == sf::Event::MouseButtonPressed)
     {
@@ -184,27 +202,13 @@ void Menu::handleHeroSelectionInput(sf::Event event, GameState &state, sf::Rende
         {
             sf::Vector2i mousePos = sf::Mouse::getPosition(*&window);
 
-            for (size_t i = 0; i < heroOptions.size(); ++i)
+            for (size_t i = 0; i < htpOptions.size(); ++i)
             {
-                if (heroTexts[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+                if (htpTexts[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
                 {
-                    switch (i)
+                    if (i == htpOptions.size() - 1)
                     {
-                    case 0:
-                        heroType = HeroType::Sonda;
                         state = GameState::Menu;
-                        break;
-                    case 1:
-                        heroType = HeroType::Falcon;
-                        state = GameState::Menu;
-                        break;
-                    case 2:
-                        heroType = HeroType::Starship;
-                        state = GameState::Menu;
-                        break;
-                    case 3:
-                        state = GameState::Menu;
-                        break;
                     }
                 }
             }
@@ -288,8 +292,12 @@ void Menu::draw(sf::RenderWindow &window, GameState state)
 {
     window.clear();
     window.draw(backgroundSprite);
-    window.draw(title);
-    window.draw(subtitle);
+
+    if (state != GameState::HowToPlay)
+    {    
+        window.draw(title);
+        window.draw(subtitle);
+    }
 
     if (state == GameState::Menu)
     {
@@ -298,9 +306,9 @@ void Menu::draw(sf::RenderWindow &window, GameState state)
             window.draw(text);
         }
     }
-    else if (state == GameState::HeroSelection)
+    else if (state == GameState::HowToPlay)
     {
-        for (const auto &text : heroTexts)
+        for (const auto &text : htpTexts)
         {
             window.draw(text);
         }

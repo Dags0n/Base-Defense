@@ -5,17 +5,11 @@ enum class GameState
 {
     Menu,
     Playing,
-    HeroSelection,
+    HowToPlay,
     DifficultySelection,
     Paused,
     GameOver,
     Win
-};
-enum class HeroType
-{
-    Sonda,
-    Falcon,
-    Starship
 };
 enum class Difficulty
 {
