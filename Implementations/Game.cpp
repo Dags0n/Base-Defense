@@ -61,7 +61,7 @@ void Game::initPauseMessage()
     this->pauseMessage->setFont(*this->font);
     this->pauseMessage->setString("PAUSE");
     this->pauseMessage->setCharacterSize(100);
-    this->pauseMessage->setFillColor(sf::Color::Cyan);
+    this->pauseMessage->setFillColor(sf::Color::White);
     sf::FloatRect textRect = this->pauseMessage->getLocalBounds();
     this->pauseMessage->setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
     sf::Vector2u windowSize = this->window->getSize();
@@ -97,7 +97,7 @@ void Game::initBoss()
             "Assets/Image/boss4.png",
         };
 
-    this->boss = new Boss(textures, *this->window, this->hero, 30.f);
+    this->boss = new Boss(textures, *this->window, this->hero, 50.f);
 }
 
 void Game::initEnemies()
@@ -584,7 +584,36 @@ void Game::updateBossShotCollision()
         {
             delete *it;
             it = this->heroShots.erase(it);
-            this->boss->damage(5);
+            if (difficulty == Difficulty::Impossible)
+            {
+                this->boss->damage(2);
+            }
+            else if (difficulty == Difficulty::Hard)
+            {
+                this->boss->damage(3);
+            }
+            else
+            {
+                this->boss->damage(4);
+            }
+
+            if (rand() % 100 < 15)
+            {
+                sf::FloatRect bounds = boss->getArea();
+                float dropX = bounds.left + bounds.width / 2;
+                float dropY = bounds.top + bounds.height / 2;
+                sf::Vector2f drop = sf::Vector2f(dropX - 25, dropY - 25);
+
+                if (rand() % 100 < 70)
+                {
+                    this->ammoDrops.push_back(makeAmmuDrop(drop));
+                }
+                else
+                {
+                    this->lifeDrops.push_back(makeLifeDrop(drop));
+                }
+            }
+
         }
         else
         {
@@ -627,7 +656,7 @@ void Game::updateBossShotHeroCollision()
         {
             delete *it;
             it = this->bossShots.erase(it);
-            this->hero->damage(10);
+            this->hero->damage(15);
         }
         else
         {
@@ -874,12 +903,6 @@ void Game::render()
         {
             kamikaze->render(*this->window);
         }
-
-        if (bossSpawned)
-        {
-            this->boss->render(*this->window);
-        }
-
         this->hero->render(*this->window);
 
         // Plan 3
@@ -891,6 +914,11 @@ void Game::render()
         for (auto *lifeDrop : this->lifeDrops)
         {
             lifeDrop->render(*this->window);
+        }
+
+        if (bossSpawned)
+        {
+            this->boss->render(*this->window);
         }
 
         // Plan 4
