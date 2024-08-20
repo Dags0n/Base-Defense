@@ -17,9 +17,13 @@ private:
     void setupMainMenu();
     void setupHeroSelectionMenu();
     void setupDifficultySelectionMenu();
+    void setupGameOver();
+    void setupWin();
+    void setupEndGame(const std::vector<std::string>& options);
     void setupTitle();
     void handleHeroSelectionInput(sf::Event event, GameState &state, sf::RenderWindow &window, HeroType &heroType);
     void handleDifficultySelectionInput(sf::Event event, GameState &state, sf::RenderWindow &window, Difficulty &difficulty);
+    void handleEndGameInput(sf::Event event, GameState &state, sf::RenderWindow &window);
 
     sf::Font font;
     sf::Texture backgroundTexture;
@@ -36,6 +40,9 @@ private:
 
     std::vector<std::string> difficultyOptions;
     std::vector<sf::Text> difficultyTexts;
+
+    std::vector<std::string> endOptions;
+    std::vector<sf::Text> endTexts;
 };
 
 #endif

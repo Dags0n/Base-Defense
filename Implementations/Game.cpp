@@ -698,13 +698,13 @@ void Game::gameOver()
 {
     if (this->hero->getLife() <= 0 || this->base->getLife() <= 0)
     {
-        state = GameState::Menu; // TODO: Change to GameOver when implemented
+        state = GameState::GameOver; // TODO: Change to GameOver when implemented
     }
 
     if (bossSpawned) {
         if (this->boss->getLife() <= 0)
         {
-            state = GameState::Menu; // TODO: Change to Win when implemented
+            state = GameState::Win; // TODO: Change to Win when implemented
         }
     }
 }

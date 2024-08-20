@@ -71,6 +71,46 @@ void Menu::setupDifficultySelectionMenu()
     }
 }
 
+void Menu::setupGameOver()
+{
+    std::vector<std::string> gameOverOptions = {"Game Over", "You Lost!", "Play Again", "Menu", "Exit"};
+    setupEndGame(gameOverOptions);
+}
+
+void Menu::setupWin()
+{
+    std::vector<std::string> winOptions = {"Game Over", "You Win!", "Play Again", "Menu", "Exit"};
+    setupEndGame(winOptions);
+}
+
+void Menu::setupEndGame(const std::vector<std::string> &options)
+{
+    endOptions = options;
+    endTexts.clear();
+
+    for (size_t i = 0; i < 2; ++i)
+    {
+        sf::Text text;
+        text.setFont(font);
+        text.setString(endOptions[i]);
+        text.setCharacterSize(48);
+        text.setFillColor(sf::Color::White);
+        text.setPosition(100.f, 300.f + i * 70.f);
+        endTexts.push_back(text);
+    }
+
+    for (size_t i = 2; i < endOptions.size(); ++i)
+    {
+        sf::Text text;
+        text.setFont(font);
+        text.setString(endOptions[i]);
+        text.setCharacterSize(24);
+        text.setFillColor(sf::Color::White);
+        text.setPosition(100.f, 450.f + i * 40.f);
+        endTexts.push_back(text);
+    }
+}
+
 void Menu::setupTitle()
 {
     title.setFont(font);
@@ -129,6 +169,10 @@ void Menu::handleInput(sf::Event event, GameState &state, HeroType &heroType, Di
     else if (state == GameState::DifficultySelection)
     {
         handleDifficultySelectionInput(event, state, window, difficulty);
+    }
+    else if (state == GameState::GameOver || state == GameState::Win)
+    {
+        handleEndGameInput(event, state, window);
     }
 }
 
@@ -210,6 +254,36 @@ void Menu::handleDifficultySelectionInput(sf::Event event, GameState &state, sf:
     }
 }
 
+void Menu::handleEndGameInput(sf::Event event, GameState &state, sf::RenderWindow &window)
+{
+    if (event.type == sf::Event::MouseButtonPressed)
+    {
+        if (event.mouseButton.button == sf::Mouse::Left)
+        {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(*&window);
+
+            for (size_t i = 2; i < endOptions.size(); ++i)
+            {
+                if (endTexts[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+                {
+                    switch (i)
+                    {
+                    case 2:
+                        state = GameState::Playing;
+                        break;
+                    case 3:
+                        state = GameState::Menu;
+                        break;
+                    case 4:
+                        exit(0);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
 void Menu::draw(sf::RenderWindow &window, GameState state)
 {
     window.clear();
@@ -234,6 +308,22 @@ void Menu::draw(sf::RenderWindow &window, GameState state)
     else if (state == GameState::DifficultySelection)
     {
         for (const auto &text : difficultyTexts)
+        {
+            window.draw(text);
+        }
+    }
+    else if (state == GameState::GameOver)
+    {
+        setupGameOver();
+        for (const auto &text : endTexts)
+        {
+            window.draw(text);
+        }
+    }
+    else if (state == GameState::Win)
+    {
+        setupWin();
+        for (const auto &text : endTexts)
         {
             window.draw(text);
         }

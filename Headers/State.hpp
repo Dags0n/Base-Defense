@@ -8,7 +8,8 @@ enum class GameState
     HeroSelection,
     DifficultySelection,
     Paused,
-    GameOver
+    GameOver,
+    Win
 };
 enum class HeroType
 {
