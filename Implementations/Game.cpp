@@ -442,6 +442,7 @@ void Game::updateKamikazeShotCollision()
         {
             if ((*it)->getArea().intersects(shot->getArea()))
             {
+                this->kills++;
                 delete *it;
                 it = this->kamikazes.erase(it);
 
