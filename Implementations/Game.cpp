@@ -277,11 +277,7 @@ void Game::pollEvents()
             {
                 if (state == GameState::Playing)
                 {
-                    auto shot = this->hero->shot("Assets/Image/hero_shot.png", (sf::Vector2f)sf::Mouse::getPosition(*this->window));
-                    if (shot != nullptr)
-                    {
-                        this->heroShots.push_back(shot);
-                    }
+                    qKeyPressed = true;
                 }
             }
             break;
@@ -874,6 +870,24 @@ void Game::update()
 
             this->updateBossShotHeroCollision();
             this->updateBossShotBaseCollision();
+        }
+
+        if (lastHeroShot < heroShotCooldown)
+        {
+            lastHeroShot += deltaTimeSeconds;
+        }
+
+        if (qKeyPressed && lastHeroShot >= heroShotCooldown)
+        {
+            auto shot = this->hero->shot("Assets/Image/hero_shot.png", (sf::Vector2f)sf::Mouse::getPosition(*this->window));
+            
+            if (shot != nullptr)
+            {
+                this->heroShots.push_back(shot);
+                lastHeroShot = 0;
+            }
+
+            qKeyPressed = false;
         }
 
         // Expire drops
