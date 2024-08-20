@@ -443,6 +443,24 @@ void Game::updateKamikazeShotCollision()
             if ((*it)->getArea().intersects(shot->getArea()))
             {
                 this->kills++;
+
+                if (rand() % 100 < 40)
+                {
+                    sf::FloatRect bounds = (*it)->getArea();
+                    float dropX = bounds.left + bounds.width / 2;
+                    float dropY = bounds.top + bounds.height / 2;
+                    sf::Vector2f drop = sf::Vector2f(dropX - 25, dropY - 25);
+
+                    if (rand() % 100 < 70)
+                    {
+                        this->ammoDrops.push_back(makeAmmuDrop(drop));
+                    }
+                    else
+                    {
+                        this->lifeDrops.push_back(makeLifeDrop(drop));
+                    }
+                }
+
                 delete *it;
                 it = this->kamikazes.erase(it);
 
