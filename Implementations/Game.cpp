@@ -173,7 +173,7 @@ Drop *Game::makeLifeDrop(sf::Vector2f position)
 
     sf::FloatRect originalBounds = life->getArea();
     sf::FloatRect reducedBounds = originalBounds;
-    reducedBounds.width *= 0.43f;
+    reducedBounds.width *= 0.70f;
     reducedBounds.height *= 0.715f;
 
     life->setArea(reducedBounds);
