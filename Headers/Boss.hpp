@@ -46,6 +46,7 @@ public:
     float getShotInterval();
     sf::FloatRect getArea();
     int getLife();
+    int getMaxLife();
 };
 
 #endif

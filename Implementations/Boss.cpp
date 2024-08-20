@@ -173,3 +173,8 @@ int Boss::getLife()
 {
     return this->life->points();
 }
+
+int Boss::getMaxLife()
+{
+    return this->life->maxPoints();
+}

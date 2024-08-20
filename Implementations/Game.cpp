@@ -142,6 +142,17 @@ void Game::initStatusBar()
     this->baseLife = new StatusBar(baseSize, basePos, maxBaseLife, currentBaseLife, color, background, "Base: ");
 }
 
+void Game::initBossStatusBar()
+{
+    sf::Vector2f bossSize = sf::Vector2f(400, 20);
+    sf::Vector2i bossPos = sf::Vector2i(30, this->window->getSize().y - 40);
+    int maxBossLife = this->boss->getMaxLife();
+    int currentBossLife = this->boss->getLife();
+    sf::Color color = sf::Color::Red;
+    sf::Color background = sf::Color::White;
+    this->bossLife = new StatusBar(bossSize, bossPos, maxBossLife, currentBossLife, color, background, "Boss: ");
+}
+
 void Game::initKillScore()
 {
     this->killScore = new sf::Text();
@@ -244,6 +255,7 @@ Game::~Game()
     if (bossSpawned)
     {
         delete this->boss;
+        delete this->bossLife;
     }
 }
 
@@ -736,6 +748,7 @@ void Game::resetGame()
     if (bossSpawned)
     {
         delete this->boss;
+        delete this->bossLife;
         bossSpawned = false;
     }
 
@@ -829,6 +842,8 @@ void Game::update()
         } else if (kills == 50 && !bossSpawned) {
             this->initBoss();
             bossSpawned = true;
+            
+            this->initBossStatusBar();
 
             for (auto *enemy : this->enemies)
             {
@@ -853,6 +868,7 @@ void Game::update()
         if (bossSpawned)
         {
             this->boss->update(*this->window, deltaTimeSeconds);
+            this->bossLife->update(this->boss->getLife());
             this->updateBossShotCollision();
             this->updateBossHeroCollision(deltaTimeSeconds);
             this->updateBossBaseCollision(deltaTimeSeconds);
@@ -1002,6 +1018,10 @@ void Game::render()
         this->life->render(*this->window);
         this->ammunition->render(*this->window);
         this->baseLife->render(*this->window);
+        if (bossSpawned)
+        {
+            this->bossLife->render(*this->window);
+        }
         this->window->draw(*this->killScore);
 
         if (state == GameState::Paused)

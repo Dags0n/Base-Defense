@@ -59,6 +59,7 @@ private:
     StatusBar *life;
     StatusBar *ammunition;
     StatusBar *baseLife;
+    StatusBar *bossLife;
     sf::Text *killScore;
 
     // Private functions
@@ -74,6 +75,7 @@ private:
     void initEnemies();
     void initKamikazes();
     void initStatusBar();
+    void initBossStatusBar();
     void initKillScore();
 
     Drop *makeAmmuDrop(sf::Vector2f position);
