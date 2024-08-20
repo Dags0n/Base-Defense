@@ -115,7 +115,7 @@ void Game::initEnemies()
 void Game::initKamikazes()
 {
     // Temporary Image for tests
-    this->kamikazes.push_back(new Kamikaze((char *)"Assets/Image/enemy.png", *this->window, this->base->getArea()));
+    this->kamikazes.push_back(new Kamikaze((char *)"Assets/Image/kamikaze.png", *this->window, this->base->getArea()));
 }
 
 void Game::initStatusBar()
@@ -815,11 +815,11 @@ void Game::update()
         {
         case Difficulty::Normal:
             enemySpeed = 80.f;
-            enemySpawnInterval = 2.5f;
+            enemySpawnInterval = 2.0f;
             break;
         case Difficulty::Hard:
             enemySpeed = 100.f;
-            enemySpawnInterval = 2.0f;
+            enemySpawnInterval = 1.5f;
             break;
         case Difficulty::Impossible:
             enemySpeed = 120.f;
