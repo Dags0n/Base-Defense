@@ -104,6 +104,7 @@ public:
     void updateBossShotHeroCollision();
     void updateBossShotBaseCollision();
     void expiresDrops(std::vector<Drop *> &drops);
+    void resetGame();
     void gameOver();
     void update();
 

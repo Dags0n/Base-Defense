@@ -45,6 +45,7 @@ public:
     sf::FloatRect getArea();
     void rechargeAmmunition(int value);
     void rechargeLife(int value);
+    void reset(sf::RenderWindow &window);
 
     // Actions
     Shot *shot(const std::string &src, const sf::Vector2f &destiny);

@@ -694,17 +694,75 @@ void Game::expiresDrops(std::vector<Drop *> &drops)
     }
 }
 
+void Game::resetGame()
+{
+    for (auto *enemy : this->enemies)
+    {
+        delete enemy;
+    }
+    this->enemies.clear();
+
+    for (auto *kamikaze : this->kamikazes)
+    {
+        delete kamikaze;
+    }
+    this->kamikazes.clear();
+
+    for (auto *shot : this->heroShots)
+    {
+        delete shot;
+    }
+    this->heroShots.clear();
+
+    for (auto *shot : this->enemyShots)
+    {
+        delete shot;
+    }
+    this->enemyShots.clear();
+
+    for (auto *shot : this->bossShots)
+    {
+        delete shot;
+    }
+    this->bossShots.clear();
+
+    for (auto *ammoDrop : this->ammoDrops)
+    {
+        delete ammoDrop;
+    }
+    this->ammoDrops.clear();
+
+    for (auto *lifeDrop : this->lifeDrops)
+    {
+        delete lifeDrop;
+    }
+    this->lifeDrops.clear();
+
+    if (bossSpawned)
+    {
+        delete this->boss;
+        bossSpawned = false;
+    }
+
+    this->kills = 0;
+
+    this->hero->reset(*this->window);
+    this->base->reset();
+}
+
 void Game::gameOver()
 {
     if (this->hero->getLife() <= 0 || this->base->getLife() <= 0)
     {
-        state = GameState::GameOver; // TODO: Change to GameOver when implemented
+        state = GameState::GameOver;
+        this->resetGame();
     }
 
     if (bossSpawned) {
         if (this->boss->getLife() <= 0)
         {
-            state = GameState::Win; // TODO: Change to Win when implemented
+            state = GameState::Win;
+            this->resetGame();
         }
     }
 }

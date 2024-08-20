@@ -150,6 +150,19 @@ void Hero::rechargeLife(int value)
     this->life->recharge(value);
 }
 
+void Hero::reset(sf::RenderWindow &window)
+{
+    this->life->recharge(this->life->maxPoints());
+    this->ammunition->recharge(this->ammunition->maxPoints());
+
+    sf::FloatRect bounds = this->sprite->getLocalBounds();
+    this->sprite->setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+    float posX = window.getSize().x / 2.0;
+    float posY = window.getSize().y / 2.0;
+    this->sprite->setPosition(sf::Vector2f(posX, posY));
+    this->destiny = sf::Vector2i(posX, posY);
+}
+
 // Actions
 Shot *Hero::shot(const std::string &src, const sf::Vector2f &destiny)
 {

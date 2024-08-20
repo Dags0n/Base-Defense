@@ -154,6 +154,11 @@ void Base::updateSprite()
     this->sprite->setTexture(*this->textures[texIndex]);
 }
 
+void Base::reset()
+{
+    this->life->recharge(this->life->maxPoints());
+}
+
 // render
 void Base::render(sf::RenderWindow &window)
 {

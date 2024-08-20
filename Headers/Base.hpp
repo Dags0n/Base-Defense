@@ -37,6 +37,7 @@ public:
     void regenerate();
     void update();
     void updateSprite();
+    void reset();
 
     void render(sf::RenderWindow &window);
 };
