@@ -26,16 +26,21 @@ Base video: https://www.youtube.com/watch?v=5NH7W2XgdwE
 - Git/Github
 - Kanban
 
-## How to compile the program
+## How to compile and run the program
 ### Dependencies
 - g++
 - Make
 - SFML
-### Run
+### Compile and Run
 Simply run the following command in the terminal:
 ```bash
   make
 ```
+
+## Game commands
+- To move right-click on the desired location
+- To fire press the q key and aim with the mouse
+- To pause press space
 
 ## Authors
 - [Rômulo](https://github.com/romuloAMR)
