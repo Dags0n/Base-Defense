@@ -6,7 +6,7 @@ void Game::initWindow()
     this->videoMode.height = 720;
     this->videoMode.width = 1280;
 
-    this->window = new sf::RenderWindow(this->videoMode, "Base Defense", sf::Style::Default);
+    this->window = new sf::RenderWindow(this->videoMode, "Base Defense", sf::Style::Fullscreen);
     this->window->setFramerateLimit(144);
     this->window->setPosition(sf::Vector2i(0, 0));
 }
