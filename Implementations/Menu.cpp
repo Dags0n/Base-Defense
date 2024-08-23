@@ -107,7 +107,7 @@ void Menu::setupGameOver()
 
 void Menu::setupWin()
 {
-    std::vector<std::string> winOptions = {"Game Over", "You Win!", "Play Again", "Menu", "Exit"};
+    std::vector<std::string> winOptions = {"You Won!", "Mission Complete!", "Play Again", "Menu", "Exit"};
     setupEndGame(winOptions);
 }
 
