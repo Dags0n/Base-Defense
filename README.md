@@ -85,12 +85,12 @@ To win, you will need to kill all enemies before they destroy the base. So you w
 
 ### Photographs:
 <div style="display: flex; flex-direction: column; align-items: center;">
-  <img width="500px" src="https://github.com/user-attachments/assets/fa1b4d6d-d5a2-4d15-8fb6-b2541d165293" />
-  <img width="500px" src="https://github.com/user-attachments/assets/0275b12b-20a0-43f6-88f4-fca7150c8034" />
-  <img width="500px" src="https://github.com/user-attachments/assets/09531228-d06d-4848-b8d7-0ca3e16cb8d6" />
-  <img width="500px" src="https://github.com/user-attachments/assets/7ece8d58-7801-4563-b2d5-8163c9aaf574" />
-  <img width="500px" src="https://github.com/user-attachments/assets/1ecb91c4-98ad-4665-a59d-440896ce519a" />
-  <img width="500px" src="https://github.com/user-attachments/assets/0e737823-6732-450d-adf4-191e339b0e98" />
+  <img width="400px" src="https://github.com/user-attachments/assets/fa1b4d6d-d5a2-4d15-8fb6-b2541d165293" />
+  <img width="400px" src="https://github.com/user-attachments/assets/0275b12b-20a0-43f6-88f4-fca7150c8034" />
+  <img width="400px" src="https://github.com/user-attachments/assets/09531228-d06d-4848-b8d7-0ca3e16cb8d6" />
+  <img width="400px" src="https://github.com/user-attachments/assets/7ece8d58-7801-4563-b2d5-8163c9aaf574" />
+  <img width="400px" src="https://github.com/user-attachments/assets/1ecb91c4-98ad-4665-a59d-440896ce519a" />
+  <img width="400px" src="https://github.com/user-attachments/assets/0e737823-6732-450d-adf4-191e339b0e98" />
 </div>
 
 ## Authors
