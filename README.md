@@ -1,6 +1,6 @@
 # 👾 Earth Defender: Void Assault
 
-Earth Defender is a space-themed base defense game where the player controls a ship and must face waves of alien enemies. The objective is to kill all the enemies, defeating them and collecting items that improve the base.
+> Earth Defender is a space-themed base defense game where the player controls a ship and must face waves of alien enemies. The objective is to kill all the enemies, defeating them and collecting items that improve the base.
 The game consists of a 2d map, where enemies appear randomly shooting at the base, and you are the soldier responsible for stopping the enemies and protecting the base
 
 ## Implemented Features
@@ -43,7 +43,7 @@ To win, you will need to kill all enemies before they destroy the base. So you w
 - Git/Github
 - Kanban
 
-# Compile and run on a Unix Machine
+## Compile and run on a Unix Machine
 ### Dependencies
 - g++
 - Make
@@ -71,6 +71,27 @@ To win, you will need to kill all enemies before they destroy the base. So you w
 ```bash
   make
 ```
+
+## Gallery of art and photographs:
+### Arts:
+<img width="50px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/spaceship_dark.png" />:  Hero art. <br>
+<img width="50px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/enemy.png" />:  Enemy art. <br>
+<img width="50px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/kamikaze.png" />:  Enemy kamikaze art. <br>
+<img width="50px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/boss1.png" />:  Boss art. <br>
+<img width="50px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/base.png" />:  Base art. <br>
+<img width="50px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/ammo.png" />:  Ammunition drop art. <br>
+<img width="50px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/life.png" />:  Life drop art. <br>
+<img width="50px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/base_upgrade.png" />:  Base upgrade drop art. <br>
+
+### Photographs:
+<div style="display: flex; flex-direction: column; align-items: center;">
+  <img width="500px" src="https://github.com/user-attachments/assets/fa1b4d6d-d5a2-4d15-8fb6-b2541d165293" />
+  <img width="500px" src="https://github.com/user-attachments/assets/0275b12b-20a0-43f6-88f4-fca7150c8034" />
+  <img width="500px" src="https://github.com/user-attachments/assets/09531228-d06d-4848-b8d7-0ca3e16cb8d6" />
+  <img width="500px" src="https://github.com/user-attachments/assets/7ece8d58-7801-4563-b2d5-8163c9aaf574" />
+  <img width="500px" src="https://github.com/user-attachments/assets/1ecb91c4-98ad-4665-a59d-440896ce519a" />
+  <img width="500px" src="https://github.com/user-attachments/assets/0e737823-6732-450d-adf4-191e339b0e98" />
+</div>
 
 ## Authors
 - [Rômulo Alves](https://github.com/romuloAMR)
