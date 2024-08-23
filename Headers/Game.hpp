@@ -36,6 +36,7 @@ private:
     float lastBossCollision = 0.f;
     float heroShotCooldown = 0.2f;
     float lastHeroShot = 0.f;
+    float regenRate = 1.0f;
     int kills = 0;
     bool qKeyPressed = false;
 

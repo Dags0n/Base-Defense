@@ -4,7 +4,6 @@
 void Base::initAttributes()
 {
     this->life = new Attribute(100, 100);
-    this->regenRate = new Attribute(1, 1);
 }
 
 void Base::initVariables()
@@ -75,7 +74,6 @@ Base::~Base()
 
     delete this->sprite;
     delete this->life;
-    delete this->regenRate;
 }
 
 // Getters and Setters
@@ -87,11 +85,6 @@ int Base::getLife()
 int Base::getMaxLife()
 {
     return this->life->maxPoints();
-}
-
-int Base::getRate()
-{
-    return this->regenRate->points();
 }
 
 sf::FloatRect Base::getArea()
@@ -124,16 +117,16 @@ bool Base::collision(sf::FloatRect rect)
 }
 
 // update functions
-void Base::regenerate()
+void Base::regenerate(float regenRate)
 {
-    this->life->recharge(regenRate->points());
+    this->life->recharge(regenRate);
 }
 
-void Base::update()
+void Base::update(float regenRate)
 {
     if (this->regenClock.getElapsedTime().asSeconds() >= 1.0f)
     {
-        this->regenerate();
+        this->regenerate(regenRate);
         this->regenClock.restart();
     }
     this->updateSprite();

@@ -12,7 +12,6 @@ private:
     std::vector<sf::Texture *> textures;
     sf::Sprite *sprite;
     Attribute *life;
-    Attribute *regenRate;
 
     sf::Clock regenClock;
 
@@ -28,14 +27,13 @@ public:
 
     int getLife();
     int getMaxLife();
-    int getRate();
     sf::FloatRect getArea();
 
     void damage(int value);
     bool collision(sf::FloatRect rect);
 
-    void regenerate();
-    void update();
+    void regenerate(float regenRate);
+    void update(float regenRate);
     void updateSprite();
     void reset();
 
