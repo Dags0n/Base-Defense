@@ -197,6 +197,19 @@ Drop *Game::makeLifeDrop(sf::Vector2f position)
     return life;
 }
 
+Drop *Game::makeBaseUpgradeDrop(sf::Vector2f position)
+{
+    Drop *baseUpgrade = new Drop("Assets/Image/base_upgrade.png", position);
+
+    sf::FloatRect originalBounds = baseUpgrade->getArea();
+    sf::FloatRect reducedBounds = originalBounds;
+    reducedBounds.width *= 0.70f;
+    reducedBounds.height *= 0.715f;
+
+    baseUpgrade->setArea(reducedBounds);
+    return baseUpgrade;
+}
+
 // Constructors and Destructors
 Game::Game()
 {
@@ -253,6 +266,10 @@ Game::~Game()
     for (auto *lifeDrop : this->lifeDrops)
     {
         delete lifeDrop;
+    }
+    for (auto *baseUpgradeDrop : this->baseUpgradeDrops)
+    {
+        delete baseUpgradeDrop;
     }
     for (auto *kamikaze : this->kamikazes)
     {
@@ -381,13 +398,19 @@ void Game::updateHeroShotCollision()
                     float dropY = bounds.top + bounds.height / 2;
                     sf::Vector2f drop = sf::Vector2f(dropX - 25, dropY - 25);
 
-                    if (rand() % 100 < 70)
+                    int random = rand() % 100;
+
+                    if (random < 10)
                     {
-                        this->ammoDrops.push_back(makeAmmuDrop(drop));
+                        this->baseUpgradeDrops.push_back(makeBaseUpgradeDrop(drop));
+                    }
+                    else if (random < 30)
+                    {
+                        this->lifeDrops.push_back(makeLifeDrop(drop));
                     }
                     else
                     {
-                        this->lifeDrops.push_back(makeLifeDrop(drop));
+                        this->ammoDrops.push_back(makeAmmuDrop(drop));
                     }
                 }
 
@@ -451,20 +474,26 @@ void Game::updateKamikazeShotCollision()
             {
                 this->kills++;
 
-                if (rand() % 100 < 40)
+                if (rand() % 100 < 80)
                 {
                     sf::FloatRect bounds = (*it)->getArea();
                     float dropX = bounds.left + bounds.width / 2;
                     float dropY = bounds.top + bounds.height / 2;
                     sf::Vector2f drop = sf::Vector2f(dropX - 25, dropY - 25);
 
-                    if (rand() % 100 < 70)
+                    int random = rand() % 100;
+
+                    if (random < 10)
                     {
-                        this->ammoDrops.push_back(makeAmmuDrop(drop));
+                        this->baseUpgradeDrops.push_back(makeBaseUpgradeDrop(drop));
+                    }
+                    else if (random < 30)
+                    {
+                        this->lifeDrops.push_back(makeLifeDrop(drop));
                     }
                     else
                     {
-                        this->lifeDrops.push_back(makeLifeDrop(drop));
+                        this->ammoDrops.push_back(makeAmmuDrop(drop));
                     }
                 }
 
@@ -569,6 +598,29 @@ void Game::updateHeroCollectsLife()
             it = this->lifeDrops.erase(it);
 
             this->hero->rechargeLife(10);
+            removed = true;
+            break;
+        }
+
+        if (!removed)
+        {
+            ++it;
+        }
+    }
+}
+
+void Game::updateHeroCollectsBaseUpgrade()
+{
+    for (auto it = this->baseUpgradeDrops.begin(); it != this->baseUpgradeDrops.end();)
+    {
+        bool removed = false;
+
+        if ((*it)->getArea().intersects(this->hero->getArea()))
+        {
+            delete *it;
+            it = this->baseUpgradeDrops.erase(it);
+
+            this->regenRate += 1.0f;
             removed = true;
             break;
         }
@@ -771,6 +823,12 @@ void Game::resetGame()
     }
     this->lifeDrops.clear();
 
+    for (auto *baseUpgradeDrop : this->baseUpgradeDrops)
+    {
+        delete baseUpgradeDrop;
+    }
+    this->baseUpgradeDrops.clear();
+
     if (bossSpawned)
     {
         delete this->boss;
@@ -940,6 +998,7 @@ void Game::update()
         // Expire drops
         this->expiresDrops(this->ammoDrops);
         this->expiresDrops(this->lifeDrops);
+        this->expiresDrops(this->baseUpgradeDrops);
 
         this->garbageRemover();
 
@@ -950,6 +1009,7 @@ void Game::update()
         this->updateHeroKamikazeCollision();
         this->updateHeroCollectsAmmo();
         this->updateHeroCollectsLife();
+        this->updateHeroCollectsBaseUpgrade();
         this->updateBaseEnemyCollision();
         this->updateBaseKamikazeCollision();
         this->updateEnemyFriendlyFire();
@@ -1033,6 +1093,11 @@ void Game::render()
         for (auto *lifeDrop : this->lifeDrops)
         {
             lifeDrop->render(*this->window);
+        }
+
+        for (auto *baseUpgradeDrop : this->baseUpgradeDrops)
+        {
+            baseUpgradeDrop->render(*this->window);
         }
 
         if (bossSpawned)

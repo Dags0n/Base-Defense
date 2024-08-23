@@ -56,6 +56,7 @@ private:
     std::vector<Shot *> bossShots;
     std::vector<Drop *> ammoDrops;
     std::vector<Drop *> lifeDrops;
+    std::vector<Drop *> baseUpgradeDrops;
 
     StatusBar *life;
     StatusBar *ammunition;
@@ -81,6 +82,7 @@ private:
 
     Drop *makeAmmuDrop(sf::Vector2f position);
     Drop *makeLifeDrop(sf::Vector2f position);
+    Drop *makeBaseUpgradeDrop(sf::Vector2f position);
 
 public:
     // Contructors and Destructors
@@ -102,6 +104,7 @@ public:
     void updateHeroKamikazeCollision();
     void updateHeroCollectsAmmo();
     void updateHeroCollectsLife();
+    void updateHeroCollectsBaseUpgrade();
     void updateEnemyFriendlyFire();
     void updateBossShotCollision();
     void updateBossHeroCollision(float deltaTime);
