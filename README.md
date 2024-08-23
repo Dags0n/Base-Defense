@@ -1,24 +1,41 @@
-# Base-Defense
-> Programming Language I final project
+# 👾 Earth Defender: Void Assault
 
-## Game overview
-> The game consists of a 2d map, where enemies appear randomly shooting at the base, and you are the soldier responsible for stopping the enemies and protecting the base
+Earth Defender is a space-themed base defense game where the player controls a ship and must face waves of alien enemies. The objective is to kill all the enemies, defeating them and collecting items that improve the base.
+The game consists of a 2d map, where enemies appear randomly shooting at the base, and you are the soldier responsible for stopping the enemies and protecting the base
 
-## Development instructions
-1. The hero has a life limit of 100 points;
-2. The hero has a limited number of projectiles;
-3. The hero can move in any direction controlled by clicking the mouse on a "target" location. When you right-click on a point on the map, the hero has that location marked as "destination" and must walk in that direction;
-4. The hero can freely leave the base;
-5. The hero can fire projectiles by pressing the "Q" key. The projectile must have a maximum range and must point in the direction of the mouse cursor when fired;
-6. Enemies appear on the edges of the map randomly at a fixed time interval (which can be decreased to increase the difficulty of the game);
-7. The enemy walks towards the center of the base, or towards the hero (programmer's choice);
-8. The enemy always fires projectiles towards the hero;
-9. The projectiles can collide with the hero, another enemy or the base;
-10. The base must withstand a limited number of shots and can regenerate its structure over time;
-11. When shot down, the enemy leaves a limited random amount of projectiles on the map that can be collected by the hero if he passes over the item, or the item disappears after a certain time if the hero doesn't collect it;
-12. The game should end if the base can be protected for a certain period of time or if it is destroyed.
+## Implemented Features
+- `Moviment`: The player controls the spaceship using the **right mouse button**;
+- `Shot`: The player's ship can shoot using the **Q** key. The shooting frequency is controlled by a time interval;
+- `Attributes`: The base and boss have the life attribute, and the hero has life and ammunition;
+- `Menu`: A main menu where player can start a **new game**, learn **how to play**, choose **difficulty**, and **exit** the game;
+- `Base`: A base that the player must defend from incoming waves of enemies. The player can freely leave the base;
+- `Sniper Enemy`: An enemy that randomly appears from the ledges that follow the player shoot towards it;
+- `Kamikaze Enemy`: A special type of enemy that self-destructs upon colliding with something, causing significant damage;
+- `Alien Boss`: This is the final challenge you will have to face to win the game;
+- `Item Drop System`: When defeating enemies, there is a chance they will drop items. These could be **base upgrades, health, or ammo**;
+- `Choice of Difficulty`: 3 difficulty levels, allowing players to choose between **Normal, Hard or Impossible**;
+- `Automatic Difficulty Increase`: As the game progresses, the difficulty automatically increases;
+- `Status Bar`: A status bar displayed on the screen, providing real-time information about the current state of entities.
+- `Pause`: The game includes a pause feature that can be accessed during gameplay;
+- `Restart Game`: When the players win or lose, they have the option to **restart the game**.
 
-Base video: https://www.youtube.com/watch?v=5NH7W2XgdwE
+## Item Drop System
+The Snipers enemies have a 40% drop chance and Kamikazes enemies have a 80% drop chance. These are the items that can be dropped:
+
+<img width="40px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/ammo.png" />: Ammunition Drop has 60% drop chance.
+
+<img width="40px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/life.png" />: Health Drop has 30% drop chance.
+
+<img width="40px" align="center" src="https://github.com/romuloAMR/Base-Defense/blob/main/Assets/Image/base_upgrade.png" />: Upgrade Base Regeneration has 10% drop chance.
+
+## How to Play
+To win, you will need to kill all enemies before they destroy the base. So you will need to defend your base at any cost. In total there are 51 aliens, including the boss alien, that will be your last challenge.
+
+### Game commands
+- `Right mouse button`: To move to the clicked location;
+- `Q`: To shoot in the direction of the mouse;
+- `Space`: To pause the game;
+- `Esc`: To exit the game.
 
 ## Tools & Technologies
 - C++
@@ -26,23 +43,38 @@ Base video: https://www.youtube.com/watch?v=5NH7W2XgdwE
 - Git/Github
 - Kanban
 
-## How to compile and run the program
+# Compile and run on a Unix Machine
 ### Dependencies
 - g++
 - Make
 - SFML
-### Compile and Run
-Simply run the following command in the terminal:
+
+**If you don't have the dependencies, install them with**:
+```bash
+  sudo apt update
+  sudo apt install build-essential
+  sudo apt-get install libsfml-dev
+```
+
+## Compile and Run
+**Clone the project**:
+```bash
+  git clone https://github.com/romuloAMR/Base-Defense
+```
+
+**Navigate to project directory**:
+```bash
+  cd Base-Defense
+```
+
+**Having the requirements, compile and run the code with**:
 ```bash
   make
 ```
 
-## Game commands
-- To move right-click on the desired location
-- To fire press the q key and aim with the mouse
-- To pause press space
-
 ## Authors
-- [Rômulo](https://github.com/romuloAMR)
-- [Dagson](https://github.com/Dags0n)
-- [Erik](https://github.com/eriksmedeiros)
+- [Rômulo Alves](https://github.com/romuloAMR)
+- [Dagson Gabriel](https://github.com/Dags0n)
+- [Erik Medeiros](https://github.com/eriksmedeiros)
+  
+  Honorable Mention: Maria Clara (Art)
