@@ -17,7 +17,7 @@ private:
     float bossSpeed = 50.f;
     int currentTextureIndex = 0;
     float animationTime = 0.f;
-    float timePerFrame = 0.21f;
+    float timePerFrame = 0.175f;
     Attribute *life;
     Hero *hero;
 

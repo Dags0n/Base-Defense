@@ -87,11 +87,9 @@ void Game::initBoss()
 {
     std::vector<const char *> textures =
         {
-            "Assets/Image/boss3.png",
-            "Assets/Image/boss2.png",
             "Assets/Image/boss1.png",
-            "Assets/Image/boss5.png",
-            "Assets/Image/boss4.png",
+            "Assets/Image/boss2.png",
+            "Assets/Image/boss3.png",
         };
 
     this->boss = new Boss(textures, *this->window, this->hero, 50.f);
