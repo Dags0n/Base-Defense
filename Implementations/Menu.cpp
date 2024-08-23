@@ -42,7 +42,7 @@ void Menu::setupMainMenu()
         text.setString(menuItems[i]);
         text.setCharacterSize(24);
         text.setFillColor(sf::Color::White);
-        text.setPosition(100.f, 450.f + i * 40.f);
+        text.setPosition(100.f, 550.f + i * 40.f);
         menuTexts.push_back(text);
     }
 }
@@ -66,7 +66,7 @@ void Menu::setupHowToPlayMenu()
         else
         {
             text.setCharacterSize(24);
-            text.setPosition(100.f, 100.f + i * 50.f);
+            text.setPosition(100.f, 150.f + i * 50.f);
         }
 
         text.setFillColor(sf::Color::White);
@@ -78,7 +78,7 @@ void Menu::setupHowToPlayMenu()
     text.setString(htpOptions[htpOptions.size() - 1]);
     text.setCharacterSize(24);
     text.setFillColor(sf::Color::White);
-    text.setPosition(100.f, 570.f);
+    text.setPosition(100.f, 670.f);
     htpTexts.push_back(text);
 }
 
@@ -94,7 +94,7 @@ void Menu::setupDifficultySelectionMenu()
         text.setString(difficultyOptions[i]);
         text.setCharacterSize(24);
         text.setFillColor(sf::Color::White);
-        text.setPosition(100.f, 450.f + i * 40.f);
+        text.setPosition(100.f, 550.f + i * 40.f);
         difficultyTexts.push_back(text);
     }
 }
@@ -134,7 +134,7 @@ void Menu::setupEndGame(const std::vector<std::string> &options)
         text.setString(endOptions[i]);
         text.setCharacterSize(24);
         text.setFillColor(sf::Color::White);
-        text.setPosition(100.f, 450.f + i * 40.f);
+        text.setPosition(100.f, 500.f + i * 40.f);
         endTexts.push_back(text);
     }
 }
@@ -142,7 +142,7 @@ void Menu::setupEndGame(const std::vector<std::string> &options)
 void Menu::setupTitle()
 {
     title.setFont(font);
-    title.setString("EARTH DEFENDERS");
+    title.setString("EARTH DEFENDER");
     title.setCharacterSize(48);
     title.setFillColor(sf::Color::White);
     title.setPosition(70.f, 70.f);
