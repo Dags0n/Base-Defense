@@ -2,6 +2,7 @@
 #define MENU_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include <string>
 #include "State.hpp"
@@ -11,6 +12,7 @@ class Menu
 public:
     Menu(sf::RenderWindow &window);
     void handleInput(sf::Event event, GameState &state, Difficulty &difficulty, sf::RenderWindow &window);
+    void initSound();
     void draw(sf::RenderWindow &window, GameState state);
 
 private:
@@ -31,6 +33,8 @@ private:
     sf::Text title;
     sf::Text subtitle;
     sf::RenderWindow &window;
+    sf::SoundBuffer menuBuffer;
+    sf::Sound menuSound;
 
     std::vector<std::string> menuItems;
     std::vector<sf::Text> menuTexts;

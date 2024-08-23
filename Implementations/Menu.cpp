@@ -16,8 +16,18 @@ Menu::Menu(sf::RenderWindow &window) : window(window)
         static_cast<float>(windowSize.x) / backgroundTexture.getSize().x,
         static_cast<float>(windowSize.y) / backgroundTexture.getSize().y);
 
+    initSound();
     setupTitle();
     setupMainMenu();
+}
+
+void Menu::initSound()
+{
+    if (!menuBuffer.loadFromFile("Assets/Sounds/menu.wav"))
+    {
+    }
+    menuSound.setBuffer(menuBuffer);
+    menuSound.setVolume(50);
 }
 
 void Menu::setupMainMenu()
@@ -161,17 +171,21 @@ void Menu::handleInput(sf::Event event, GameState &state, Difficulty &difficulty
                         switch (i)
                         {
                         case 0:
+                            this->menuSound.play();
                             state = GameState::Playing;
                             break;
                         case 1:
+                            this->menuSound.play();
                             state = GameState::HowToPlay;
                             setupHowToPlayMenu();
                             break;
                         case 2:
+                            this->menuSound.play();
                             state = GameState::DifficultySelection;
                             setupDifficultySelectionMenu();
                             break;
                         case 3:
+                            this->menuSound.play();
                             exit(0);
                             break;
                         }
@@ -208,6 +222,7 @@ void Menu::handleHowToPlayInput(sf::Event event, GameState &state, sf::RenderWin
                 {
                     if (i == htpOptions.size() - 1)
                     {
+                        this->menuSound.play();
                         state = GameState::Menu;
                     }
                 }
@@ -235,18 +250,22 @@ void Menu::handleDifficultySelectionInput(sf::Event event, GameState &state, sf:
                             switch (i)
                             {
                             case 0:
+                                this->menuSound.play();
                                 difficulty = Difficulty::Normal;
                                 state = GameState::Menu;
                                 break;
                             case 1:
+                                this->menuSound.play();
                                 difficulty = Difficulty::Hard;
                                 state = GameState::Menu;
                                 break;
                             case 2:
+                                this->menuSound.play();
                                 difficulty = Difficulty::Impossible;
                                 state = GameState::Menu;
                                 break;
                             case 3:
+                                this->menuSound.play();
                                 state = GameState::Menu;
                                 break;
                             }
@@ -273,12 +292,15 @@ void Menu::handleEndGameInput(sf::Event event, GameState &state, sf::RenderWindo
                     switch (i)
                     {
                     case 2:
+                        this->menuSound.play();
                         state = GameState::Playing;
                         break;
                     case 3:
+                        this->menuSound.play();
                         state = GameState::Menu;
                         break;
                     case 4:
+                        this->menuSound.play();
                         exit(0);
                         break;
                     }
