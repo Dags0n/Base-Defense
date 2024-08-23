@@ -31,16 +31,20 @@ sf::Vector2f generateRandomPositionKami(sf::RenderTarget &target, float margin =
 // Init functions
 void Kamikaze::initVariables()
 {
-    this->texture = new sf::Texture();
     this->sprite = new sf::Sprite();
 }
 
-void Kamikaze::initSprite(const char *src, sf::RenderTarget &target)
+void Kamikaze::initSprite(const std::vector<const char*>& srcs, sf::RenderTarget &target)
 {
-    if (!this->texture->loadFromFile(src))
-    {
+    for (const auto& src : srcs){
+        sf::Texture* texture = new sf::Texture();
+
+        if (!texture->loadFromFile(src))
+        {
+        }
+
+        this->textures.push_back(texture);
     }
-    this->sprite->setTexture(*this->texture);
 
     sf::Vector2f position = generateRandomPositionKami(target, 60.f);
     this->sprite->setPosition(position);
@@ -62,16 +66,19 @@ void Kamikaze::showCollisionBox(sf::RenderWindow &window)
 }
 
 // Constructors and Destructors
-Kamikaze::Kamikaze(const char *src, sf::RenderWindow &window, sf::FloatRect baseArea)
+Kamikaze::Kamikaze(const std::vector<const char*>& srcs, sf::RenderWindow &window, sf::FloatRect baseArea)
 {
     this->initVariables();
-    this->initSprite(src, window);
+    this->initSprite(srcs, window);
     this->baseArea = baseArea;
 }
 
 Kamikaze::~Kamikaze()
 {
-    delete this->texture;
+    for (auto texture : this->textures)
+    {
+        delete texture;
+    }
     delete this->sprite;
 }
 
@@ -79,6 +86,7 @@ Kamikaze::~Kamikaze()
 void Kamikaze::update(sf::RenderWindow &window, float deltaTime)
 {
     this->moveTowardsBase(deltaTime);
+    this->updateWalkingAnimation(deltaTime);
 }
 
 void Kamikaze::render(sf::RenderWindow &window)
@@ -102,6 +110,19 @@ void Kamikaze::moveTowardsBase(float deltaTime)
     {
         direction /= length;
         this->sprite->move(direction * this->speed * deltaTime);
+    }
+}
+
+void Kamikaze::updateWalkingAnimation(float deltaTime)
+{
+    animationTime += deltaTime;
+
+    if (animationTime >= timePerFrame) {
+        animationTime -= timePerFrame;
+
+        currentTextureIndex = (currentTextureIndex + 1) % textures.size();
+
+        sprite->setTexture(*textures[currentTextureIndex]);
     }
 }
 

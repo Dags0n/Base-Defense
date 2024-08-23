@@ -113,8 +113,15 @@ void Game::initEnemies()
 
 void Game::initKamikazes()
 {
-    // Temporary Image for tests
-    this->kamikazes.push_back(new Kamikaze((char *)"Assets/Image/kamikaze.png", *this->window, this->base->getArea()));
+    std::vector<const char*> textures = 
+    {
+        "Assets/Image/kamikaze.png",
+        "Assets/Image/kamikaze1.png",
+        "Assets/Image/kamikaze2.png",
+        "Assets/Image/kamikaze3.png",
+    };
+
+    this->kamikazes.push_back(new Kamikaze(textures, *this->window, this->base->getArea()));
 }
 
 void Game::initStatusBar()
