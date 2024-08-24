@@ -18,7 +18,8 @@ The game consists of a 2d map, where enemies appear randomly shooting at the bas
 - `Automatic Difficulty Increase`: As the game progresses, the difficulty automatically increases;
 - `Status Bar`: A status bar displayed on the screen, providing real-time information about the current state of entities.
 - `Pause`: The game includes a pause feature that can be accessed during gameplay;
-- `Restart Game`: When the players win or lose, they have the option to **restart the game**.
+- `Restart Game`: When the players win or lose, they have the option to **restart the game**;
+- `Enemy Friendly Fire`: Enemies can hit each other.
 
 ## Item Drop System
 The Snipers enemies have a 40% drop chance and Kamikazes enemies have a 80% drop chance. These are the items that can be dropped:
