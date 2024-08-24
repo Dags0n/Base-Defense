@@ -1,7 +1,8 @@
 # 👾 Earth Defender: Void Assault
 
 > Earth Defender is a space-themed base defense game where the player controls a ship and must face waves of alien enemies. The objective is to kill all the enemies, defeating them and collecting items that improve the base.
-The game consists of a 2d map, where enemies appear randomly shooting at the base, and you are the soldier responsible for stopping the enemies and protecting the base
+The game consists of a 2d map, where enemies appear randomly shooting at the base, and you are the soldier responsible for stopping the enemies and protecting the base. [Click here to watch the game](https://youtu.be/Rx17_US34RQ?si=NHyBGwBicL9Cb0UB)
+
 
 ## Implemented Features
 - `Moviment`: The player controls the spaceship using the **right mouse button**;
